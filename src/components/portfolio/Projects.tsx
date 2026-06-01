@@ -63,9 +63,7 @@ export function Projects() {
     <section id="projects" className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
       <div className="mb-14 flex items-end justify-between">
         <div className="max-w-2xl">
-          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-slate-500">
-            Projetos
-          </p>
+          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-slate-500">Projetos</p>
           <h2 className="text-gradient text-3xl font-semibold tracking-tight sm:text-4xl">
             Aplicações completas, do schema à interface
           </h2>
@@ -85,9 +83,7 @@ export function Projects() {
                   <span className="text-xs uppercase tracking-[0.18em] text-slate-500">
                     {p.type}
                   </span>
-                  <h3 className="mt-2 text-xl font-medium text-white">
-                    {p.name}
-                  </h3>
+                  <h3 className="mt-2 text-xl font-medium text-white">{p.name}</h3>
                 </div>
                 <div className="flex items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <a
@@ -106,9 +102,7 @@ export function Projects() {
                   </a>
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-relaxed text-slate-400">
-                {p.description}
-              </p>
+              <p className="mt-4 text-sm leading-relaxed text-slate-400">{p.description}</p>
               <div className="mt-6 flex flex-wrap gap-1.5">
                 {p.stack.map((t) => (
                   <span

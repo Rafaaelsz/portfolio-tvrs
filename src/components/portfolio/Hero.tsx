@@ -11,14 +11,22 @@ export function Hero() {
         Disponível para novos projetos
       </div>
 
+      <div className="mb-5">
+        <p className="text-sm font-medium uppercase tracking-[0.22em] text-slate-500">
+          Rafael Tavares
+        </p>
+        <p className="mt-2 text-base font-medium text-slate-300 sm:text-lg">
+          Desenvolvedor FullStack
+        </p>
+      </div>
+
       <h1 className="text-gradient max-w-4xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
         Construindo aplicações robustas e escaláveis de ponta a ponta
       </h1>
 
       <p className="mt-6 max-w-2xl text-balance text-base text-slate-400 sm:text-lg">
-        Engenheiro de Software Full Stack. Uno a solidez de arquiteturas backend
-        com o dinamismo de interfaces frontend modernas para entregar produtos
-        digitais que escalam.
+        Engenheiro de Software Full Stack. Uno a solidez de arquiteturas backend com o dinamismo de
+        interfaces frontend modernas para entregar produtos digitais que escalam.
       </p>
 
       <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">

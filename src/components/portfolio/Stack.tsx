@@ -48,9 +48,7 @@ export function Stack() {
   return (
     <section id="stack" className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
       <div className="mb-14 max-w-2xl">
-        <p className="mb-3 text-xs uppercase tracking-[0.2em] text-slate-500">
-          Stack
-        </p>
+        <p className="mb-3 text-xs uppercase tracking-[0.2em] text-slate-500">Stack</p>
         <h2 className="text-gradient text-3xl font-semibold tracking-tight sm:text-4xl">
           Tecnologias que conectam backend e frontend
         </h2>
@@ -69,13 +67,9 @@ export function Stack() {
               }}
             />
             <div className="relative">
-              <span className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                {c.tag}
-              </span>
+              <span className="text-xs uppercase tracking-[0.18em] text-slate-500">{c.tag}</span>
               <h3 className="mt-2 text-xl font-medium text-white">{c.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-400">
-                {c.description}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-slate-400">{c.description}</p>
               <div className="mt-5 flex flex-wrap gap-1.5">
                 {c.techs.map((t) => (
                   <span

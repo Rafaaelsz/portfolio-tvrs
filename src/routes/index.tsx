@@ -8,17 +8,16 @@ import { Contact } from "@/components/portfolio/Contact";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Full Stack Engineer — Portfólio" },
+      { title: "Rafael Tavares — Desenvolvedor FullStack" },
       {
         name: "description",
         content:
-          "Portfólio de engenharia de software full stack: APIs robustas em Python e Java, interfaces dinâmicas em JavaScript.",
+          "Portfólio de Rafael Tavares, Desenvolvedor FullStack: APIs robustas em Python e Java, interfaces dinâmicas em JavaScript.",
       },
-      { property: "og:title", content: "Full Stack Engineer — Portfólio" },
+      { property: "og:title", content: "Rafael Tavares — Desenvolvedor FullStack" },
       {
         property: "og:description",
-        content:
-          "Construindo aplicações robustas e escaláveis de ponta a ponta.",
+        content: "Construindo aplicações robustas e escaláveis de ponta a ponta.",
       },
     ],
   }),
