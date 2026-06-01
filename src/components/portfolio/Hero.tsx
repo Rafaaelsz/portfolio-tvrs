@@ -1,32 +1,55 @@
 import { ArrowRight, Github } from "lucide-react";
+import type { Language } from "./i18n";
 
-export function Hero() {
+type HeroProps = {
+  language: Language;
+};
+
+const content = {
+  pt: {
+    availability: "Disponível para novos projetos",
+    role: "Desenvolvedor FullStack",
+    title: "Construindo aplicações robustas e escaláveis de ponta a ponta",
+    description:
+      "Engenheiro de Software Full Stack. Uno a solidez de arquiteturas backend com o dinamismo de interfaces frontend modernas para entregar produtos digitais que escalam.",
+    projects: "Ver Projetos",
+  },
+  en: {
+    availability: "Available for new projects",
+    role: "FullStack Developer",
+    title: "Building robust and scalable applications from end to end",
+    description:
+      "Full Stack Software Engineer. I combine solid backend architectures with modern frontend interfaces to deliver digital products that scale.",
+    projects: "View Projects",
+  },
+} satisfies Record<Language, Record<string, string>>;
+
+export function Hero({ language }: HeroProps) {
+  const text = content[language];
+
   return (
-    <section className="relative mx-auto flex min-h-[92vh] max-w-6xl flex-col items-center justify-center px-6 text-center">
+    <section className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center justify-center px-6 pb-16 pt-28 text-center sm:pt-32">
       <div className="glass mb-8 inline-flex items-center gap-2 rounded-full border border-slate-800/60 px-4 py-1.5 text-xs text-slate-300 animate-fade-in">
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
         </span>
-        Disponível para novos projetos
+        {text.availability}
       </div>
 
       <div className="mb-5">
         <p className="text-sm font-medium uppercase tracking-[0.22em] text-slate-500">
           Rafael Tavares
         </p>
-        <p className="mt-2 text-base font-medium text-slate-300 sm:text-lg">
-          Desenvolvedor FullStack
-        </p>
+        <p className="mt-2 text-base font-medium text-slate-300 sm:text-lg">{text.role}</p>
       </div>
 
       <h1 className="text-gradient max-w-4xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-        Construindo aplicações robustas e escaláveis de ponta a ponta
+        {text.title}
       </h1>
 
       <p className="mt-6 max-w-2xl text-balance text-base text-slate-400 sm:text-lg">
-        Engenheiro de Software Full Stack. Uno a solidez de arquiteturas backend com o dinamismo de
-        interfaces frontend modernas para entregar produtos digitais que escalam.
+        {text.description}
       </p>
 
       <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
@@ -34,7 +57,7 @@ export function Hero() {
           href="#projects"
           className="btn-glow group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-all duration-300 hover:bg-slate-200"
         >
-          Ver Projetos
+          {text.projects}
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </a>
         <a
