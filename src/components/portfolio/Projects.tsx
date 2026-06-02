@@ -116,22 +116,29 @@ export function Projects({ language }: ProjectsProps) {
                   </span>
                   <h3 className="mt-2 text-xl font-medium text-white">{p.name}</h3>
                 </div>
-                <div className="flex items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <a
-                    href={p.github}
-                    aria-label="GitHub"
-                    className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-300 transition-colors hover:text-white"
-                  >
-                    <Github className="h-4 w-4" />
-                  </a>
-                  <a
-                    href={p.demo}
-                    aria-label="Live Demo"
-                    className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-300 transition-colors hover:text-white"
-                  >
-                    <ArrowUpRight className="h-4 w-4" />
-                  </a>
-                </div>
+                  <div className="flex shrink-0 items-center gap-2 opacity-100 transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100">
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`GitHub do projeto ${p.name}`}
+                      className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-300 transition-colors hover:text-white"
+                    >
+                      <Github className="h-4 w-4" />
+                    </a>
+
+                    {p.demo !== "#" && (
+                      <a
+                        href={p.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Demo do projeto ${p.name}`}
+                        className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-300 transition-colors hover:text-white"
+                      >
+                        <ArrowUpRight className="h-4 w-4" />
+                      </a>
+                    )}
+                  </div>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-slate-400">
                 {p.description[language]}
