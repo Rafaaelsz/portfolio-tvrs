@@ -118,14 +118,14 @@ export function Projects({ language }: ProjectsProps) {
                 </div>
                 <div className="flex items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <a
-                    href="#"
+                    href={p.github}
                     aria-label="GitHub"
                     className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-300 transition-colors hover:text-white"
                   >
                     <Github className="h-4 w-4" />
                   </a>
                   <a
-                    href="#"
+                    href={p.demo}
                     aria-label="Live Demo"
                     className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-300 transition-colors hover:text-white"
                   >
