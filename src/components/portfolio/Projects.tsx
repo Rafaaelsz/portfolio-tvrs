@@ -70,6 +70,32 @@ const projects = [
     status: { pt: "Concluído", en: "Completed" },
     featured: false,
   },
+  {
+    name: "Consorcio Track",
+    type: { pt: "Aplicação FullStack", en: "FullStack Application" },
+    description: {
+      pt: "MVP de um Micro SaaS B2B para corretores, consultores e pequenas equipes que vendem consorcios. O produto centraliza funil comercial, clientes, historico de contatos, grupos, cotas, simulacao de lances e indicadores operacionais.",
+      en: "MVP of a B2B Micro SaaS for brokers, consultants, and small teams selling consortiums. The product centralizes the sales funnel, clients, contact history, groups, quotas, bid simulations, and operational indicators.",
+    },
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Java", "Spring Web", "PostgreSQL", "Docker", "JPA"],
+    github: "https://github.com/Rafaaelsz/floricultura-landing-page",
+    demo: "#",
+    status: { pt: "Em andamento", en: "In progress" },
+    featured: false,
+  },
+  {
+    name: "FinderTI",
+    type: { pt: "Aplicação FullStack", en: "FullStack Application" },
+    description: {
+      pt: "Projeto full stack para busca publica de vagas de tecnologia.",
+      en: "Full-stack project for publicly searching for technology job openings.",
+    },
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "Zod", "PostgreSQL", "Docker", "Prisma"],
+    github: "https://github.com/Rafaaelsz/floricultura-landing-page",
+    demo: "#",
+    status: { pt: "Em andamento", en: "In progress" },
+    featured: false,
+  },
 ];
 
 type ProjectsProps = {

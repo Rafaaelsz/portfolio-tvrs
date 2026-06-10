@@ -61,7 +61,7 @@ export function Hero({ language }: HeroProps) {
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </a>
         <a
-          href="#contact"
+          href="https://github.com/Rafaaelsz"
           className="inline-flex items-center gap-2 rounded-full border border-slate-800/80 bg-white/[0.02] px-6 py-3 text-sm font-medium text-slate-200 backdrop-blur-md transition-all duration-300 hover:border-slate-700 hover:bg-white/[0.05]"
         >
           <Github className="h-4 w-4" />
