@@ -1,24 +1,28 @@
-"use client";
-
-import { useState } from "react";
-import { Contact } from "@/components/portfolio/Contact";
-import { Hero } from "@/components/portfolio/Hero";
-import type { Language } from "@/components/portfolio/i18n";
-import { Nav } from "@/components/portfolio/Nav";
-import { Projects } from "@/components/portfolio/Projects";
-import { Stack } from "@/components/portfolio/Stack";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { About } from "@/components/sections/About";
+import { Contact } from "@/components/sections/Contact";
+import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
+import { Hero } from "@/components/sections/Hero";
+import { Projects } from "@/components/sections/Projects";
+import { SkillsEcosystem } from "@/components/sections/SkillsEcosystem";
+import { BackgroundNetwork } from "@/components/three/BackgroundNetwork";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
 
 export default function Home() {
-  const [language, setLanguage] = useState<Language>("pt");
-  const toggleLanguage = () => setLanguage((current) => (current === "pt" ? "en" : "pt"));
-
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      <Nav language={language} onToggleLanguage={toggleLanguage} />
-      <Hero language={language} />
-      <Stack language={language} />
-      <Projects language={language} />
-      <Contact language={language} />
-    </main>
+    <LanguageProvider>
+      <BackgroundNetwork />
+      <Header />
+      <main className="relative z-10 min-h-screen overflow-hidden">
+        <Hero />
+        <About />
+        <SkillsEcosystem />
+        <Projects />
+        <ExperienceTimeline />
+        <Contact />
+      </main>
+      <Footer />
+    </LanguageProvider>
   );
 }

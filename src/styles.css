@@ -24,26 +24,26 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.13 0.01 270);
+  --radius: 0.5rem;
+  --background: oklch(0.11 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.17 0.01 270);
+  --card: oklch(0.15 0 0);
   --card-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.13 0.01 270);
-  --secondary: oklch(0.25 0.01 270);
+  --primary-foreground: oklch(0.11 0 0);
+  --secondary: oklch(0.23 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.22 0.01 270);
-  --muted-foreground: oklch(0.7 0.02 260);
-  --accent: oklch(0.25 0.01 270);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.25 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --border: oklch(0.28 0.01 270 / 0.6);
-  --input: oklch(0.28 0.01 270);
-  --ring: oklch(0.6 0.02 260);
+  --border: oklch(0.31 0 0 / 0.64);
+  --input: oklch(0.28 0 0);
+  --ring: oklch(0.75 0.1 205);
 }
 
 @layer base {
@@ -53,6 +53,7 @@
 
   html {
     scroll-behavior: smooth;
+    background: #050507;
   }
 
   body {
@@ -61,42 +62,91 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(120, 119, 198, 0.15), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 110%, rgba(56, 189, 248, 0.08), transparent);
+      radial-gradient(ellipse 72% 42% at 52% -12%, rgba(34, 211, 238, 0.12), transparent),
+      radial-gradient(ellipse 44% 34% at 88% 18%, rgba(52, 211, 153, 0.08), transparent),
+      radial-gradient(ellipse 45% 36% at 8% 78%, rgba(245, 158, 11, 0.07), transparent);
     background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.24);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(103, 232, 249, 0.72);
+    outline-offset: 3px;
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    background-image: linear-gradient(to right, #ffffff, #e2e8f0 40%, #64748b);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .architecture-label,
+  .skill-label {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(5, 5, 7, 0.68);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 7px 9px;
+    min-width: 94px;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
   }
 
-  .glass {
-    background-color: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  .architecture-label strong {
+    display: block;
+    font-size: 12px;
+    line-height: 1.1;
+    font-weight: 650;
   }
 
-  .btn-glow {
-    position: relative;
-    transition: all 300ms ease-in-out;
+  .architecture-label span {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: rgba(212, 212, 212, 0.72);
   }
-  .btn-glow::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
-    opacity: 0;
-    transition: opacity 300ms ease;
-    z-index: -1;
-    filter: blur(8px);
+
+  .skill-label {
+    min-width: auto;
+    padding: 5px 8px;
+    font-size: 11px;
+    color: rgba(229, 229, 229, 0.78);
+    transition:
+      color 220ms ease,
+      border-color 220ms ease,
+      background 220ms ease;
   }
-  .btn-glow:hover::before {
-    opacity: 1;
+
+  .skill-label.is-active {
+    border-color: rgba(103, 232, 249, 0.54);
+    background: rgba(10, 10, 10, 0.86);
+    color: white;
+  }
+
+  .project-card {
+    transform-style: preserve-3d;
+    perspective: 1200px;
+  }
+
+  @media (max-width: 640px) {
+    .architecture-label {
+      min-width: 76px;
+      padding: 6px 7px;
+    }
+
+    .architecture-label strong {
+      font-size: 10px;
+    }
+
+    .architecture-label span {
+      display: none;
+    }
+
+    .skill-label {
+      font-size: 10px;
+    }
   }
 }
