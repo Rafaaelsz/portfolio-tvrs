@@ -13,24 +13,40 @@ const links = [
 ];
 
 export function Contact() {
-  const [opening, setOpening] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const { dictionary } = useLanguage();
   const text = dictionary.contact;
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = data.get("name");
-    const email = data.get("email");
-    const project = data.get("project");
-    const subject = encodeURIComponent(text.form.subject);
-    const body = encodeURIComponent(
-      `${text.form.bodyName}: ${name}\nEmail: ${email}\n\n${text.form.bodyProject}:\n${project}`,
-    );
+    if (status === "loading") return;
 
-    setOpening(true);
-    window.location.href = `mailto:rafaeltperaldo@gmail.com?subject=${subject}&body=${body}`;
-    window.setTimeout(() => setOpening(false), 2200);
+    const data = new FormData(event.currentTarget);
+
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          email: data.get("email"),
+          subject: text.form.subject,
+          message: data.get("project"),
+          company: data.get("company"),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to send contact message.");
+      }
+
+      event.currentTarget.reset();
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -71,6 +87,14 @@ export function Contact() {
           </div>
 
           <form onSubmit={onSubmit} className="grid gap-4">
+            <input
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="grid gap-2 text-xs font-semibold uppercase text-neutral-500">
                 {text.form.name}
@@ -104,11 +128,23 @@ export function Contact() {
             </label>
             <button
               type="submit"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-neutral-950 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-200"
+              disabled={status === "loading"}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-neutral-950 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-70"
             >
-              {opening ? text.form.opening : text.form.submit}
+              {status === "loading" ? text.form.sending : text.form.submit}
               <Send className="size-4" />
             </button>
+            {status !== "idle" && status !== "loading" && (
+              <p
+                className={`text-sm leading-6 ${
+                  status === "success" ? "text-emerald-300" : "text-rose-300"
+                }`}
+                role="status"
+                aria-live="polite"
+              >
+                {status === "success" ? text.form.success : text.form.error}
+              </p>
+            )}
           </form>
         </div>
       </div>
