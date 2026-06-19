@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+generated
 dist
 .next
 *.local
@@ -25,3 +26,4 @@ dist
 *.njsproj
 *.sln
 *.sw?
+.vercel
