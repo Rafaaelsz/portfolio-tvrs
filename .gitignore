@@ -11,6 +11,9 @@ node_modules
 dist
 .next
 *.local
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*

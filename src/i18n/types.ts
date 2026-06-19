@@ -103,10 +103,10 @@ export type Dictionary = {
       project: string;
       projectPlaceholder: string;
       submit: string;
-      opening: string;
+      sending: string;
+      success: string;
+      error: string;
       subject: string;
-      bodyName: string;
-      bodyProject: string;
     };
   };
   footer: {

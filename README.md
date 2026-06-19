@@ -22,6 +22,9 @@ O objetivo deste portfólio é comunicar uma atuação full stack com forte base
 - Three.js
 - React Three Fiber
 - Drei
+- Prisma ORM
+- PostgreSQL
+- Zod
 - Lucide React
 - Vercel para deploy
 
@@ -33,21 +36,151 @@ O objetivo deste portfólio é comunicar uma atuação full stack com forte base
 - Ecossistema de skills com tecnologias organizadas por contexto de uso.
 - Projetos apresentados como pequenos case studies.
 - Timeline de evolução técnica.
-- Formulário de contato via `mailto`.
+- Formulário de contato salvo via API interna, sem abrir aplicativo de email externo.
+- Inbox administrativo privado para visualizar mensagens recebidas.
+- Login admin com credenciais via variáveis de ambiente.
+- Sessão com cookie HTTP-only assinado.
 - Suporte multilíngue PT-BR / EN-US.
 - Persistência de idioma com `localStorage`.
 - Animações sutis com Framer Motion.
 - Componentização organizada e dados separados da interface.
 
+## Como funciona o contato
+
+O formulário público envia os dados para:
+
+```txt
+POST /api/contact
+```
+
+Os dados são validados no backend com Zod, passam por um rate limit simples e são persistidos no banco como `ContactMessage`.
+
+Campos salvos:
+
+- Nome
+- Email
+- Assunto opcional
+- Mensagem
+- Status (`unread`, `read`, `archived`)
+- Data de envio
+
+## Painel administrativo
+
+O painel privado fica em:
+
+```txt
+/admin
+```
+
+Fluxo:
+
+1. Acesse `/admin`.
+2. Faça login com `ADMIN_EMAIL` e `ADMIN_PASSWORD`.
+3. Acesse o inbox em `/admin/inbox`.
+4. Visualize mensagens recebidas.
+5. Marque mensagens como lidas.
+6. Arquive mensagens.
+7. Exclua mensagens quando necessário.
+
+As rotas administrativas de API são protegidas por sessão HTTP-only.
+
+## Variáveis de ambiente
+
+Crie um arquivo `.env` com base no `.env.example`:
+
+```env
+DATABASE_URL=
+ADMIN_EMAIL=
+ADMIN_PASSWORD=
+SESSION_SECRET=
+```
+
+Recomendações:
+
+- `DATABASE_URL`: connection string PostgreSQL, por exemplo Neon, Supabase ou outro Postgres compatível com Vercel.
+- `ADMIN_EMAIL`: email usado no login do painel.
+- `ADMIN_PASSWORD`: senha do painel, nunca exposta no frontend.
+- `SESSION_SECRET`: string aleatória com pelo menos 32 caracteres.
+
+## Banco de dados
+
+O projeto usa Prisma com PostgreSQL.
+
+Subir PostgreSQL local com Docker:
+
+```bash
+docker compose up -d
+```
+
+Connection string local:
+
+```env
+DATABASE_URL=postgresql://portfolio:portfolio@localhost:54329/portfolio_tvrs
+```
+
+Gerar Prisma Client:
+
+```bash
+npm run db:generate
+```
+
+Rodar migration local:
+
+```bash
+npm run db:migrate
+```
+
+Aplicar migrations em produção:
+
+```bash
+npm run db:deploy
+```
+
+Abrir Prisma Studio:
+
+```bash
+npm run db:studio
+```
+
 ## Estrutura do projeto
 
 ```txt
+prisma/
+  schema.prisma
+  migrations/
+
 src/
   app/
+    admin/
+      page.tsx
+      login/
+        page.tsx
+      inbox/
+        page.tsx
+
+    api/
+      contact/
+        route.ts
+      admin/
+        login/
+          route.ts
+        logout/
+          route.ts
+        messages/
+          route.ts
+          [id]/
+            route.ts
+
     layout.tsx
     page.tsx
 
   components/
+    admin/
+      AdminInbox.tsx
+      LoginForm.tsx
+      StatusBadge.tsx
+      types.ts
+
     layout/
       Header.tsx
       Footer.tsx
@@ -83,6 +216,12 @@ src/
     LanguageProvider.tsx
     types.ts
 
+  lib/
+    auth.ts
+    prisma.ts
+    rate-limit.ts
+    validations.ts
+
   styles.css
 ```
 
@@ -92,6 +231,36 @@ Instale as dependências:
 
 ```bash
 npm install
+```
+
+Configure `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Se quiser usar o Postgres local do projeto, rode:
+
+```bash
+docker compose up -d
+```
+
+E configure:
+
+```env
+DATABASE_URL=postgresql://portfolio:portfolio@localhost:54329/portfolio_tvrs
+```
+
+Gere o Prisma Client:
+
+```bash
+npm run db:generate
+```
+
+Rode a migration no banco configurado:
+
+```bash
+npm run db:migrate
 ```
 
 Inicie o servidor de desenvolvimento:
@@ -110,33 +279,32 @@ http://localhost:3000
 
 ```bash
 npm run dev
-```
-
-Inicia o servidor local de desenvolvimento.
-
-```bash
 npm run build
-```
-
-Gera a build de produção.
-
-```bash
 npm run start
-```
-
-Inicia a aplicação em modo produção após o build.
-
-```bash
 npm run lint
-```
-
-Executa a validação com ESLint.
-
-```bash
 npm run format
+npm run db:generate
+npm run db:migrate
+npm run db:deploy
+npm run db:studio
 ```
 
-Formata os arquivos com Prettier.
+## Como testar
+
+Formulário:
+
+1. Acesse `http://localhost:3000`.
+2. Preencha o formulário de contato.
+3. Envie a mensagem.
+4. A mensagem deve ser salva no banco sem abrir app de email externo.
+
+Admin:
+
+1. Acesse `http://localhost:3000/admin`.
+2. Faça login com as credenciais do `.env`.
+3. Veja a mensagem no inbox.
+4. Teste marcar como lida, arquivar e excluir.
+5. Faça logout e confirme que `/admin/inbox` não fica acessível sem sessão.
 
 ## Melhorias implementadas
 
@@ -148,15 +316,16 @@ Formata os arquivos com Prettier.
 - Bordas arredondadas consistentes em cards, botões, inputs e containers.
 - Internacionalização PT-BR / EN-US com dicionários centralizados.
 - Persistência do idioma selecionado no navegador.
-- Conteúdo técnico alinhado ao posicionamento full stack e backend-oriented.
-- README atualizado para refletir a versão atual do projeto.
+- Formulário integrado a backend interno.
+- Inbox administrativo privado com autenticação.
+- Persistência de mensagens com Prisma e PostgreSQL.
 
 ## Próximos passos
 
-- Adicionar testes automatizados de interface.
-- Incluir imagens reais ou vídeos curtos dos projetos principais.
+- Adicionar reCAPTCHA ou Turnstile ao formulário público.
+- Adicionar busca textual no inbox.
+- Adicionar paginação para grandes volumes de mensagens.
 - Melhorar métricas de acessibilidade com auditoria Lighthouse.
-- Adicionar integração real para envio de mensagens no formulário.
 - Evoluir SEO com metadados dinâmicos por idioma.
 
 ## Contato
