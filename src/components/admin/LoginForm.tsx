@@ -4,7 +4,7 @@ import { Lock, Mail } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 export function LoginForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "invalid" | "unavailable">("idle");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +23,7 @@ export function LoginForm() {
     }).catch(() => null);
 
     if (!response?.ok) {
-      setStatus("error");
+      setStatus(response?.status === 400 || response?.status === 401 ? "invalid" : "unavailable");
       return;
     }
 
@@ -82,9 +82,15 @@ export function LoginForm() {
               {status === "loading" ? "Entrando..." : "Entrar"}
             </button>
 
-            {status === "error" && (
+            {status === "invalid" && (
               <p className="text-sm leading-6 text-rose-300" role="alert">
                 Credenciais inválidas. Verifique os dados e tente novamente.
+              </p>
+            )}
+
+            {status === "unavailable" && (
+              <p className="text-sm leading-6 text-rose-300" role="alert">
+                Não foi possível autenticar agora. Tente novamente mais tarde.
               </p>
             )}
           </div>
