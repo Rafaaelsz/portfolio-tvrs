@@ -4,7 +4,6 @@ export const defaultLocale: Locale = "pt-BR";
 
 export const dictionaries: Record<Locale, Dictionary> = {
   "pt-BR": {
-    localeName: "PT-BR",
     header: {
       aria: "Navegação principal",
       home: "Página inicial de Rafael Tavares",
@@ -270,7 +269,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
   },
   "en-US": {
-    localeName: "EN-US",
     header: {
       aria: "Primary navigation",
       home: "Rafael Tavares home",

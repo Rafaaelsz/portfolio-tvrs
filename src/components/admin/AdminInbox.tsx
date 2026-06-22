@@ -43,6 +43,8 @@ export function AdminInbox({ initialMessages }: { initialMessages: AdminMessage[
       body: JSON.stringify({ status }),
     });
 
+    if (response.status === 401) window.location.href = "/admin/login";
+
     if (response.ok) {
       setMessages((current) =>
         current.map((message) => (message.id === id ? { ...message, status } : message)),
@@ -57,6 +59,8 @@ export function AdminInbox({ initialMessages }: { initialMessages: AdminMessage[
     const response = await fetch(`/api/admin/messages/${id}`, {
       method: "DELETE",
     });
+
+    if (response.status === 401) window.location.href = "/admin/login";
 
     if (response.ok) {
       setMessages((current) => current.filter((message) => message.id !== id));

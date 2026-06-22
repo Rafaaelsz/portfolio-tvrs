@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type PropsWithChildren,
-} from "react";
+import { createContext, useContext, useEffect, useState, type PropsWithChildren } from "react";
 import { defaultLocale, dictionaries } from "./dictionaries";
 import type { Dictionary, Locale } from "./types";
 
@@ -17,7 +9,6 @@ const storageKey = "portfolio-locale";
 type LanguageContextValue = {
   locale: Locale;
   dictionary: Dictionary;
-  setLocale: (locale: Locale) => void;
   toggleLocale: () => void;
 };
 
@@ -41,21 +32,16 @@ export function LanguageProvider({ children }: PropsWithChildren) {
     document.documentElement.lang = defaultLocale;
   }, []);
 
-  const setLocale = useCallback((nextLocale: Locale) => {
-    setLocaleState(nextLocale);
-    window.localStorage.setItem(storageKey, nextLocale);
-    document.documentElement.lang = nextLocale;
-  }, []);
-
-  const value = useMemo<LanguageContextValue>(
-    () => ({
-      locale,
-      dictionary: dictionaries[locale],
-      setLocale,
-      toggleLocale: () => setLocale(locale === "pt-BR" ? "en-US" : "pt-BR"),
-    }),
-    [locale, setLocale],
-  );
+  const value: LanguageContextValue = {
+    locale,
+    dictionary: dictionaries[locale],
+    toggleLocale: () => {
+      const nextLocale = locale === "pt-BR" ? "en-US" : "pt-BR";
+      setLocaleState(nextLocale);
+      window.localStorage.setItem(storageKey, nextLocale);
+      document.documentElement.lang = nextLocale;
+    },
+  };
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }

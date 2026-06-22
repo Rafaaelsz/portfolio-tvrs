@@ -14,7 +14,6 @@ export type ProjectCopy = {
 };
 
 export type Dictionary = {
-  localeName: string;
   header: {
     aria: string;
     home: string;

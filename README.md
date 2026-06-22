@@ -75,14 +75,16 @@ O painel privado fica em:
 Fluxo:
 
 1. Acesse `/admin`.
-2. Faça login com `ADMIN_EMAIL` e `ADMIN_PASSWORD`.
+2. Faça login com `ADMIN_EMAIL` e a senha usada para gerar `ADMIN_PASSWORD_HASH`.
 3. Acesse o inbox em `/admin/inbox`.
 4. Visualize mensagens recebidas.
 5. Marque mensagens como lidas.
 6. Arquive mensagens.
 7. Exclua mensagens quando necessário.
 
-As rotas administrativas de API são protegidas por sessão HTTP-only.
+O painel usa uma sessão curta (8 horas) em cookie HTTP-only, `SameSite=Strict` e
+`Secure` em produção. O cookie contém apenas email e expiração, assinados com HMAC-SHA256.
+Não há JWT, refresh token, Bearer token, papéis ou permissões porque existe um único admin.
 
 ## Variáveis de ambiente
 
@@ -91,7 +93,7 @@ Crie um arquivo `.env` com base no `.env.example`:
 ```env
 DATABASE_URL=
 ADMIN_EMAIL=
-ADMIN_PASSWORD=
+ADMIN_PASSWORD_HASH=
 SESSION_SECRET=
 ```
 
@@ -99,8 +101,26 @@ Recomendações:
 
 - `DATABASE_URL`: connection string PostgreSQL, por exemplo Neon, Supabase ou outro Postgres compatível com Vercel.
 - `ADMIN_EMAIL`: email usado no login do painel.
-- `ADMIN_PASSWORD`: senha do painel, nunca exposta no frontend.
-- `SESSION_SECRET`: string aleatória com pelo menos 32 caracteres.
+- `ADMIN_PASSWORD_HASH`: hash scrypt da senha do painel. `ADMIN_PASSWORD` é aceito apenas em desenvolvimento local.
+- `SESSION_SECRET`: string aleatória com pelo menos 32 caracteres. Troque-a para revogar todas as sessões.
+
+Gerar `ADMIN_PASSWORD_HASH`:
+
+```bash
+node -e "const crypto=require('node:crypto'),readline=require('node:readline').createInterface({input:process.stdin,output:process.stdout}); readline.question('Senha: ',password=>{const salt=crypto.randomBytes(16).toString('base64url');crypto.scrypt(password,salt,64,(error,key)=>{readline.close();if(error)throw error;console.log('scrypt$'+salt+'$'+key.toString('base64url'));});});"
+```
+
+Gerar `SESSION_SECRET`:
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(48).toString('base64url'))"
+```
+
+Em produção, configure `DATABASE_URL`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` e
+`SESSION_SECRET` no provedor de deploy. Não configure `ADMIN_PASSWORD`. O frontend e as
+APIs administrativas usam URLs relativas no mesmo domínio, portanto nenhuma liberação de
+CORS é necessária. O rate limit em memória é apenas uma proteção local; habilite o rate
+limit do provedor se o endpoint de login ficar exposto a ataques distribuídos.
 
 ## Banco de dados
 
@@ -167,7 +187,6 @@ src/
         logout/
           route.ts
         messages/
-          route.ts
           [id]/
             route.ts
 
@@ -201,6 +220,7 @@ src/
       SkillsNetwork.tsx
 
     ui/
+      MotionWrapper.tsx
       PortfolioButton.tsx
       ProjectCard.tsx
       SectionTitle.tsx
@@ -209,7 +229,6 @@ src/
   data/
     projects.ts
     skills.ts
-    experience.ts
 
   i18n/
     dictionaries.ts
@@ -219,6 +238,8 @@ src/
   lib/
     auth.ts
     prisma.ts
+    rate-limit.ts
+    validations.ts
     rate-limit.ts
     validations.ts
 
@@ -282,6 +303,7 @@ npm run dev
 npm run build
 npm run start
 npm run lint
+npm run test:auth
 npm run format
 npm run db:generate
 npm run db:migrate

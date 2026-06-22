@@ -38,21 +38,13 @@ type ArchitectureSceneProps = {
   labels: ArchitectureLabel[];
 };
 
-const fallbackLabels: ArchitectureLabel[] = [
-  { title: "Frontend", tech: "React / Next.js" },
-  { title: "API Layer", tech: "FastAPI / Django" },
-  { title: "Services", tech: "Jobs / Rules" },
-  { title: "Database", tech: "PostgreSQL / Redis" },
-  { title: "Integrations", tech: "Docker / Webhooks" },
-];
-
 function ArchitectureGraph({ labels }: ArchitectureSceneProps) {
   const group = useRef<THREE.Group>(null);
   const layers = useMemo(
     () =>
       layerConfig.map((layer, index) => ({
         ...layer,
-        ...(labels[index] ?? fallbackLabels[index]),
+        ...labels[index],
       })),
     [labels],
   );
@@ -126,7 +118,7 @@ function ArchitectureGraph({ labels }: ArchitectureSceneProps) {
   );
 }
 
-export function ArchitectureScene({ labels = fallbackLabels }: Partial<ArchitectureSceneProps>) {
+export function ArchitectureScene({ labels }: ArchitectureSceneProps) {
   return (
     <div
       className="h-[420px] w-full sm:h-[520px] lg:h-[620px]"

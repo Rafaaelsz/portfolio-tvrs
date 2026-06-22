@@ -17,7 +17,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const payload = messageStatusSchema.safeParse(await request.json());
+  const payload = messageStatusSchema.safeParse(await request.json().catch(() => null));
 
   if (!payload.success) {
     return NextResponse.json({ ok: false, message: "Invalid status." }, { status: 400 });

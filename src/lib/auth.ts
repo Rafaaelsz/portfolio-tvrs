@@ -1,9 +1,14 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import crypto from "node:crypto";
+import { promisify } from "node:util";
 
-const cookieName = "portfolio_admin_session";
+const cookieName =
+  process.env.NODE_ENV === "production"
+    ? "__Host-portfolio_admin_session"
+    : "portfolio_admin_session";
 const maxAgeSeconds = 60 * 60 * 8;
+const scryptAsync = promisify(crypto.scrypt);
 
 type SessionPayload = {
   email: string;
@@ -20,6 +25,16 @@ function getSessionSecret() {
   return secret;
 }
 
+function getAdminEmail() {
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+
+  if (!email) {
+    throw new Error("ADMIN_EMAIL is required.");
+  }
+
+  return email;
+}
+
 function base64Url(input: string) {
   return Buffer.from(input).toString("base64url");
 }
@@ -28,15 +43,37 @@ function sign(payload: string) {
   return crypto.createHmac("sha256", getSessionSecret()).update(payload).digest("base64url");
 }
 
-function safeEqual(left: string, right: string) {
-  const leftBuffer = Buffer.from(left);
-  const rightBuffer = Buffer.from(right);
-
+function safeEqualBuffer(leftBuffer: Buffer, rightBuffer: Buffer) {
   if (leftBuffer.length !== rightBuffer.length) {
     return false;
   }
 
   return crypto.timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+function safeEqual(left: string, right: string) {
+  return safeEqualBuffer(
+    crypto.createHash("sha256").update(left).digest(),
+    crypto.createHash("sha256").update(right).digest(),
+  );
+}
+
+async function verifyPasswordHash(password: string, storedHash: string) {
+  const parts = storedHash.split("$");
+  const [algorithm, salt, hash] = parts;
+
+  if (parts.length !== 3 || algorithm !== "scrypt" || !salt || !hash) {
+    throw new Error("ADMIN_PASSWORD_HASH must use the documented scrypt format.");
+  }
+
+  const expected = Buffer.from(hash, "base64url");
+
+  if (expected.length !== 64 || expected.toString("base64url") !== hash) {
+    throw new Error("ADMIN_PASSWORD_HASH must contain a 64-byte base64url hash.");
+  }
+
+  const actual = (await scryptAsync(password, salt, expected.length)) as Buffer;
+  return safeEqualBuffer(actual, expected);
 }
 
 function createToken(email: string) {
@@ -51,14 +88,19 @@ function createToken(email: string) {
 }
 
 export async function verifyAdminCredentials(email: string, password: string) {
-  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminEmail = getAdminEmail();
+  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+  let passwordMatches: boolean;
 
-  if (!adminEmail || !adminPassword) {
-    return false;
+  if (adminPasswordHash) {
+    passwordMatches = await verifyPasswordHash(password, adminPasswordHash);
+  } else if (process.env.NODE_ENV !== "production" && process.env.ADMIN_PASSWORD) {
+    passwordMatches = safeEqual(password, process.env.ADMIN_PASSWORD);
+  } else {
+    throw new Error("ADMIN_PASSWORD_HASH is required in production.");
   }
 
-  return safeEqual(email, adminEmail) && safeEqual(password, adminPassword);
+  return safeEqual(email.trim().toLowerCase(), adminEmail) && passwordMatches;
 }
 
 export async function createAdminSession(email: string) {
@@ -85,16 +127,23 @@ export async function getAdminSession() {
     return null;
   }
 
-  const [payload, signature] = token.split(".");
+  const parts = token.split(".");
+  const [payload, signature] = parts;
 
-  if (!payload || !signature || !safeEqual(signature, sign(payload))) {
+  if (parts.length !== 2 || !payload || !signature || !safeEqual(signature, sign(payload))) {
     return null;
   }
 
   try {
     const parsed = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as SessionPayload;
 
-    if (!parsed.email || parsed.exp < Date.now()) {
+    if (
+      typeof parsed.email !== "string" ||
+      typeof parsed.exp !== "number" ||
+      !Number.isSafeInteger(parsed.exp) ||
+      parsed.exp < Date.now() ||
+      !safeEqual(parsed.email.trim().toLowerCase(), getAdminEmail())
+    ) {
       return null;
     }
 

@@ -20,9 +20,9 @@ export function LoginForm() {
         email: formData.get("email"),
         password: formData.get("password"),
       }),
-    });
+    }).catch(() => null);
 
-    if (!response.ok) {
+    if (!response?.ok) {
       setStatus("error");
       return;
     }

@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Section } from "@/components/layout/Section";
 import { SectionTitle } from "@/components/ui/SectionTitle";
-import { timelineAccent } from "@/data/experience";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 export function ExperienceTimeline() {
@@ -22,7 +21,7 @@ export function ExperienceTimeline() {
         <div ref={ref} className="relative">
           <div className="absolute left-5 top-3 h-[calc(100%-1.5rem)] w-px bg-white/10" />
           <motion.div
-            className={`absolute left-5 top-3 h-[calc(100%-1.5rem)] w-px origin-top bg-gradient-to-b ${timelineAccent}`}
+            className="absolute left-5 top-3 h-[calc(100%-1.5rem)] w-px origin-top bg-gradient-to-b from-cyan-300 via-emerald-300 to-amber-300"
             style={{ scaleY }}
           />
           <div className="space-y-5">

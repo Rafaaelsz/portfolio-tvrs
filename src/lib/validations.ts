@@ -24,6 +24,3 @@ export const adminLoginSchema = z.object({
 export const messageStatusSchema = z.object({
   status: z.enum(["unread", "read", "archived"]),
 });
-
-export type ContactMessageInput = z.infer<typeof contactMessageSchema>;
-export type AdminLoginInput = z.infer<typeof adminLoginSchema>;
