@@ -21,7 +21,8 @@ export function Contact() {
     event.preventDefault();
     if (status === "loading") return;
 
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
 
     setStatus("loading");
 
@@ -39,18 +40,22 @@ export function Contact() {
       });
 
       if (!response.ok) {
+        console.error("Contact request failed.", { status: response.status });
         throw new Error("Unable to send contact message.");
       }
 
-      event.currentTarget.reset();
+      form.reset();
       setStatus("success");
-    } catch {
+    } catch (error) {
+      if (error instanceof TypeError) {
+        console.error("Contact request could not reach the server.");
+      }
       setStatus("error");
     }
   };
 
   return (
-    <Section id="contact">
+    <Section id="contact" className="scroll-mt-20">
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-neutral-950/72 p-6 shadow-2xl shadow-black/25 backdrop-blur-md sm:p-8 lg:p-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_22%,rgba(34,211,238,0.16),transparent_34%),radial-gradient(circle_at_15%_85%,rgba(52,211,153,0.12),transparent_36%)]" />
         <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
@@ -101,6 +106,8 @@ export function Contact() {
                 <input
                   name="name"
                   required
+                  minLength={2}
+                  maxLength={120}
                   placeholder={text.form.namePlaceholder}
                   className="h-12 rounded-xl border border-white/10 bg-black/24 px-3 text-sm font-normal normal-case text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-cyan-300/45"
                 />
@@ -111,6 +118,7 @@ export function Contact() {
                   name="email"
                   required
                   type="email"
+                  maxLength={180}
                   placeholder={text.form.emailPlaceholder}
                   className="h-12 rounded-xl border border-white/10 bg-black/24 px-3 text-sm font-normal normal-case text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-cyan-300/45"
                 />
@@ -121,6 +129,8 @@ export function Contact() {
               <textarea
                 name="project"
                 required
+                minLength={10}
+                maxLength={3000}
                 rows={6}
                 placeholder={text.form.projectPlaceholder}
                 className="resize-none rounded-xl border border-white/10 bg-black/24 px-3 py-3 text-sm font-normal normal-case leading-7 text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-cyan-300/45"

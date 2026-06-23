@@ -85,8 +85,8 @@ export function Header() {
             <Linkedin className="size-4" />
           </a>
           <a
-            href="mailto:rafaeltperaldo@gmail.com"
-            aria-label="Email"
+            href="#contact"
+            aria-label={dictionary.header.nav.contact}
             className="grid size-9 place-items-center rounded-xl bg-white text-neutral-950 transition-colors hover:bg-neutral-200"
           >
             <Mail className="size-4" />

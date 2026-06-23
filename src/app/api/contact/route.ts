@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { contactMessageSchema } from "@/lib/validations";
 
@@ -22,7 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const payload = contactMessageSchema.safeParse(await request.json());
+    const payload = contactMessageSchema.safeParse(await request.json().catch(() => null));
 
     if (!payload.success) {
       return NextResponse.json({ ok: false, message: "Invalid contact data." }, { status: 400 });
@@ -31,6 +30,16 @@ export async function POST(request: NextRequest) {
     if (payload.data.company) {
       return NextResponse.json({ ok: true });
     }
+
+    if (!process.env.DATABASE_URL) {
+      console.error("Contact API unavailable: DATABASE_URL is not configured.");
+      return NextResponse.json(
+        { ok: false, message: "Contact service is unavailable." },
+        { status: 503 },
+      );
+    }
+
+    const { prisma } = await import("@/lib/prisma");
 
     const message = await prisma.contactMessage.create({
       data: {
@@ -46,10 +55,13 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ ok: true, message });
-  } catch {
+  } catch (error) {
+    console.error("Contact message storage failed.", {
+      error: error instanceof Error ? error.name : "UnknownError",
+    });
     return NextResponse.json(
-      { ok: false, message: "Unable to save contact message." },
-      { status: 500 },
+      { ok: false, message: "Contact service is unavailable." },
+      { status: 503 },
     );
   }
 }

@@ -116,7 +116,13 @@ export async function createAdminSession(email: string) {
 
 export async function clearAdminSession() {
   const cookieStore = await cookies();
-  cookieStore.delete(cookieName);
+  cookieStore.set(cookieName, "", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 0,
+  });
 }
 
 export async function getAdminSession() {

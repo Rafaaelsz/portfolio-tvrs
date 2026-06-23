@@ -26,6 +26,7 @@ export function AdminInbox({ initialMessages }: { initialMessages: AdminMessage[
   const [selectedId, setSelectedId] = useState<string | null>(initialMessages[0]?.id ?? null);
   const [filter, setFilter] = useState<AdminMessageStatus | "all">("all");
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [logoutStatus, setLogoutStatus] = useState<"idle" | "loading" | "error">("idle");
 
   const filteredMessages = useMemo(
     () => messages.filter((message) => filter === "all" || message.status === filter),
@@ -71,8 +72,16 @@ export function AdminInbox({ initialMessages }: { initialMessages: AdminMessage[
   };
 
   const logout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
-    window.location.href = "/admin/login";
+    setLogoutStatus("loading");
+    const response = await fetch("/api/admin/logout", { method: "POST" }).catch(() => null);
+
+    if (!response?.ok) {
+      console.error("Logout request failed.", { status: response?.status ?? "network" });
+      setLogoutStatus("error");
+      return;
+    }
+
+    window.location.replace("/admin/login");
   };
 
   return (
@@ -88,14 +97,22 @@ export function AdminInbox({ initialMessages }: { initialMessages: AdminMessage[
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={logout}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm font-medium text-neutral-200 transition-colors hover:border-white/22 hover:bg-white/[0.07] hover:text-white"
-          >
-            <LogOut className="size-4" />
-            Sair
-          </button>
+          <div>
+            <button
+              type="button"
+              onClick={logout}
+              disabled={logoutStatus === "loading"}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm font-medium text-neutral-200 transition-colors hover:border-white/22 hover:bg-white/[0.07] hover:text-white disabled:pointer-events-none disabled:opacity-60"
+            >
+              <LogOut className="size-4" />
+              {logoutStatus === "loading" ? "Saindo..." : "Sair"}
+            </button>
+            {logoutStatus === "error" && (
+              <p className="mt-2 text-sm text-rose-300" role="alert">
+                Nao foi possivel sair. Tente novamente.
+              </p>
+            )}
+          </div>
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
