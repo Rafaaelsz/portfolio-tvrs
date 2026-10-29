@@ -5,6 +5,9 @@ export const defaultLocale: Locale = "pt-BR";
 export const dictionaries: Record<Locale, Dictionary> = {
   "pt-BR": {
     meta: {
+      title: "Rafael Tavares · Eu construo e coloco no ar",
+      description:
+        "Sistemas web, landing pages e automações. Portfólio de Rafael Tavares, de Palhoça, SC, com o Lume, um CRM para quem vende sites.",
       skip: "Pular para o conteúdo",
     },
     header: {
@@ -296,7 +299,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
         submit: "Enviar",
         sending: "Enviando…",
         success: "Mensagem enviada. Obrigado! Respondo por e-mail.",
-        error: "Não foi possível enviar agora. Tente de novo em instantes ou mande um e-mail.",
+        errors: {
+          name: "Escreva seu nome, com 2 a 120 caracteres.",
+          email: "Digite um e-mail válido, como nome@empresa.com.",
+          message: "Escreva a mensagem, com 10 a 3.000 caracteres.",
+          invalid: "Confira os campos destacados e tente de novo.",
+          rateLimited: "Muitas tentativas seguidas. Tente de novo em alguns minutos.",
+          unavailable: "Não foi possível enviar agora. Escreva para {email}.",
+        },
         subject: "Portfólio",
       },
     },
@@ -306,6 +316,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
   },
   "en-US": {
     meta: {
+      title: "Rafael Tavares · I build it and ship it",
+      description:
+        "Web systems, landing pages and automations. Portfolio of Rafael Tavares, from Palhoça, Brazil, featuring Lume, a CRM for people who sell websites.",
       skip: "Skip to content",
     },
     header: {
@@ -597,7 +610,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
         submit: "Send",
         sending: "Sending…",
         success: "Message sent. Thanks! I'll reply by email.",
-        error: "Couldn't send it right now. Try again in a moment or send me an email.",
+        errors: {
+          name: "Enter your name, 2 to 120 characters.",
+          email: "Enter a valid email, like name@company.com.",
+          message: "Write a message, 10 to 3,000 characters.",
+          invalid: "Check the highlighted fields and try again.",
+          rateLimited: "Too many attempts in a row. Try again in a few minutes.",
+          unavailable: "Couldn't send it right now. Email me at {email}.",
+        },
         subject: "Portfolio",
       },
     },

@@ -54,6 +54,12 @@ POST /api/contact
 
 Os dados são validados no backend com Zod, passam por um rate limit simples e são persistidos no banco como `ContactMessage`.
 
+O formulário valida no navegador com o mesmo schema (`src/lib/validations.ts`) e mostra o erro em cada campo. A API responde:
+
+- `400` com `fieldErrors` (só os campos `name`, `email` e `message`), e a UI marca o campo;
+- `429` no rate limit ("muitas tentativas");
+- `503` sem banco ou em falha; a UI sugere escrever para o e-mail.
+
 Campos salvos:
 
 - Nome
@@ -298,6 +304,7 @@ npm run start
 npm run lint
 npm run test:auth
 npm run format
+npm run og:image     # regera src/app/opengraph-image.png e twitter-image.png a partir de og/og-image.html
 npm run db:generate
 npm run db:migrate
 npm run db:deploy

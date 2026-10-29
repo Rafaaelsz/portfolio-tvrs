@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "test:auth": "tsx scripts/verify-auth.ts",
     "format": "prettier --write .",
+    "og:image": "node scripts/build-og-image.mjs",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",

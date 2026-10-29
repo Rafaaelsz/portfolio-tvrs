@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { useRole } from "@/components/role/RoleProvider";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { contactFields, invalidContactFields, type ContactField } from "@/lib/validations";
 
 const contactLinks = {
   email: { href: "mailto:rafaeltperaldo@gmail.com", label: "rafaeltperaldo@gmail.com" },
@@ -14,10 +15,28 @@ const contactLinks = {
   },
 } as const;
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = "idle" | "loading" | "success" | "invalid" | "rate-limited" | "unavailable";
+
+const contactEmail = contactLinks.email.label;
+
+function readFields(form: HTMLFormElement) {
+  const data = new FormData(form);
+  return Object.fromEntries(contactFields.map((field) => [field, String(data.get(field) ?? "")]));
+}
+
+/** Campos que a API apontou no 400 (`fieldErrors`), filtrados pelos que o formulário conhece. */
+async function serverInvalidFields(response: Response): Promise<ContactField[]> {
+  const body: unknown = await response.json().catch(() => null);
+  const fieldErrors =
+    body && typeof body === "object" && "fieldErrors" in body ? body.fieldErrors : null;
+  if (!fieldErrors || typeof fieldErrors !== "object") return [];
+  return contactFields.filter((field) => field in fieldErrors);
+}
 
 export function Contact() {
   const [status, setStatus] = useState<Status>("idle");
+  const [invalid, setInvalid] = useState<ContactField[]>([]);
+  const formRef = useRef<HTMLFormElement>(null);
   const [pickedKind, setPickedKind] = useState<string | null>(null);
   const { dictionary } = useLanguage();
   const { role } = useRole();
@@ -34,42 +53,100 @@ export function Contact() {
 
     const element = event.currentTarget;
     const data = new FormData(element);
+    const fields = readFields(element);
+
+    // Mesmas regras do Zod da API, antes de gastar uma requisição (e uma vaga do rate limit).
+    const clientInvalid = invalidContactFields(fields);
+    if (clientInvalid.length) {
+      showInvalid(clientInvalid);
+      return;
+    }
     const kindLabel = form.kinds.find((option) => option.value === kind)?.label ?? kind;
     // O tipo de pedido (e a área, se escolhida) vai no `subject`, que já existe no schema.
     const subject = `${form.subject} · ${kindLabel}${
       role === "all" ? "" : ` (${dictionary.roles.names[role]})`
     }`;
 
+    setInvalid([]);
     setStatus("loading");
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.get("name"),
-          email: data.get("email"),
-          subject,
-          message: data.get("message"),
-          company: data.get("company"),
-        }),
+        body: JSON.stringify({ ...fields, subject, company: data.get("company") }),
       });
 
-      if (!response.ok) {
-        console.error("Contact request failed.", { status: response.status });
-        throw new Error("Unable to send contact message.");
+      if (response.ok) {
+        element.reset();
+        setPickedKind(null);
+        setStatus("success");
+        return;
       }
 
-      element.reset();
-      setPickedKind(null);
-      setStatus("success");
-    } catch (error) {
-      if (error instanceof TypeError) {
-        console.error("Contact request could not reach the server.");
+      console.error("Contact request failed.", { status: response.status });
+      if (response.status === 400) {
+        showInvalid(await serverInvalidFields(response));
+      } else {
+        setStatus(response.status === 429 ? "rate-limited" : "unavailable");
       }
-      setStatus("error");
+    } catch {
+      console.error("Contact request could not reach the server.");
+      setStatus("unavailable");
     }
   };
+
+  function showInvalid(fields: ContactField[]) {
+    setInvalid(fields);
+    setStatus("invalid");
+    if (fields[0]) (formRef.current?.elements.namedItem(fields[0]) as HTMLElement | null)?.focus();
+  }
+
+  // Ao corrigir um campo marcado, o erro some assim que ele passa nas regras.
+  const onFieldInput = (field: ContactField) => {
+    if (!invalid.includes(field) || !formRef.current) return;
+    if (!invalidContactFields(readFields(formRef.current)).includes(field)) {
+      const rest = invalid.filter((item) => item !== field);
+      setInvalid(rest);
+      if (!rest.length) setStatus("idle");
+    }
+  };
+
+  const fieldProps = (field: ContactField) => {
+    const isInvalid = invalid.includes(field);
+    return {
+      name: field,
+      "aria-invalid": isInvalid || undefined,
+      "aria-describedby": isInvalid ? `contact-${field}-error` : undefined,
+      onInput: () => onFieldInput(field),
+    };
+  };
+
+  const fieldError = (field: ContactField) =>
+    invalid.includes(field) ? (
+      <span className="field-error" id={`contact-${field}-error`}>
+        {form.errors[field]}
+      </span>
+    ) : null;
+
+  const [beforeEmail, afterEmail] = form.errors.unavailable.split("{email}");
+  const statusMessage =
+    status === "success" ? (
+      form.success
+    ) : status === "invalid" ? (
+      form.errors.invalid
+    ) : status === "rate-limited" ? (
+      form.errors.rateLimited
+    ) : status === "unavailable" ? (
+      <>
+        {beforeEmail}
+        <a href={contactLinks.email.href}>{contactEmail}</a>
+        {afterEmail}
+      </>
+    ) : (
+      ""
+    );
+  const isError = status === "invalid" || status === "rate-limited" || status === "unavailable";
 
   return (
     <section className="ec-section contact" id="contact">
@@ -105,7 +182,7 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={1}>
-            <form className="ec-form" onSubmit={onSubmit}>
+            <form className="ec-form" onSubmit={onSubmit} ref={formRef} noValidate>
               <input
                 type="text"
                 name="company"
@@ -129,52 +206,61 @@ export function Contact() {
                 ))}
               </div>
               <div className="ec-form-pair">
-                <label>
-                  <span className="sr-only">{form.name}</span>
-                  <input
-                    className="ec-input"
-                    name="name"
-                    required
-                    minLength={2}
-                    maxLength={120}
-                    autoComplete="name"
-                    placeholder={form.namePlaceholder}
-                  />
-                </label>
-                <label>
-                  <span className="sr-only">{form.email}</span>
-                  <input
-                    className="ec-input"
-                    name="email"
-                    type="email"
-                    required
-                    maxLength={180}
-                    autoComplete="email"
-                    placeholder={form.emailPlaceholder}
-                  />
-                </label>
+                <div className="field">
+                  <label>
+                    <span className="sr-only">{form.name}</span>
+                    <input
+                      className="ec-input"
+                      {...fieldProps("name")}
+                      required
+                      minLength={2}
+                      maxLength={120}
+                      autoComplete="name"
+                      placeholder={form.namePlaceholder}
+                    />
+                  </label>
+                  {fieldError("name")}
+                </div>
+                <div className="field">
+                  <label>
+                    <span className="sr-only">{form.email}</span>
+                    <input
+                      className="ec-input"
+                      {...fieldProps("email")}
+                      type="email"
+                      required
+                      maxLength={180}
+                      autoComplete="email"
+                      placeholder={form.emailPlaceholder}
+                    />
+                  </label>
+                  {fieldError("email")}
+                </div>
               </div>
-              <label>
-                <span className="sr-only">{form.message}</span>
-                <textarea
-                  className="ec-input"
-                  name="message"
-                  required
-                  minLength={10}
-                  maxLength={3000}
-                  rows={5}
-                  placeholder={placeholder}
-                />
-              </label>
+              <div className="field">
+                <label>
+                  <span className="sr-only">{form.message}</span>
+                  <textarea
+                    className="ec-input"
+                    {...fieldProps("message")}
+                    required
+                    minLength={10}
+                    maxLength={3000}
+                    rows={5}
+                    placeholder={placeholder}
+                  />
+                </label>
+                {fieldError("message")}
+              </div>
               <button className="btn pri" type="submit" disabled={status === "loading"}>
                 {status === "loading" ? form.sending : form.submit}
               </button>
               <p
-                className={status === "error" ? "form-status is-error" : "form-status"}
+                className={isError ? "form-status is-error" : "form-status"}
                 role="status"
                 aria-live="polite"
               >
-                {status === "success" ? form.success : status === "error" ? form.error : ""}
+                {statusMessage}
               </p>
             </form>
           </Reveal>
