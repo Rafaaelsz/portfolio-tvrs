@@ -19,9 +19,6 @@ O objetivo deste portfólio é comunicar uma atuação full stack com forte base
 - TypeScript
 - Tailwind CSS
 - Framer Motion
-- Three.js
-- React Three Fiber
-- Drei
 - Prisma ORM
 - PostgreSQL
 - Zod
@@ -31,11 +28,13 @@ O objetivo deste portfólio é comunicar uma atuação full stack com forte base
 ## Funcionalidades principais
 
 - Landing page responsiva com design dark-first.
-- Hero com cena Three.js representando arquitetura de software e fluxo de dados.
-- Seção About com narrativa profissional e foco em estrutura de sistemas.
-- Ecossistema de skills com tecnologias organizadas por contexto de uso.
+- Visual "Eclipse": hero com um eclipse em CSS puro (borda de luz girando e reflexo que segue o cursor), sem WebGL.
+- Bento de projetos com holofote que segue o cursor e o print real da Lume sob um funil de barras de luz.
+- Seletor "Contratando para: Tudo / Dev / QA / Cloud", que reordena e esmaece os projetos, acende o bloco de stack da área e muda o texto sugerido do contato. A escolha vai para a URL (`/?area=qa`), para mandar um link já filtrado.
+- Seção Sobre com um parágrafo que acende palavra por palavra conforme a rolagem.
 - Projetos apresentados como pequenos case studies.
-- Timeline de evolução técnica.
+- Jornada com uma linha de luz que desce com a rolagem.
+- `prefers-reduced-motion` respeitado (sem animação, tudo visível e aceso).
 - Formulário de contato salvo via API interna, sem abrir aplicativo de email externo.
 - Inbox administrativo privado para visualizar mensagens recebidas.
 - Login admin com credenciais via variáveis de ambiente.
@@ -190,6 +189,7 @@ src/
           [id]/
             route.ts
 
+    eclipse.css
     layout.tsx
     page.tsx
 
@@ -203,32 +203,27 @@ src/
     layout/
       Header.tsx
       Footer.tsx
-      Section.tsx
+      Providers.tsx
 
     sections/
       Hero.tsx
-      About.tsx
-      SkillsEcosystem.tsx
       Projects.tsx
-      ExperienceTimeline.tsx
+      About.tsx
+      Journey.tsx
       Contact.tsx
 
-    three/
-      ArchitectureScene.tsx
-      BackgroundNetwork.tsx
-      DataPacket.tsx
-      SkillsNetwork.tsx
+    role/
+      RoleProvider.tsx
 
     ui/
-      MotionWrapper.tsx
-      PortfolioButton.tsx
-      ProjectCard.tsx
-      SectionTitle.tsx
-      TechBadge.tsx
+      LitParagraph.tsx
+      Reveal.tsx
+      RichText.tsx
+      RoleSelector.tsx
+      spotlight.ts
 
   data/
     projects.ts
-    skills.ts
 
   i18n/
     dictionaries.ts
@@ -238,8 +233,6 @@ src/
   lib/
     auth.ts
     prisma.ts
-    rate-limit.ts
-    validations.ts
     rate-limit.ts
     validations.ts
 
@@ -331,10 +324,8 @@ Admin:
 ## Melhorias implementadas
 
 - Redesign completo com visual premium e foco em produto.
-- Cena Three.js no hero baseada em arquitetura real de aplicação.
-- Rede visual para representar tecnologias conectadas.
+- Redesign "Eclipse" (out/2026): Three.js removido, visual em CSS e Framer Motion.
 - Projetos estruturados como case studies.
-- Componentes reutilizáveis para botões, badges, cards e títulos de seção.
 - Bordas arredondadas consistentes em cards, botões, inputs e containers.
 - Internacionalização PT-BR / EN-US com dicionários centralizados.
 - Persistência do idioma selecionado no navegador.

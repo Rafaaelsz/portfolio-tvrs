@@ -1,28 +1,44 @@
 "use client";
 
-import { Github, Linkedin, Mail, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { Section } from "@/components/layout/Section";
-import { PortfolioButton } from "@/components/ui/PortfolioButton";
+import { Reveal } from "@/components/ui/Reveal";
+import { useRole } from "@/components/role/RoleProvider";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
-const links = [
-  { href: "https://github.com/Rafaaelsz", label: "GitHub", Icon: Github },
-  { href: "https://www.linkedin.com/in/rafael-tavares-p26/", label: "LinkedIn", Icon: Linkedin },
-  { href: "mailto:rafaeltperaldo@gmail.com", label: "Email", Icon: Mail },
-];
+const contactLinks = {
+  email: { href: "mailto:rafaeltperaldo@gmail.com", label: "rafaeltperaldo@gmail.com" },
+  github: { href: "https://github.com/Rafaaelsz", label: "github.com/Rafaaelsz ↗" },
+  linkedin: {
+    href: "https://www.linkedin.com/in/rafael-tavares-p26/",
+    label: "linkedin.com/in/rafael-tavares-p26 ↗",
+  },
+} as const;
+
+type Status = "idle" | "loading" | "success" | "error";
 
 export function Contact() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<Status>("idle");
+  const [pickedKind, setPickedKind] = useState<string | null>(null);
   const { dictionary } = useLanguage();
+  const { role } = useRole();
   const text = dictionary.contact;
+  const form = text.form;
+
+  // Sem escolha manual, quem veio pelo seletor de área provavelmente tem uma vaga.
+  const kind = pickedKind ?? (role === "all" ? form.kinds[0].value : "job");
+  const placeholder = role === "all" ? form.messagePlaceholder : dictionary.roles.message[role];
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (status === "loading") return;
 
-    const form = event.currentTarget;
-    const data = new FormData(form);
+    const element = event.currentTarget;
+    const data = new FormData(element);
+    const kindLabel = form.kinds.find((option) => option.value === kind)?.label ?? kind;
+    // O tipo de pedido (e a área, se escolhida) vai no `subject`, que já existe no schema.
+    const subject = `${form.subject} · ${kindLabel}${
+      role === "all" ? "" : ` (${dictionary.roles.names[role]})`
+    }`;
 
     setStatus("loading");
 
@@ -33,8 +49,8 @@ export function Contact() {
         body: JSON.stringify({
           name: data.get("name"),
           email: data.get("email"),
-          subject: text.form.subject,
-          message: data.get("project"),
+          subject,
+          message: data.get("message"),
           company: data.get("company"),
         }),
       });
@@ -44,7 +60,8 @@ export function Contact() {
         throw new Error("Unable to send contact message.");
       }
 
-      form.reset();
+      element.reset();
+      setPickedKind(null);
       setStatus("success");
     } catch (error) {
       if (error instanceof TypeError) {
@@ -55,109 +72,114 @@ export function Contact() {
   };
 
   return (
-    <Section id="contact" className="scroll-mt-20">
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-neutral-950/72 p-6 shadow-2xl shadow-black/25 backdrop-blur-md sm:p-8 lg:p-10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_22%,rgba(34,211,238,0.16),transparent_34%),radial-gradient(circle_at_15%_85%,rgba(52,211,153,0.12),transparent_36%)]" />
-        <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-          <div>
-            <p className="text-xs font-semibold uppercase text-cyan-300/80">{text.eyebrow}</p>
-            <h2 className="mt-4 text-balance text-4xl font-semibold text-white sm:text-5xl">
-              {text.title}
-            </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-neutral-400">{text.description}</p>
-
-            <div className="mt-8 flex flex-wrap gap-2">
-              {links.map(({ href, label, Icon }) => {
-                const translatedLabel =
-                  label === "GitHub"
-                    ? text.links.github
-                    : label === "LinkedIn"
-                      ? text.links.linkedin
-                      : text.links.email;
-
+    <section className="ec-section contact" id="contact">
+      <div className="halo" aria-hidden="true" />
+      <div className="wrap">
+        <Reveal className="eyebrow">{text.eyebrow}</Reveal>
+        <Reveal as="h2" delay={1} className="ec-h2">
+          {text.titleTop}
+          <br />
+          {text.titleBottom}
+        </Reveal>
+        <div className="contact-row">
+          <Reveal>
+            <p className="contact-lead">{text.description}</p>
+            <ul className="links">
+              {(Object.keys(contactLinks) as Array<keyof typeof contactLinks>).map((key) => {
+                const link = contactLinks[key];
+                const external = link.href.startsWith("http");
                 return (
-                  <PortfolioButton
-                    key={label}
-                    href={href}
-                    target={href.startsWith("http") ? "_blank" : undefined}
-                    rel="noreferrer"
-                    variant="secondary"
-                  >
-                    <Icon className="size-4" />
-                    {translatedLabel}
-                  </PortfolioButton>
+                  <li key={key}>
+                    <span>{text.links[key]}</span>
+                    <a
+                      href={link.href}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noopener noreferrer" : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
                 );
               })}
-            </div>
-          </div>
+            </ul>
+          </Reveal>
 
-          <form onSubmit={onSubmit} className="grid gap-4">
-            <input
-              type="text"
-              name="company"
-              tabIndex={-1}
-              autoComplete="off"
-              className="hidden"
-              aria-hidden="true"
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="grid gap-2 text-xs font-semibold uppercase text-neutral-500">
-                {text.form.name}
-                <input
-                  name="name"
-                  required
-                  minLength={2}
-                  maxLength={120}
-                  placeholder={text.form.namePlaceholder}
-                  className="h-12 rounded-xl border border-white/10 bg-black/24 px-3 text-sm font-normal normal-case text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-cyan-300/45"
-                />
-              </label>
-              <label className="grid gap-2 text-xs font-semibold uppercase text-neutral-500">
-                {text.form.email}
-                <input
-                  name="email"
-                  required
-                  type="email"
-                  maxLength={180}
-                  placeholder={text.form.emailPlaceholder}
-                  className="h-12 rounded-xl border border-white/10 bg-black/24 px-3 text-sm font-normal normal-case text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-cyan-300/45"
-                />
-              </label>
-            </div>
-            <label className="grid gap-2 text-xs font-semibold uppercase text-neutral-500">
-              {text.form.project}
-              <textarea
-                name="project"
-                required
-                minLength={10}
-                maxLength={3000}
-                rows={6}
-                placeholder={text.form.projectPlaceholder}
-                className="resize-none rounded-xl border border-white/10 bg-black/24 px-3 py-3 text-sm font-normal normal-case leading-7 text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-cyan-300/45"
+          <Reveal delay={1}>
+            <form className="ec-form" onSubmit={onSubmit}>
+              <input
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                className="hp"
+                aria-hidden="true"
               />
-            </label>
-            <button
-              type="submit"
-              disabled={status === "loading"}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-neutral-950 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-70"
-            >
-              {status === "loading" ? text.form.sending : text.form.submit}
-              <Send className="size-4" />
-            </button>
-            {status !== "idle" && status !== "loading" && (
+              <div className="chips" role="radiogroup" aria-label={form.kindsAria}>
+                {form.kinds.map((option) => (
+                  <label key={option.value}>
+                    <input
+                      type="radio"
+                      name="kind"
+                      value={option.value}
+                      checked={kind === option.value}
+                      onChange={() => setPickedKind(option.value)}
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+              <div className="ec-form-pair">
+                <label>
+                  <span className="sr-only">{form.name}</span>
+                  <input
+                    className="ec-input"
+                    name="name"
+                    required
+                    minLength={2}
+                    maxLength={120}
+                    autoComplete="name"
+                    placeholder={form.namePlaceholder}
+                  />
+                </label>
+                <label>
+                  <span className="sr-only">{form.email}</span>
+                  <input
+                    className="ec-input"
+                    name="email"
+                    type="email"
+                    required
+                    maxLength={180}
+                    autoComplete="email"
+                    placeholder={form.emailPlaceholder}
+                  />
+                </label>
+              </div>
+              <label>
+                <span className="sr-only">{form.message}</span>
+                <textarea
+                  className="ec-input"
+                  name="message"
+                  required
+                  minLength={10}
+                  maxLength={3000}
+                  rows={5}
+                  placeholder={placeholder}
+                />
+              </label>
+              <button className="btn pri" type="submit" disabled={status === "loading"}>
+                {status === "loading" ? form.sending : form.submit}
+              </button>
               <p
-                className={`text-sm leading-6 ${
-                  status === "success" ? "text-emerald-300" : "text-rose-300"
-                }`}
+                className={status === "error" ? "form-status is-error" : "form-status"}
                 role="status"
                 aria-live="polite"
               >
-                {status === "success" ? text.form.success : text.form.error}
+                {status === "success" ? form.success : status === "error" ? form.error : ""}
               </p>
-            )}
-          </form>
+            </form>
+          </Reveal>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }

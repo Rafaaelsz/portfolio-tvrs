@@ -1,0 +1,1475 @@
+/*
+ * Home na direção D · Eclipse (protótipo d-eclipse.html do criativo, 29/10/2026).
+ * Tudo fica escopado em `.ec` para não vazar no /admin, que usa só utilitários do Tailwind.
+ * CSS puro, e não Tailwind, de propósito: o eclipse, o holofote e o funil dependem de
+ * conic-gradient com @property, máscaras e variáveis por elemento, que em classes
+ * utilitárias ficariam ilegíveis.
+ */
+
+@property --a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #030304;
+}
+
+.ec {
+  --bg: #030304;
+  --bg2: #08090b;
+  --ink: #f4f6f8;
+  --ink2: #a7adb6;
+  --ink3: #7a808a;
+  --line: rgba(255, 255, 255, 0.07);
+  --line2: rgba(255, 255, 255, 0.13);
+  --ice: #bfe3ff;
+  --mint: #d9fff1;
+  --glow: #8cc8ff;
+  --live: #9effc9;
+  --disp: var(--font-archivo), system-ui, sans-serif;
+  --body: var(--font-onest), system-ui, sans-serif;
+
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ec a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ec ul,
+.ec ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ec h1,
+.ec h2,
+.ec h3,
+.ec p {
+  margin: 0;
+}
+
+.ec .wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.ec .skip {
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  transform: translateY(-200%);
+  z-index: 60;
+  background: var(--ink);
+  color: #000;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 500;
+}
+
+.ec .skip:focus {
+  transform: none;
+}
+
+/* header */
+.ec-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.3s,
+    border-color 0.3s;
+}
+
+.ec-header.is-scrolled {
+  background: rgba(3, 3, 4, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: var(--line);
+}
+
+.ec .ec-header-in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+}
+
+.ec .mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 15px var(--body);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.ec .mark i {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 120%, #fff 0 30%, transparent 31%), #000;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 0 14px rgba(140, 200, 255, 0.6);
+}
+
+.ec .ec-nav {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+  color: var(--ink2);
+}
+
+.ec .ec-nav a:hover {
+  color: var(--ink);
+}
+
+.ec .ec-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ec .lang {
+  font: 500 13px var(--body);
+  color: var(--ink2);
+  background: none;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  min-width: 40px;
+  min-height: 36px;
+  padding: 0 10px;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.ec .lang:hover {
+  color: var(--ink);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.ec .cta-s {
+  font: 500 14px var(--body);
+  background: var(--ink);
+  color: #000;
+  border-radius: 999px;
+  padding: 9px 16px;
+  white-space: nowrap;
+  transition: box-shadow 0.25s;
+}
+
+.ec .cta-s:hover {
+  box-shadow:
+    0 0 0 4px rgba(191, 227, 255, 0.18),
+    0 0 24px rgba(140, 200, 255, 0.45);
+}
+
+/* hero */
+.ec .hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: 120px;
+  padding-bottom: 140px;
+  isolation: isolate;
+}
+
+.ec .hero > .wrap {
+  width: 100%;
+}
+
+.ec .grid-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+}
+
+/* o eclipse: um planeta escuro enorme cuja borda pega a luz */
+.ec .eclipse {
+  position: absolute;
+  left: 50%;
+  top: calc(100% - 26vh);
+  width: max(1500px, 150vw);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  z-index: -1;
+  border-radius: 50%;
+  background: #020203;
+  box-shadow:
+    0 -2px 0 0 rgba(255, 255, 255, 0.85),
+    0 -10px 40px 0 rgba(191, 227, 255, 0.55),
+    0 -40px 140px 10px rgba(110, 180, 255, 0.28),
+    0 -120px 280px 40px rgba(90, 160, 255, 0.12);
+}
+
+.ec .eclipse::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--a, 0deg),
+    transparent 0 20%,
+    #fff 28%,
+    var(--ice) 34%,
+    transparent 46%,
+    transparent 70%,
+    var(--mint) 82%,
+    transparent 92%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: blur(0.4px);
+  animation: ec-spin 18s linear infinite;
+}
+
+.ec .flare {
+  position: absolute;
+  left: var(--fx, 50%);
+  top: calc(100% - 26vh);
+  width: 520px;
+  height: 160px;
+  transform: translate(-50%, -55%);
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.9),
+    rgba(191, 227, 255, 0.35) 30%,
+    transparent 68%
+  );
+  filter: blur(8px);
+  mix-blend-mode: screen;
+  transition: left 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+
+@keyframes ec-spin {
+  to {
+    --a: 360deg;
+  }
+}
+
+.ec .kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ink2);
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  padding: 6px 14px 6px 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ec .kicker b {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--live);
+  box-shadow: 0 0 10px var(--live);
+}
+
+.ec .giant {
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 118;
+  font-weight: 700;
+  font-size: clamp(46px, 9.6vw, 148px);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  margin-top: 28px;
+  background: linear-gradient(180deg, #fff 0%, #fff 45%, rgba(255, 255, 255, 0.55) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ec .giant .lit {
+  background: linear-gradient(100deg, #fff 10%, var(--ice) 45%, var(--mint) 60%, #fff 85%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ec-sheen 7s ease-in-out infinite;
+}
+
+@keyframes ec-sheen {
+  0%,
+  100% {
+    background-position: 0% 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+}
+
+.ec .hero-sub {
+  display: grid;
+  grid-template-columns: minmax(0, 560px) auto;
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px;
+  margin-top: 44px;
+}
+
+.ec .hero-sub p {
+  font-size: 19px;
+  color: var(--ink2);
+  text-wrap: pretty;
+}
+
+.ec .hero-sub strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.ec .btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ec .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font: 500 15px var(--body);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line2);
+  transition: all 0.25s;
+}
+
+.ec .btn.pri {
+  background: var(--ink);
+  color: #000;
+  border-color: var(--ink);
+}
+
+.ec .btn.pri:hover {
+  box-shadow:
+    0 0 0 5px rgba(191, 227, 255, 0.14),
+    0 8px 40px rgba(140, 200, 255, 0.4);
+}
+
+.ec .btn:not(.pri):hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ec .live {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+}
+
+.ec .live .wrap {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--ink3);
+}
+
+.ec .live a {
+  color: var(--ink2);
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ec .live a:hover {
+  color: #fff;
+}
+
+.ec .live a::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live);
+}
+
+/* seções */
+.ec .ec-section {
+  position: relative;
+  padding-top: 140px;
+  padding-bottom: 40px;
+  scroll-margin-top: 20px;
+}
+
+.ec .eyebrow {
+  font: 500 13px var(--body);
+  color: var(--ink3);
+  letter-spacing: 0.02em;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ec .eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--ice), transparent);
+}
+
+.ec .ec-h2 {
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 108;
+  font-weight: 650;
+  font-size: clamp(34px, 5.2vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin-top: 18px;
+  max-width: 14ch;
+}
+
+.ec .ec-h2 em {
+  font-style: normal;
+  color: var(--ink3);
+}
+
+/* cabeçalho do trabalho + seletor de área */
+.ec .work-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px 48px;
+  flex-wrap: wrap;
+}
+
+.ec .role {
+  width: 100%;
+  max-width: 420px;
+}
+
+.ec .role-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ec .role-label {
+  font-size: 13px;
+  color: var(--ink3);
+}
+
+.ec .seg {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ec .seg button {
+  position: relative;
+  z-index: 1;
+  font: 500 13.5px var(--body);
+  color: var(--ink2);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  min-height: 36px;
+  min-width: 56px;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.ec .seg button:hover {
+  color: var(--ink);
+}
+
+.ec .seg button[aria-pressed="true"] {
+  color: #000;
+}
+
+.ec .seg-thumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc((100% - 6px) / 4);
+  border-radius: 999px;
+  background: var(--ink);
+  box-shadow: 0 0 18px rgba(140, 200, 255, 0.45);
+  transform: translateX(calc(var(--k, 0) * 100%));
+  transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.ec .role-pitch {
+  margin-top: 12px;
+  font-size: 14.5px;
+  color: var(--ink2);
+  min-height: 3.2em;
+  text-wrap: pretty;
+}
+
+.ec .role-pitch strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* bento */
+.ec .bento {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 56px;
+}
+
+.ec .card {
+  position: relative;
+  grid-column: span 4;
+  border-radius: 20px;
+  background: var(--bg2);
+  padding: 28px;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--line);
+  transition: opacity 0.4s;
+}
+
+.ec .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(191, 227, 255, 0.1),
+    transparent 45%
+  );
+}
+
+.ec .card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  background: radial-gradient(
+    300px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(220, 240, 255, 0.75),
+    transparent 50%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.ec .card:hover::before,
+.ec .card:hover::after,
+.ec .card:focus-within::before,
+.ec .card:focus-within::after {
+  opacity: 1;
+}
+
+/* o link principal cobre o card inteiro; o link secundário fica por cima */
+.ec .card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.ec .card-link:focus-visible {
+  outline: none;
+}
+
+.ec .card:has(.card-link:focus-visible),
+.ec .more-row:has(.card-link:focus-visible) {
+  outline: 2px solid rgba(191, 227, 255, 0.8);
+  outline-offset: 3px;
+}
+
+.ec .card-sub {
+  position: relative;
+  z-index: 2;
+  color: var(--ink2);
+  margin-left: 12px;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: var(--line2);
+  text-underline-offset: 3px;
+}
+
+.ec .card-sub:hover {
+  color: #fff;
+}
+
+.ec .card .tag {
+  font-size: 12px;
+  color: var(--ink3);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-right: 44px;
+}
+
+.ec .card .tag .on {
+  color: var(--live);
+}
+
+.ec .card h3 {
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 105;
+  font-weight: 620;
+  font-size: 26px;
+  letter-spacing: -0.025em;
+  margin-top: 12px;
+  line-height: 1.05;
+}
+
+.ec .card p {
+  color: var(--ink2);
+  font-size: 15px;
+  margin-top: 10px;
+  text-wrap: pretty;
+}
+
+.ec .card .stack {
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 12.5px;
+  color: var(--ink3);
+}
+
+.ec .card .go {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line2);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  color: var(--ink2);
+  transition: all 0.3s;
+}
+
+.ec .card:hover .go {
+  background: #fff;
+  color: #000;
+  transform: rotate(-45deg);
+}
+
+.ec .card.wide {
+  grid-column: span 6;
+}
+
+.ec .is-dim {
+  opacity: 0.38;
+}
+
+.ec .is-dim:hover,
+.ec .is-dim:focus-within {
+  opacity: 0.75;
+}
+
+/* Lume: texto em cima, funil de luz apoiado sobre o print real */
+.ec .card.lume {
+  grid-column: span 8;
+  grid-row: span 2;
+  padding: 40px 40px 0;
+}
+
+.ec .card.lume h3 {
+  font-size: clamp(40px, 5vw, 64px);
+  letter-spacing: -0.04em;
+}
+
+.ec .card.lume p {
+  font-size: 15.5px;
+  max-width: 56ch;
+}
+
+.ec .card.lume .stack {
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+.ec .lume-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  gap: 36px;
+  align-items: end;
+}
+
+.ec .lume-list {
+  display: grid;
+  gap: 10px;
+  font-size: 14.5px;
+  color: var(--ink2);
+}
+
+.ec .lume-list li {
+  padding-left: 16px;
+  position: relative;
+}
+
+.ec .lume-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ice);
+  box-shadow: 0 0 8px var(--glow);
+}
+
+.ec .lume-visual {
+  margin-top: 28px;
+  margin-left: -8px;
+  margin-right: -8px;
+}
+
+.ec .funnel {
+  position: relative;
+  height: 120px;
+  padding-top: 26px;
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  margin: 0 18px;
+}
+
+.ec .funnel-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 12px;
+  color: var(--ink3);
+}
+
+.ec .funnel i {
+  position: relative;
+  flex: 1;
+  font-style: normal;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, rgba(191, 227, 255, 0.6), rgba(191, 227, 255, 0.05));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 -6px 24px -8px rgba(140, 200, 255, 0.5);
+  transform-origin: bottom;
+  animation: ec-rise 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.ec .funnel i:nth-child(even) {
+  background: linear-gradient(180deg, rgba(217, 255, 241, 0.5), rgba(217, 255, 241, 0.05));
+}
+
+.ec .funnel i.cold {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.ec .cold-label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--ink3);
+  white-space: nowrap;
+}
+
+@keyframes ec-rise {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+.ec .lume-shot {
+  position: relative;
+  aspect-ratio: 1440 / 430;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--line2);
+  border-bottom: 0;
+  background: #07070a;
+  box-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.55),
+    0 -20px 60px -24px rgba(140, 200, 255, 0.6);
+}
+
+.ec .lume-shot img {
+  object-fit: cover;
+  object-position: center bottom;
+  /* corta as margens laterais da landing para o kanban ocupar o card */
+  transform: scale(1.18);
+  transform-origin: 50% 100%;
+}
+
+/* lista dos projetos menores */
+.ec .more {
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.ec .more-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--line);
+  transition:
+    padding 0.3s,
+    background 0.3s,
+    opacity 0.4s;
+}
+
+.ec .more-row:hover {
+  padding-left: 16px;
+  background: linear-gradient(90deg, rgba(191, 227, 255, 0.05), transparent);
+}
+
+.ec .more-row b {
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 105;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.ec .more-row > span {
+  color: var(--ink2);
+  font-size: 15px;
+}
+
+.ec .more-row small {
+  color: var(--ink3);
+  font-size: 13px;
+  text-align: right;
+}
+
+/* sobre: parágrafo aceso pela rolagem */
+.ec .lit-para {
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 100;
+  font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 46px);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  margin-top: 40px;
+  max-width: 32ch;
+  color: rgba(255, 255, 255, 0.14);
+}
+
+.ec .skills {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 80px;
+  border-top: 1px solid var(--line);
+}
+
+.ec .skills > div {
+  position: relative;
+  padding: 26px 24px 26px 0;
+  border-right: 1px solid var(--line);
+  transition: color 0.35s;
+}
+
+.ec .skills > div + div {
+  padding-left: 24px;
+}
+
+.ec .skills > div:last-child {
+  border-right: 0;
+}
+
+.ec .skills > div::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ice), transparent);
+  box-shadow: 0 0 14px var(--glow);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.ec .skills > div.is-active::before {
+  opacity: 1;
+}
+
+.ec .skills h3 {
+  font: 500 13px var(--body);
+  color: var(--ink3);
+  transition: color 0.35s;
+}
+
+.ec .skills > div.is-active h3 {
+  color: var(--ice);
+}
+
+.ec .skills p {
+  margin-top: 10px;
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+/* jornada com linha de luz */
+.ec .journey {
+  position: relative;
+  margin-top: 72px;
+  padding-left: 44px;
+}
+
+.ec .journey .rail {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--line2);
+}
+
+.ec .journey .rail i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+  background: linear-gradient(180deg, transparent, var(--ice));
+  box-shadow: 0 0 14px var(--glow);
+}
+
+.ec .journey .rail i::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: -5px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 18px 4px rgba(191, 227, 255, 0.8);
+}
+
+.ec .step {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 32px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ec .step .when {
+  font-size: 13px;
+  color: var(--ink3);
+  padding-top: 6px;
+}
+
+.ec .step h3 {
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 105;
+  font-weight: 600;
+  font-size: clamp(22px, 2.4vw, 30px);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.ec .step p {
+  color: var(--ink2);
+  margin-top: 8px;
+  max-width: 60ch;
+}
+
+/* contato com o eclipse invertido */
+.ec .contact {
+  padding-top: 180px;
+  padding-bottom: 120px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ec .contact .halo {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: max(1400px, 140vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -92%);
+  border-radius: 50%;
+  background: #020203;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.7),
+    0 10px 50px rgba(191, 227, 255, 0.45),
+    0 60px 200px rgba(90, 160, 255, 0.18);
+  z-index: -1;
+}
+
+.ec .contact .ec-h2 {
+  max-width: none;
+  font-size: clamp(44px, 8vw, 120px);
+  font-variation-settings: "wdth" 118;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+.ec .contact-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+  gap: 60px;
+  margin-top: 56px;
+  align-items: start;
+}
+
+.ec .contact-lead {
+  font-size: 18px;
+  color: var(--ink2);
+  max-width: 44ch;
+}
+
+.ec .links {
+  margin-top: 28px;
+  display: grid;
+  gap: 4px;
+}
+
+.ec .links li {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+  flex-wrap: wrap;
+}
+
+.ec .links li > span {
+  color: var(--ink3);
+}
+
+.ec .links a {
+  overflow-wrap: anywhere;
+}
+
+.ec .links a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ec .ec-form {
+  position: relative;
+  display: grid;
+  gap: 12px;
+}
+
+.ec .ec-form label {
+  display: grid;
+}
+
+.ec .ec-form-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ec .hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.ec .chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ec .chips label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.ec .chips input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.ec .chips span {
+  display: inline-block;
+  font-size: 13.5px;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: var(--ink2);
+  transition: all 0.2s;
+}
+
+.ec .chips label:hover span {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--ink);
+}
+
+.ec .chips input:checked + span {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.ec .chips input:focus-visible + span {
+  outline: 2px solid rgba(191, 227, 255, 0.8);
+  outline-offset: 3px;
+}
+
+.ec .ec-input {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line2);
+  border-radius: 14px;
+  padding: 13px 15px;
+  min-height: 48px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.ec .ec-input::placeholder {
+  color: var(--ink3);
+}
+
+.ec textarea.ec-input {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.ec .ec-input:focus {
+  outline: none;
+  border-color: rgba(191, 227, 255, 0.6);
+  box-shadow: 0 0 0 4px rgba(191, 227, 255, 0.1);
+}
+
+.ec .ec-form .btn {
+  justify-self: start;
+  cursor: pointer;
+}
+
+.ec .ec-form .btn:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.ec .form-status {
+  min-height: 1.5em;
+  font-size: 14px;
+  color: var(--live);
+}
+
+.ec .form-status.is-error {
+  color: #ffb4b4;
+}
+
+.ec-footer {
+  padding: 28px 0 40px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink3);
+}
+
+.ec .ec-footer-in {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ec .lang-link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.ec .lang-link:hover {
+  color: var(--ink);
+}
+
+/* entrada dos blocos */
+.ec .rv {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.9s;
+}
+
+.ec .rv[data-in] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.ec .d1 {
+  transition-delay: 0.08s;
+}
+
+.ec .d2 {
+  transition-delay: 0.16s;
+}
+
+.ec .d3 {
+  transition-delay: 0.24s;
+}
+
+@media (max-width: 980px) {
+  .ec .ec-nav {
+    display: none;
+  }
+
+  .ec .card,
+  .ec .card.wide {
+    grid-column: span 6;
+  }
+
+  .ec .card.lume {
+    grid-column: span 12;
+    grid-row: auto;
+  }
+
+  .ec .skills {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ec .skills > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .ec .skills > div:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .ec .contact-row,
+  .ec .hero-sub {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .ec .wrap {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ec .mark {
+    font-size: 14px;
+  }
+
+  .ec .hero {
+    padding-top: 110px;
+    padding-bottom: 150px;
+  }
+
+  .ec .hero-sub p {
+    font-size: 17px;
+  }
+
+  .ec .eclipse,
+  .ec .flare {
+    top: calc(100% - 18vh);
+  }
+
+  .ec .live .wrap {
+    gap: 10px 20px;
+  }
+
+  .ec .ec-section {
+    padding-top: 100px;
+  }
+
+  .ec .bento {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 40px;
+  }
+
+  .ec .card,
+  .ec .card.wide,
+  .ec .card.lume {
+    grid-column: auto;
+    min-height: 0;
+  }
+
+  .ec .card.lume {
+    padding: 28px 28px 0;
+  }
+
+  .ec .lume-in {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .ec .funnel {
+    height: 96px;
+    gap: 5px;
+    margin: 0 10px;
+  }
+
+  .ec .lume-shot {
+    aspect-ratio: 16 / 10;
+  }
+
+  .ec .lume-shot img {
+    object-position: center top;
+    transform: none;
+  }
+
+  .ec .giant {
+    font-size: 40px;
+    font-variation-settings: "wdth" 112;
+  }
+
+  .ec .more-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .ec .more-row small {
+    text-align: left;
+  }
+
+  .ec .skills {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ec .skills > div,
+  .ec .skills > div + div {
+    border-right: 0;
+    padding-left: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ec .journey {
+    padding-left: 32px;
+  }
+
+  .ec .step {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .ec .cta-s {
+    padding: 8px 13px;
+    font-size: 13px;
+  }
+
+  .ec .ec-form-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ec .seg button {
+    min-width: 0;
+    padding: 0 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ec *,
+  .ec *::before,
+  .ec *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ec .rv {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .ec .lit-para .w {
+    color: var(--ink) !important;
+    text-shadow: none !important;
+  }
+
+  .ec .lit-para .w.hl {
+    color: var(--ice) !important;
+  }
+
+  .ec .journey .rail i {
+    height: 100% !important;
+  }
+}
