@@ -3,13 +3,22 @@
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 export function Footer() {
-  const { dictionary } = useLanguage();
+  const { dictionary, toggleLocale } = useLanguage();
 
   return (
-    <footer className="relative z-10 border-t border-white/8 px-6 py-8">
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 text-xs text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
-        <span>© {new Date().getFullYear()} Rafael Tavares</span>
-        <span>{dictionary.footer.built}</span>
+    <footer className="ec-footer">
+      <div className="wrap ec-footer-in">
+        <span>
+          © {new Date().getFullYear()} {dictionary.footer.place}
+        </span>
+        <button
+          type="button"
+          className="lang-link"
+          onClick={toggleLocale}
+          aria-label={dictionary.header.languageLabel}
+        >
+          PT / EN
+        </button>
       </div>
     </footer>
   );

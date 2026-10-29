@@ -1,108 +1,112 @@
+import type { Area, Role } from "@/data/projects";
+
 export type Locale = "pt-BR" | "en-US";
 
 export type ProjectCopy = {
   name: string;
   type: string;
+  /** Uma frase curta para o card do bento e a lista. */
+  summary: string;
   description: string;
   problem: string;
   features: string[];
-  /** Texto do botão do link (`demo`) quando "Demo" não descreve bem, como num site de cliente. */
-  demoLabel?: string;
-  visual: {
-    label: string;
-    nodes: string[];
-    metrics: string[];
-  };
 };
 
 export type Dictionary = {
+  meta: {
+    skip: string;
+  };
   header: {
     aria: string;
     home: string;
     languageLabel: string;
+    languageShort: string;
+    cta: string;
     nav: {
+      work: string;
       about: string;
-      skills: string;
-      projects: string;
       journey: string;
       contact: string;
     };
   };
   hero: {
-    availability: string;
-    eyebrow: string;
-    title: string;
+    kicker: string;
+    titleTop: string;
+    titleLit: string;
+    /** Texto com **negrito** marcado por asteriscos duplos. */
     description: string;
     ctas: {
-      projects: string;
-      contact: string;
+      work: string;
+      lume: string;
     };
-    stats: Array<{
-      label: string;
-      value: string;
-    }>;
-    architecture: Array<{
-      title: string;
-      tech: string;
-    }>;
+    liveLabel: string;
   };
-  about: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    stepLabel: string;
-    flow: Array<{
-      label: string;
-      detail: string;
-    }>;
-    highlights: string[];
-  };
-  skills: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    groups: Array<{
-      title: string;
-      description: string;
-      items: string[];
-    }>;
+  roles: {
+    label: string;
+    aria: string;
+    names: Record<Role, string>;
+    /** Frase que aparece sob o seletor. Texto com **negrito**. */
+    pitch: Record<Role, string>;
+    /** Placeholder da mensagem no formulário quando a área está escolhida. */
+    message: Record<Area, string>;
+    dimmed: string;
   };
   projects: {
     eyebrow: string;
     title: string;
-    description: string;
-    aside: string;
-    problemLabel: string;
+    titleMuted: string;
+    status: {
+      production: string;
+      live: string;
+      code: string;
+    };
+    openLabel: string;
     githubLabel: string;
-    demoLabel: string;
+    lume: {
+      funnelLabel: string;
+      coolingLabel: string;
+      shotAlt: string;
+    };
     items: ProjectCopy[];
+  };
+  about: {
+    eyebrow: string;
+    /** Palavras entre *asteriscos* acendem em azul-gelo. */
+    paragraph: string;
+    skills: Array<{
+      title: string;
+      items: string;
+      areas: Area[];
+    }>;
   };
   journey: {
     eyebrow: string;
     title: string;
-    description: string;
-    milestones: Array<{
-      marker: string;
+    steps: Array<{
+      when: string;
       title: string;
       description: string;
     }>;
   };
   contact: {
     eyebrow: string;
-    title: string;
+    titleTop: string;
+    titleBottom: string;
     description: string;
     links: {
+      email: string;
       github: string;
       linkedin: string;
-      email: string;
     };
     form: {
+      kindsAria: string;
+      kinds: Array<{ value: string; label: string }>;
       name: string;
       namePlaceholder: string;
       email: string;
       emailPlaceholder: string;
-      project: string;
-      projectPlaceholder: string;
+      message: string;
+      messagePlaceholder: string;
       submit: string;
       sending: string;
       success: string;
@@ -111,6 +115,6 @@ export type Dictionary = {
     };
   };
   footer: {
-    built: string;
+    place: string;
   };
 };

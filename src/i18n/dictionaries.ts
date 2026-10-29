@@ -4,110 +4,79 @@ export const defaultLocale: Locale = "pt-BR";
 
 export const dictionaries: Record<Locale, Dictionary> = {
   "pt-BR": {
+    meta: {
+      skip: "Pular para o conteúdo",
+    },
     header: {
       aria: "Navegação principal",
-      home: "Página inicial de Rafael Tavares",
-      languageLabel: "Alterar idioma para inglês dos Estados Unidos",
+      home: "Rafael Tavares, início",
+      languageLabel: "Mudar o idioma para inglês",
+      languageShort: "EN",
+      cta: "Falar comigo",
       nav: {
+        work: "Trabalho",
         about: "Sobre",
-        skills: "Skills",
-        projects: "Projetos",
         journey: "Jornada",
         contact: "Contato",
       },
     },
     hero: {
-      availability: "Disponível para projetos de software",
-      eyebrow: "Rafael Tavares",
-      title: "Construindo aplicações robustas do design de APIs à experiência do usuário.",
+      kicker: "Palhoça, SC · aberto a freelance e vaga júnior",
+      titleTop: "Eu construo",
+      titleLit: "e coloco no ar.",
       description:
-        "Desenvolvedor Full Stack focado em Python, Java, React, Next.js, PostgreSQL e APIs REST. Crio sistemas práticos, automações e aplicações web com arquitetura limpa, interfaces responsivas e usabilidade real.",
+        "Sistemas web, landing pages e automações. O mais recente é **a Lume**, um CRM para quem vende sites, que desenhei, programei e mantenho sozinho.",
       ctas: {
-        projects: "Ver Projetos",
-        contact: "Contato",
+        work: "Ver o trabalho",
+        lume: "Conhecer a Lume ↗",
       },
-      stats: [
-        { label: "Backend", value: "APIs, dados, serviços" },
-        { label: "Frontend", value: "React, Next.js, UI" },
-        { label: "Sistemas", value: "Docker, Redis, jobs" },
-      ],
-      architecture: [
-        { title: "Frontend", tech: "React / Next.js" },
-        { title: "Camada API", tech: "FastAPI / Django" },
-        { title: "Serviços", tech: "Jobs / Regras" },
-        { title: "Banco de Dados", tech: "PostgreSQL / Redis" },
-        { title: "Integrações", tech: "Docker / Webhooks" },
-      ],
+      liveLabel: "No ar agora",
     },
-    about: {
-      eyebrow: "Sobre",
-      title: "Um perfil full stack prático com estrutura backend no centro.",
-      description:
-        "Gosto de construir sistemas úteis, organizados e fáceis de evoluir. Meu trabalho normalmente começa entendendo o problema, desenhando o fluxo de dados, estruturando o backend e então criando uma interface que torne a solução clara e usável.",
-      stepLabel: "Etapa",
-      flow: [
-        { label: "Problema", detail: "Clarear o fluxo de trabalho" },
-        { label: "Dados", detail: "Modelar o schema" },
-        { label: "API", detail: "Expor contratos claros" },
-        { label: "Interface", detail: "Tornar a solução usável" },
-      ],
-      highlights: [
-        "Engenharia backend, APIs, bancos de dados e estrutura de sistemas.",
-        "Projetos com Python, Java, Django, FastAPI, React, Next.js e PostgreSQL.",
-        "Automação, ferramentas de produtividade e aplicações reais além de sites estáticos.",
-      ],
-    },
-    skills: {
-      eyebrow: "Ecossistema técnico",
-      title: "Tecnologias apresentadas como um sistema, não como badges isoladas.",
-      description:
-        "React e Next.js se conectam a camadas de API, serviços backend se conectam a PostgreSQL e Redis, e Docker, GitHub Actions e automações apoiam a entrega.",
-      groups: [
-        {
-          title: "Backend Core",
-          description:
-            "Design de APIs, regras de negócio, modelagem relacional e estrutura backend.",
-          items: ["Python", "Java", "Django", "FastAPI", "REST APIs", "SQL"],
-        },
-        {
-          title: "Frontend Core",
-          description: "Interfaces responsivas que tornam capacidades backend claras e usáveis.",
-          items: ["JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"],
-        },
-        {
-          title: "Dados & Infraestrutura",
-          description: "Persistência, cache, containers e práticas de entrega para sistemas reais.",
-          items: ["PostgreSQL", "Redis", "Docker", "Git", "GitHub Actions", "Linux", "Bash"],
-        },
-        {
-          title: "Automação & Ferramentas",
-          description:
-            "Integrações práticas, scraping, utilitários desktop e ferramentas de browser.",
-          items: [
-            "Celery",
-            "BeautifulSoup",
-            "Webhooks",
-            "Tkinter",
-            "PyInstaller",
-            "Chrome Extension API",
-          ],
-        },
-      ],
+    roles: {
+      label: "Contratando para",
+      aria: "Destacar projetos por área",
+      names: {
+        all: "Tudo",
+        dev: "Dev",
+        qa: "QA",
+        cloud: "Cloud",
+      },
+      pitch: {
+        all: "Escolha uma área e os projetos se reorganizam: o que mais conta para ela sobe.",
+        dev: "Faço a feature inteira: **modelo o banco, escrevo a API e entrego a tela.** A Lume é o exemplo mais completo, e está no ar.",
+        qa: "Penso primeiro **onde o usuário tropeça.** Escrevo testes de ponta a ponta com Maestro, e a Lume tem testes com Vitest rodando contra um Postgres de verdade.",
+        cloud:
+          "Nos meus projetos, **cuido do deploy, das filas e do preview com banco próprio para cada PR.**",
+      },
+      message: {
+        dev: "Oi, Rafael. Tenho uma vaga de dev e queria conversar.",
+        qa: "Oi, Rafael. Tenho uma vaga de QA e queria conversar.",
+        cloud: "Oi, Rafael. Tenho uma vaga de cloud/infra e queria conversar.",
+      },
+      dimmed: "menos relacionado a esta área",
     },
     projects: {
-      eyebrow: "Projetos",
-      title: "Case studies com estética de produto para sistemas práticos.",
-      description:
-        "Um produto próprio, um trabalho para cliente e projetos que mostram como resolvo problemas: CRM e SaaS, landing page, APIs, processamento assíncrono, extensão de navegador e testes de QA.",
-      aside:
-        "Os principais trabalhos são apresentados como fluxos de sistema para mostrar o que foi construído, por que importa e quais tecnologias sustentam a solução.",
-      problemLabel: "Problema resolvido",
+      eyebrow: "Trabalho",
+      title: "Coisas que estão no ar.",
+      titleMuted: "E as que me ensinaram a pôr.",
+      status: {
+        production: "em produção",
+        live: "no ar",
+        code: "código no GitHub",
+      },
+      openLabel: "Abrir",
       githubLabel: "GitHub",
-      demoLabel: "Demo",
+      lume: {
+        funnelLabel: "11 etapas do funil",
+        coolingLabel: "esfriando",
+        shotAlt:
+          "Landing da Lume com o kanban de prospecções: colunas Novo, Contatado, Proposta e Fechado, com dados de demonstração.",
+      },
       items: [
         {
           name: "Lume",
           type: "Produto próprio / SaaS",
+          summary: "CRM de prospecção para freelancers e pequenas agências que vendem sites.",
           description:
             "CRM de prospecção para freelancers e pequenas agências que vendem sites. Você cola um link do Google Maps, do Instagram ou de um site, ou importa uma planilha CSV, e o Lume cria o lead com nome, endereço, contatos e a indicação de se a empresa parece ter site. Daí em diante, o lead segue no funil até o fechamento, com proposta em PDF e lembrete de follow-up.",
           problem:
@@ -118,16 +87,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Propostas comerciais em PDF",
             "Assistente de IA para resumo e mensagens",
           ],
-          demoLabel: "Conhecer o Lume",
-          visual: {
-            label: "Do link colado ao contrato",
-            nodes: ["Link / CSV", "Lead", "Funil", "Proposta", "Fechamento"],
-            metrics: ["SaaS", "Planos Grátis e Pro", "IA sob demanda", "PDF"],
-          },
         },
         {
           name: "Estúdio Pilates Giselle Meyer",
           type: "Cliente freelance / Landing page",
+          summary:
+            "Landing de um estúdio com duas unidades. A visitante cai no WhatsApp da unidade certa, com a mensagem pronta.",
           description:
             "Landing page de um estúdio de Pilates com duas unidades no Centro de Florianópolis. A página apresenta o método, as unidades, os aparelhos e as dúvidas mais comuns, e leva a visitante a agendar uma aula experimental pelo WhatsApp da unidade mais próxima, com a mensagem já escrita.",
           problem:
@@ -138,16 +103,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Layout mobile-first",
             "HTML, CSS e JS sem framework",
           ],
-          demoLabel: "Ver o site",
-          visual: {
-            label: "Da visita ao agendamento",
-            nodes: ["Página", "Unidade", "WhatsApp", "Aula experimental"],
-            metrics: ["Cliente real", "2 unidades", "Mobile-first", "Sem framework"],
-          },
         },
         {
           name: "ConsorcioTrack",
           type: "MVP / Micro-SaaS B2B",
+          summary:
+            "Para quem vende consórcio: funil comercial, clientes, grupos e cotas num lugar só, com simulador de lance.",
           description:
             "MVP de um sistema para corretores, consultores e pequenas equipes que vendem consórcio. Reúne o funil comercial, os clientes, o histórico de contatos, a agenda de follow-ups, os grupos e as cotas num só lugar, com um simulador de lance.",
           problem:
@@ -158,15 +119,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Grupos, cotas e vínculos",
             "Simulador de lance",
           ],
-          visual: {
-            label: "Do cliente à cota",
-            nodes: ["Cliente", "Funil", "Grupo", "Cota", "Lance"],
-            metrics: ["Multi-tenant", "API REST", "Flyway", "Docker Compose"],
-          },
         },
         {
           name: "Finder de Vagas TI",
           type: "Full stack / API pública",
+          summary:
+            "Vaga de tecnologia fica espalhada por vários portais. O Finder importa de fontes públicas, como Greenhouse e Lever, e junta tudo numa busca com filtros.",
           description:
             "Buscador público de vagas de tecnologia. Uma API em Fastify importa vagas de fontes públicas oficiais, como Greenhouse e Lever, e o frontend em Next.js permite buscar e filtrar por tecnologia, empresa, modalidade, senioridade, contrato, localização e salário.",
           problem:
@@ -177,15 +135,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Match simples por tecnologia",
             "Documentação da API no Swagger",
           ],
-          visual: {
-            label: "Da fonte pública à busca",
-            nodes: ["Greenhouse / Lever", "Importação", "API", "Filtros"],
-            metrics: ["REST", "Swagger", "Vitest", "Docker"],
-          },
         },
         {
           name: "Testes do My Demo App",
           type: "QA / Testes mobile",
+          summary:
+            "Testes manuais e automatizados do app Android de prática da Sauce Labs. Cada caso documentado tem um flow do Maestro com o mesmo ID.",
           description:
             "Testes manuais e automatizados do My Demo App, o app Android de prática da Sauce Labs. Cada caso de teste tem a sua documentação e, quando automatizado, um flow do Maestro com o mesmo ID, para achar a automação a partir do documento.",
           problem:
@@ -196,15 +151,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Login, compra e carrinho",
             "Mesmo ID no documento e no flow",
           ],
-          visual: {
-            label: "Do caso de teste ao flow",
-            nodes: ["Caso de teste", "Flow YAML", "Maestro", "Emulador Android"],
-            metrics: ["Mobile", "Prioridades", "Manual + automação", "Estudo de QA"],
-          },
         },
         {
           name: "CS2 Box Analyzer",
           type: "Extensão Chrome / Edge",
+          summary:
+            "Extensão que lê a página e estima valor esperado e risco, sem automatizar nenhum clique.",
           description:
             "Extensão de análise passiva de risco para sites de abertura de caixas de Counter-Strike 2. Lê o conteúdo visível da página e estima valor esperado, ROI, house edge e classificação de risco, sem automatizar nenhuma ação do usuário.",
           problem:
@@ -215,15 +167,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Métricas de ROI e house edge",
             "Classificação de risco",
           ],
-          visual: {
-            label: "Fluxo da extensão",
-            nodes: ["Página", "Parser", "Métricas", "Risco"],
-            metrics: ["EV", "ROI", "House edge", "Risco"],
-          },
         },
         {
           name: "Price Tracking API",
           type: "Backend / API",
+          summary:
+            "Histórico de preços e alerta no Telegram. A coleta roda em workers, para não travar a API.",
           description:
             "API de monitoramento de preços com alertas. Você cadastra a URL de um produto e um preço-alvo; um worker em background consulta o preço periodicamente, guarda o histórico e avisa pelo Telegram quando o valor chega ao alvo.",
           problem:
@@ -234,15 +183,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Agendamento com Celery Beat",
             "Alerta pelo Telegram",
           ],
-          visual: {
-            label: "Da URL do produto ao alerta",
-            nodes: ["URL", "Scraper", "Fila", "Banco", "Alerta"],
-            metrics: ["REST", "Workers", "Histórico", "Telegram"],
-          },
         },
         {
           name: "Orbit ERP",
           type: "Sistema web / Gestão de estoque",
+          summary:
+            "Estoque para quem ainda usa planilha: entradas e saídas com validação de saldo e alerta de estoque baixo.",
           description:
             "Sistema web de controle de estoque para quem ainda gerencia produtos em planilha: cadastro de produtos com margem de lucro, entradas e saídas com validação de saldo, dashboard com alerta de estoque baixo e relatórios em PDF.",
           problem:
@@ -253,185 +199,185 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Alerta de estoque baixo",
             "Relatórios em PDF",
           ],
-          visual: {
-            label: "Operações de estoque",
-            nodes: ["Produtos", "Movimentos", "Relatórios", "PostgreSQL"],
-            metrics: ["Dashboard", "Login", "CRUD", "PDF"],
-          },
+        },
+      ],
+    },
+    about: {
+      eyebrow: "Sobre",
+      paragraph:
+        "Tenho 21 anos e construo pensando em quem vai usar quando der *errado.* Faço sistemas web, landing pages e automações, e estou decidindo se o próximo passo é *dev, QA ou cloud.* Não me vendo como sênior. Me vendo como alguém que *termina.*",
+      skills: [
+        {
+          title: "Web",
+          items: "Next.js, React, TypeScript, Tailwind, HTML e CSS",
+          areas: ["dev"],
+        },
+        {
+          title: "Dados e API",
+          items: "PostgreSQL, Prisma, FastAPI, Django, Fastify, Redis",
+          areas: ["dev"],
+        },
+        {
+          title: "Testes",
+          items: "Maestro, Vitest, teste manual de fluxo",
+          areas: ["qa"],
+        },
+        {
+          title: "Infra",
+          items: "Linux, Docker, GitHub Actions, Vercel",
+          areas: ["cloud"],
         },
       ],
     },
     journey: {
       eyebrow: "Jornada",
-      title: "Uma evolução orientada para o desenvolvimento de aplicações completas.",
-      description:
-        "A narrativa é intencionalmente honesta: progressão por projetos práticos, automação, interfaces web, APIs backend e sistemas completos.",
-      milestones: [
+      title: "Do script ao produto no ar.",
+      steps: [
         {
-          marker: "01",
-          title: "Início com projetos práticos de software",
-          description:
-            "Construí uma base estudando programação por meio de aplicações úteis, não apenas exercícios isolados.",
+          when: "Início",
+          title: "Automações em Python",
+          description: "Scripts e utilitários de desktop para tarefas que eu repetia todo dia.",
         },
         {
-          marker: "02",
-          title: "Automação e ferramentas desktop com Python",
+          when: "Depois",
+          title: "APIs e sistemas web",
           description:
-            "Explorei scripts, fluxos de arquivos e interfaces Tkinter para resolver problemas objetivos do dia a dia.",
+            "FastAPI, Django e PostgreSQL em projetos pessoais. Depois, Next.js e TypeScript.",
         },
         {
-          marker: "03",
-          title: "Avanço para interfaces web modernas",
+          when: "Testes",
+          title: "QA com Maestro",
           description:
-            "Evoluí para React, Next.js, TypeScript e Tailwind CSS para criar experiências frontend responsivas.",
+            "Testes de ponta a ponta no app mobile My Demo App, com os casos documentados no GitHub.",
         },
         {
-          marker: "04",
-          title: "APIs e sistemas orientados por dados",
-          description:
-            "Desenvolvi projetos backend com FastAPI, Django, PostgreSQL e Redis, conectando modelos de dados a fluxos reais de aplicação.",
+          when: "Freelance",
+          title: "Primeiro cliente",
+          description: "A landing do Estúdio Pilates Giselle Meyer, do briefing à publicação.",
         },
         {
-          marker: "05",
-          title: "Foco atual: produtos de software completos",
+          when: "Agora",
+          title: "A Lume em produção",
           description:
-            "Combinando engenharia backend, clareza frontend, integrações e workflows de deploy em aplicações full stack estruturadas.",
+            "Produto próprio no ar. A cobrança está pronta no código e ainda não foi ligada.",
+        },
+        {
+          when: "Formação",
+          title: "Unopar, polo Palhoça",
+          description: "Ensino superior em andamento.",
         },
       ],
     },
     contact: {
       eyebrow: "Contato",
-      title: "Vamos construir algo sólido.",
+      titleTop: "Tem algo para",
+      titleBottom: "colocar no ar?",
       description:
-        "Tem uma ideia, projeto ou sistema que precisa de estrutura? Posso ajudar a transformar isso em uma aplicação clara, funcional e escalável.",
+        "Uma landing, um sistema que tira a planilha do caminho, uma automação, ou uma vaga. Me conta em duas linhas e eu respondo.",
       links: {
+        email: "E-mail",
         github: "GitHub",
         linkedin: "LinkedIn",
-        email: "Email",
       },
       form: {
+        kindsAria: "Tipo de pedido",
+        kinds: [
+          { value: "landing", label: "Landing page" },
+          { value: "system", label: "Sistema web" },
+          { value: "automation", label: "Automação" },
+          { value: "job", label: "Vaga" },
+        ],
         name: "Nome",
         namePlaceholder: "Seu nome",
-        email: "Email",
-        emailPlaceholder: "voce@email.com",
-        project: "Projeto",
-        projectPlaceholder: "Conte o que você quer construir...",
-        submit: "Enviar mensagem",
-        sending: "Enviando mensagem...",
-        success: "Mensagem enviada com sucesso. Obrigado pelo contato!",
-        error: "Não foi possível enviar a mensagem. Tente novamente em instantes.",
-        subject: "Novo contato pelo portfólio de Rafael Tavares",
+        email: "E-mail",
+        emailPlaceholder: "Seu e-mail",
+        message: "Mensagem",
+        messagePlaceholder: "O que você precisa?",
+        submit: "Enviar",
+        sending: "Enviando…",
+        success: "Mensagem enviada. Obrigado! Respondo por e-mail.",
+        error: "Não foi possível enviar agora. Tente de novo em instantes ou mande um e-mail.",
+        subject: "Portfólio",
       },
     },
     footer: {
-      built: "Construído com Next.js, React Three Fiber e atenção à estrutura.",
+      place: "Rafael Tavares · Palhoça, SC",
     },
   },
   "en-US": {
+    meta: {
+      skip: "Skip to content",
+    },
     header: {
-      aria: "Primary navigation",
-      home: "Rafael Tavares home",
-      languageLabel: "Switch language to Brazilian Portuguese",
+      aria: "Main navigation",
+      home: "Rafael Tavares, home",
+      languageLabel: "Switch language to Portuguese",
+      languageShort: "PT",
+      cta: "Get in touch",
       nav: {
+        work: "Work",
         about: "About",
-        skills: "Skills",
-        projects: "Projects",
         journey: "Journey",
         contact: "Contact",
       },
     },
     hero: {
-      availability: "Available for software projects",
-      eyebrow: "Rafael Tavares",
-      title: "Building robust applications from API design to user experience.",
+      kicker: "Palhoça, Brazil · open to freelance and junior roles",
+      titleTop: "I build it",
+      titleLit: "and ship it.",
       description:
-        "Full Stack Developer focused on Python, Java, React, Next.js, PostgreSQL and REST APIs. I create practical systems, automations and web applications with clean architecture, responsive interfaces and real-world usability.",
+        "Web systems, landing pages and automations. The latest is **Lume**, a CRM for people who sell websites, which I designed, built and run on my own.",
       ctas: {
-        projects: "View Projects",
-        contact: "Contact",
+        work: "See the work",
+        lume: "Meet Lume ↗",
       },
-      stats: [
-        { label: "Backend", value: "APIs, data, services" },
-        { label: "Frontend", value: "React, Next.js, UI" },
-        { label: "Systems", value: "Docker, Redis, jobs" },
-      ],
-      architecture: [
-        { title: "Frontend", tech: "React / Next.js" },
-        { title: "API Layer", tech: "FastAPI / Django" },
-        { title: "Services", tech: "Jobs / Rules" },
-        { title: "Database", tech: "PostgreSQL / Redis" },
-        { title: "Integrations", tech: "Docker / Webhooks" },
-      ],
+      liveLabel: "Live now",
     },
-    about: {
-      eyebrow: "About",
-      title: "A practical full stack profile with backend structure at the center.",
-      description:
-        "I like building systems that are useful, organized and easy to evolve. My work usually starts with understanding the problem, designing the data flow, structuring the backend and then creating an interface that makes the solution clear and usable.",
-      stepLabel: "Step",
-      flow: [
-        { label: "Problem", detail: "Clarify the workflow" },
-        { label: "Data", detail: "Shape the schema" },
-        { label: "API", detail: "Expose clear contracts" },
-        { label: "Interface", detail: "Make it usable" },
-      ],
-      highlights: [
-        "Backend engineering, APIs, databases and system structure.",
-        "Portfolio projects with Python, Java, Django, FastAPI, React, Next.js and PostgreSQL.",
-        "Automation, productivity tools and real-world applications beyond static websites.",
-      ],
-    },
-    skills: {
-      eyebrow: "Skills ecosystem",
-      title: "Technologies presented as a system, not isolated badges.",
-      description:
-        "React and Next.js connect to API layers, backend services connect to PostgreSQL and Redis, and Docker, GitHub Actions and automation tools support delivery.",
-      groups: [
-        {
-          title: "Backend Core",
-          description:
-            "API design, business rules, relational data modeling and backend structure.",
-          items: ["Python", "Java", "Django", "FastAPI", "REST APIs", "SQL"],
-        },
-        {
-          title: "Frontend Core",
-          description: "Responsive interfaces that make backend capabilities clear and usable.",
-          items: ["JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"],
-        },
-        {
-          title: "Data & Infrastructure",
-          description:
-            "Persistence, caching, containers and delivery habits that support real systems.",
-          items: ["PostgreSQL", "Redis", "Docker", "Git", "GitHub Actions", "Linux", "Bash"],
-        },
-        {
-          title: "Automation & Tools",
-          description: "Practical integrations, scraping, desktop utilities and browser tooling.",
-          items: [
-            "Celery",
-            "BeautifulSoup",
-            "Webhooks",
-            "Tkinter",
-            "PyInstaller",
-            "Chrome Extension API",
-          ],
-        },
-      ],
+    roles: {
+      label: "Hiring for",
+      aria: "Highlight projects by area",
+      names: {
+        all: "All",
+        dev: "Dev",
+        qa: "QA",
+        cloud: "Cloud",
+      },
+      pitch: {
+        all: "Pick an area and the projects reorder: what matters most for it moves up.",
+        dev: "I build the whole feature: **I model the database, write the API and ship the screen.** Lume is the most complete example, and it is live.",
+        qa: "I think first about **where the user trips.** I write end-to-end tests with Maestro, and Lume has Vitest tests running against a real Postgres.",
+        cloud:
+          "In my projects, **I handle deploys, queues and a preview with its own database for every PR.**",
+      },
+      message: {
+        dev: "Hi Rafael, I have a dev role and would like to talk.",
+        qa: "Hi Rafael, I have a QA role and would like to talk.",
+        cloud: "Hi Rafael, I have a cloud/infra role and would like to talk.",
+      },
+      dimmed: "less related to this area",
     },
     projects: {
-      eyebrow: "Projects",
-      title: "Product-style case studies for practical systems.",
-      description:
-        "My own product, client work and projects that show how I solve problems: CRM and SaaS, landing pages, APIs, async processing, browser tooling and QA testing.",
-      aside:
-        "The strongest work is presented as system flows so visitors can see what was built, why it matters and which technologies carried the solution.",
-      problemLabel: "Problem solved",
+      eyebrow: "Work",
+      title: "Things that are live.",
+      titleMuted: "And the ones that taught me how.",
+      status: {
+        production: "in production",
+        live: "live",
+        code: "code on GitHub",
+      },
+      openLabel: "Open",
       githubLabel: "GitHub",
-      demoLabel: "Demo",
+      lume: {
+        funnelLabel: "11 pipeline stages",
+        coolingLabel: "cooling",
+        shotAlt:
+          "Lume landing page showing the prospecting kanban: New, Contacted, Proposal and Closed columns, with demo data.",
+      },
       items: [
         {
           name: "Lume",
           type: "Own product / SaaS",
+          summary: "A prospecting CRM for freelancers and small agencies that sell websites.",
           description:
             "A prospecting CRM for freelancers and small agencies that sell websites. You paste a Google Maps, Instagram or website link, or import a CSV spreadsheet, and Lume creates the lead with name, address, contacts and whether the business appears to have a website. From there, the lead moves through the pipeline until the deal closes, with a PDF proposal and follow-up reminders.",
           problem:
@@ -442,16 +388,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Sales proposals as PDF",
             "AI assistant for summaries and messages",
           ],
-          demoLabel: "See Lume",
-          visual: {
-            label: "From pasted link to contract",
-            nodes: ["Link / CSV", "Lead", "Pipeline", "Proposal", "Closed"],
-            metrics: ["SaaS", "Free and Pro plans", "On-demand AI", "PDF"],
-          },
         },
         {
           name: "Giselle Meyer Pilates Studio",
           type: "Freelance client / Landing page",
+          summary:
+            "Landing page for a studio with two locations. Visitors land on the right location's WhatsApp, with the message already written.",
           description:
             "A landing page for a Pilates studio with two locations in downtown Florianópolis, Brazil. It presents the method, the locations, the equipment and common questions, and leads visitors to book a trial class through the WhatsApp number of the nearest location, with the message already written.",
           problem:
@@ -462,16 +404,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Mobile-first layout",
             "Plain HTML, CSS and JS",
           ],
-          demoLabel: "Visit the site",
-          visual: {
-            label: "From visit to booking",
-            nodes: ["Page", "Location", "WhatsApp", "Trial class"],
-            metrics: ["Real client", "2 locations", "Mobile-first", "No framework"],
-          },
         },
         {
           name: "ConsorcioTrack",
           type: "MVP / B2B micro-SaaS",
+          summary:
+            "For people who sell consórcio (a Brazilian pooled-purchase plan): pipeline, clients, groups and quotas in one place, plus a bid simulator.",
           description:
             "An MVP for brokers, consultants and small teams that sell consórcio, a Brazilian pooled-purchase plan. It brings the sales pipeline, clients, contact history, follow-up schedule, groups and quotas into one place, plus a bid simulator.",
           problem:
@@ -482,15 +420,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Groups, quotas and links",
             "Bid simulator",
           ],
-          visual: {
-            label: "From client to quota",
-            nodes: ["Client", "Pipeline", "Group", "Quota", "Bid"],
-            metrics: ["Multi-tenant", "REST API", "Flyway", "Docker Compose"],
-          },
         },
         {
           name: "Finder de Vagas TI",
           type: "Full stack / Public API",
+          summary:
+            "Tech job openings are spread across many portals. Finder imports them from public sources such as Greenhouse and Lever and brings them into one filtered search.",
           description:
             "A public search tool for tech jobs. A Fastify API imports openings from official public sources such as Greenhouse and Lever, and the Next.js frontend lets you search and filter by technology, company, work model, seniority, contract, location and salary.",
           problem:
@@ -501,15 +436,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Simple match by technology",
             "Swagger API docs",
           ],
-          visual: {
-            label: "From public source to search",
-            nodes: ["Greenhouse / Lever", "Import", "API", "Filters"],
-            metrics: ["REST", "Swagger", "Vitest", "Docker"],
-          },
         },
         {
           name: "My Demo App Tests",
           type: "QA / Mobile testing",
+          summary:
+            "Manual and automated tests for the Sauce Labs Android practice app. Every documented case has a Maestro flow with the same ID.",
           description:
             "Manual and automated tests for My Demo App, the Sauce Labs Android practice app. Each test case has its own document and, when automated, a Maestro flow with the same ID, so the automation is easy to find from the document.",
           problem:
@@ -520,15 +452,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Login, checkout and cart",
             "Same ID in document and flow",
           ],
-          visual: {
-            label: "From test case to flow",
-            nodes: ["Test case", "YAML flow", "Maestro", "Android emulator"],
-            metrics: ["Mobile", "Priorities", "Manual + automated", "QA study"],
-          },
         },
         {
           name: "CS2 Box Analyzer",
           type: "Chrome / Edge Extension",
+          summary:
+            "An extension that reads the page and estimates expected value and risk, without automating a single click.",
           description:
             "A passive risk analysis browser extension for Counter-Strike 2 case-opening websites. It reads visible page content and estimates expected value, ROI, house edge and risk classification without automating any user action.",
           problem:
@@ -539,15 +468,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "ROI and house edge metrics",
             "Risk classification",
           ],
-          visual: {
-            label: "Extension analysis flow",
-            nodes: ["Page data", "Parser", "Metrics", "Risk score"],
-            metrics: ["EV", "ROI", "House edge", "Risk"],
-          },
         },
         {
           name: "Price Tracking API",
           type: "Backend / API",
+          summary:
+            "Price history and Telegram alerts. Scraping runs in background workers, so the API never blocks.",
           description:
             "A price monitoring API with alerts. You register a product URL and a target price; a background worker checks the price periodically, stores the history and sends a Telegram message when the price reaches the target.",
           problem:
@@ -558,15 +484,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Scheduling with Celery Beat",
             "Telegram alerts",
           ],
-          visual: {
-            label: "Product URL to alert",
-            nodes: ["Product URL", "Scraper", "Queue", "Database", "Alert"],
-            metrics: ["REST", "Workers", "History", "Telegram"],
-          },
         },
         {
           name: "Orbit ERP",
           type: "Web system / Inventory management",
+          summary:
+            "Inventory for businesses still on spreadsheets: stock in and out with balance validation and low-stock alerts.",
           description:
             "An inventory control web system for businesses still managing products in spreadsheets: products with profit margin, stock in and out with balance validation, a dashboard with low-stock alerts and PDF reports.",
           problem:
@@ -577,78 +500,109 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Low-stock alerts",
             "PDF reports",
           ],
-          visual: {
-            label: "Inventory operations",
-            nodes: ["Products", "Stock moves", "Reports", "PostgreSQL"],
-            metrics: ["Dashboard", "Login", "CRUD", "PDF"],
-          },
+        },
+      ],
+    },
+    about: {
+      eyebrow: "About",
+      paragraph:
+        "I'm 21 and I build with the user in mind for when things go *wrong.* I make web systems, landing pages and automations, and I'm deciding whether my next step is *dev, QA or cloud.* I don't sell myself as senior. I sell myself as someone who *finishes.*",
+      skills: [
+        {
+          title: "Web",
+          items: "Next.js, React, TypeScript, Tailwind, HTML and CSS",
+          areas: ["dev"],
+        },
+        {
+          title: "Data and API",
+          items: "PostgreSQL, Prisma, FastAPI, Django, Fastify, Redis",
+          areas: ["dev"],
+        },
+        {
+          title: "Testing",
+          items: "Maestro, Vitest, manual flow testing",
+          areas: ["qa"],
+        },
+        {
+          title: "Infra",
+          items: "Linux, Docker, GitHub Actions, Vercel",
+          areas: ["cloud"],
         },
       ],
     },
     journey: {
       eyebrow: "Journey",
-      title: "A growth-oriented path into complete application development.",
-      description:
-        "The story is intentionally honest: focused progression through practical projects, automation, web interfaces, backend APIs and full systems.",
-      milestones: [
+      title: "From script to shipped product.",
+      steps: [
         {
-          marker: "01",
-          title: "Started with practical software projects",
-          description:
-            "Built a foundation by studying programming through useful applications instead of isolated exercises.",
+          when: "Start",
+          title: "Python automations",
+          description: "Scripts and desktop utilities for tasks I kept repeating every day.",
         },
         {
-          marker: "02",
-          title: "Created automation and desktop tools with Python",
+          when: "Then",
+          title: "APIs and web systems",
           description:
-            "Explored scripts, file workflows and Tkinter interfaces to solve focused day-to-day problems.",
+            "FastAPI, Django and PostgreSQL in personal projects. Then Next.js and TypeScript.",
         },
         {
-          marker: "03",
-          title: "Moved into modern web interfaces",
+          when: "Testing",
+          title: "QA with Maestro",
           description:
-            "Advanced into React, Next.js, TypeScript and Tailwind CSS to build responsive frontend experiences.",
+            "End-to-end tests on the My Demo App mobile app, with the cases documented on GitHub.",
         },
         {
-          marker: "04",
-          title: "Built APIs and data-backed systems",
-          description:
-            "Developed backend projects with FastAPI, Django, PostgreSQL and Redis, connecting data models to real application flows.",
+          when: "Freelance",
+          title: "First client",
+          description: "The Giselle Meyer Pilates Studio landing page, from brief to launch.",
         },
         {
-          marker: "05",
-          title: "Current focus: complete software products",
+          when: "Now",
+          title: "Lume in production",
           description:
-            "Combining backend engineering, frontend clarity, integrations and deployment workflows into structured full stack applications.",
+            "My own product, live. Billing is ready in the code and not switched on yet.",
+        },
+        {
+          when: "Education",
+          title: "Unopar, Palhoça campus",
+          description: "Higher education in progress.",
         },
       ],
     },
     contact: {
       eyebrow: "Contact",
-      title: "Let's build something solid.",
+      titleTop: "Got something",
+      titleBottom: "to ship?",
       description:
-        "Have an idea, project or system that needs structure? I can help transform it into a clear, functional and scalable application.",
+        "A landing page, a system that gets the spreadsheet out of the way, an automation, or a job opening. Tell me in two lines and I'll reply.",
       links: {
+        email: "Email",
         github: "GitHub",
         linkedin: "LinkedIn",
-        email: "Email",
       },
       form: {
+        kindsAria: "Request type",
+        kinds: [
+          { value: "landing", label: "Landing page" },
+          { value: "system", label: "Web system" },
+          { value: "automation", label: "Automation" },
+          { value: "job", label: "Job opening" },
+        ],
         name: "Name",
         namePlaceholder: "Your name",
         email: "Email",
-        emailPlaceholder: "you@email.com",
-        project: "Project",
-        projectPlaceholder: "Tell me what you want to build...",
-        submit: "Send message",
-        sending: "Sending message...",
-        success: "Message sent successfully. Thanks for reaching out!",
-        error: "Unable to send the message. Please try again soon.",
-        subject: "New contact from Rafael Tavares portfolio",
+        emailPlaceholder: "Your email",
+        message: "Message",
+        messagePlaceholder: "What do you need?",
+        submit: "Send",
+        sending: "Sending…",
+        success: "Message sent. Thanks! I'll reply by email.",
+        error: "Couldn't send it right now. Try again in a moment or send me an email.",
+        subject: "Portfolio",
       },
     },
     footer: {
-      built: "Built with Next.js, React Three Fiber and attention to structure.",
+      place: "Rafael Tavares · Palhoça, Brazil",
     },
   },
 };
