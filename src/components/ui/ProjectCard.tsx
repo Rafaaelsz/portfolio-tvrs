@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight, Github, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, type CSSProperties, type MouseEvent } from "react";
 import type { Project } from "@/data/projects";
@@ -42,7 +42,11 @@ export function ProjectCard({ project, copy, labels, index }: ProjectCardProps) 
       transition={{ duration: 0.72, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6, rotateX: 1.2, rotateY: -1.2 }}
       onMouseMove={onMouseMove}
-      className="project-card group relative grid overflow-hidden rounded-3xl border border-white/10 bg-neutral-950/68 p-5 shadow-2xl shadow-black/20 backdrop-blur-md transition-colors duration-300 hover:border-white/16 md:grid-cols-[0.9fr_1.1fr] md:p-6"
+      className={`project-card group relative grid overflow-hidden rounded-3xl border bg-neutral-950/68 p-5 shadow-2xl shadow-black/20 backdrop-blur-md transition-colors duration-300 md:grid-cols-[0.9fr_1.1fr] md:p-6 ${
+        project.featured
+          ? "border-cyan-300/30 hover:border-cyan-300/45"
+          : "border-white/10 hover:border-white/16"
+      }`}
       style={
         {
           "--x": `${light.x}%`,
@@ -94,7 +98,15 @@ export function ProjectCard({ project, copy, labels, index }: ProjectCardProps) 
       </div>
 
       <div className="relative flex flex-col p-1 pt-6 md:p-6">
-        <p className="text-xs font-semibold uppercase text-neutral-500">{copy.type}</p>
+        <div className="flex flex-wrap items-center gap-2">
+          {project.featured && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-2.5 py-1 text-[11px] font-semibold uppercase text-cyan-200">
+              <Star className="size-3" aria-hidden="true" />
+              {labels.featuredLabel}
+            </span>
+          )}
+          <p className="text-xs font-semibold uppercase text-neutral-500">{copy.type}</p>
+        </div>
         <h3 className="mt-3 text-2xl font-semibold text-white">{copy.name}</h3>
         <p className="mt-4 text-sm leading-7 text-neutral-400">{copy.description}</p>
         <div className="mt-6 border-l border-white/12 pl-4">
@@ -113,16 +125,18 @@ export function ProjectCard({ project, copy, labels, index }: ProjectCardProps) 
             <TechBadge key={tech}>{tech}</TechBadge>
           ))}
         </div>
-        <div className="mt-7 flex gap-2">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.035] px-3 text-sm font-medium text-neutral-200 transition-colors hover:border-white/22 hover:bg-white/[0.06] hover:text-white"
-          >
-            <Github className="size-4" />
-            {labels.githubLabel}
-          </a>
+        <div className="mt-7 flex flex-wrap gap-2">
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.035] px-3 text-sm font-medium text-neutral-200 transition-colors hover:border-white/22 hover:bg-white/[0.06] hover:text-white"
+            >
+              <Github className="size-4" />
+              {labels.githubLabel}
+            </a>
+          )}
           {project.demo && (
             <a
               href={project.demo}
@@ -130,7 +144,7 @@ export function ProjectCard({ project, copy, labels, index }: ProjectCardProps) 
               rel="noreferrer"
               className="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-3 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-200"
             >
-              {labels.demoLabel}
+              {copy.linkLabel ?? labels.demoLabel}
               <ArrowUpRight className="size-4" />
             </a>
           )}

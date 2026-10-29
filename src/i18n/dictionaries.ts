@@ -98,13 +98,111 @@ export const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "Projetos",
       title: "Case studies com estética de produto para sistemas práticos.",
       description:
-        "Cada projeto destaca um tipo específico de pensamento de software: modelagem de dados, ferramenta de navegador, processamento assíncrono, utilitário desktop e entrega frontend responsiva.",
+        "Do produto que estou construindo, o Lume, a uma landing page para cliente, MVPs de SaaS, APIs e automação de testes mobile. Cada card mostra o problema, o que o projeto faz e a stack.",
       aside:
         "Os principais trabalhos são apresentados como fluxos de sistema para mostrar o que foi construído, por que importa e quais tecnologias sustentam a solução.",
       problemLabel: "Problema resolvido",
       githubLabel: "GitHub",
       demoLabel: "Demo",
+      featuredLabel: "Em destaque",
       items: [
+        {
+          name: "Lume",
+          type: "Micro-SaaS / CRM de prospecção",
+          description:
+            "CRM para freelancers e pequenas agências que vendem sites. Você cadastra ou importa empresas por CSV, acompanha cada lead no funil até o fechamento e gera a proposta comercial em PDF com escopo, valor, prazo e validade. Um assistente de IA resume o lead, sugere o próximo passo e rascunha a mensagem.",
+          problem:
+            "Quem vende site para negócio local costuma controlar contatos em planilha e conversa solta. O Lume junta a lista de empresas, o histórico de cada contato e a proposta no mesmo lugar.",
+          features: [
+            "Funil de leads com histórico",
+            "Importação de empresas por CSV",
+            "Propostas em PDF com texto sugerido pela IA",
+            "Busca de empresas sem site via Google Places e OpenStreetMap, sem scraping (ainda desligada)",
+          ],
+          linkLabel: "Conhecer o Lume",
+          visual: {
+            label: "Da empresa ao fechamento",
+            nodes: ["Empresa", "Lead", "Funil", "Proposta"],
+            metrics: ["CSV", "IA", "PDF", "Prisma"],
+          },
+        },
+        {
+          name: "Estúdio Pilates Giselle Meyer",
+          type: "Landing page / Cliente freelance",
+          description:
+            "Página única para um estúdio de Pilates com duas unidades no Centro de Florianópolis. Mostra unidades, horários e modalidades e leva a visitante a agendar a aula experimental pelo WhatsApp da unidade mais próxima, com a mensagem já pronta.",
+          problem:
+            "Com duas unidades, a visitante precisa saber qual fica mais perto e falar com a certa. Cada unidade tem o próprio botão de WhatsApp, que aparece nos cards, no bloco final e no botão flutuante.",
+          features: [
+            "WhatsApp por unidade com mensagem pronta",
+            "Espiral animada em canvas",
+            "Perguntas frequentes com <details>",
+            "HTML, CSS e JS puros, sem framework",
+          ],
+          linkLabel: "Ver site",
+          visual: {
+            label: "Visita até agendamento",
+            nodes: ["Hero", "Unidades", "Modalidades", "WhatsApp"],
+            metrics: ["2 unidades", "Mobile", "Teclado", "Sem build"],
+          },
+        },
+        {
+          name: "ConsorcioTrack",
+          type: "MVP de micro-SaaS B2B",
+          description:
+            "Sistema para corretores e pequenas equipes que vendem consórcio. Reúne funil comercial, clientes, histórico de contatos, agenda de follow-ups, grupos, cotas e um simulador de lance.",
+          problem:
+            "Cliente, grupo e cota costumam ficar em controles separados. O MVP liga os três ao funil e separa os dados por organização (multi-tenant).",
+          features: [
+            "Funil e follow-ups",
+            "Grupos e cotas vinculados ao cliente",
+            "Simulador de lance",
+            "API Spring Boot com migrações Flyway",
+          ],
+          visual: {
+            label: "Cliente, grupo e cota",
+            nodes: ["Cliente", "Funil", "Cota", "Lance"],
+            metrics: ["REST", "Multi-tenant", "Flyway", "Docker"],
+          },
+        },
+        {
+          name: "Finder Vagas TI",
+          type: "Full stack / Busca de vagas",
+          description:
+            "Busca pública de vagas de tecnologia com filtros por tecnologia, empresa, modalidade, senioridade, contrato, local e salário. As vagas entram por ingestão de fontes públicas oficiais, como Greenhouse e Lever.",
+          problem:
+            "Vagas de TI ficam espalhadas pelos sistemas de recrutamento de cada empresa. O projeto junta tudo numa busca só e calcula um match simples com as tecnologias que a pessoa conhece.",
+          features: [
+            "Filtros combinados e paginação",
+            "Ingestão de Greenhouse e Lever",
+            "Match por tecnologia",
+            "API documentada no Swagger",
+          ],
+          visual: {
+            label: "Fonte até busca",
+            nodes: ["Greenhouse / Lever", "Ingestão", "API Fastify", "Busca"],
+            metrics: ["REST", "Prisma", "Zod", "Swagger"],
+          },
+        },
+        {
+          name: "QA MyDemoApp",
+          type: "QA / Testes mobile",
+          description:
+            "Casos de teste documentados e automação com Maestro sobre o app Android de prática da Sauce Labs. Cada caso tem o mesmo ID no documento e no flow, para achar a automação correspondente.",
+          problem:
+            "Praticar o ciclo de QA de ponta a ponta: escrever o caso de teste, automatizar e rodar no CI, num emulador Android dentro do GitHub Actions.",
+          features: [
+            "Login, compra completa e carrinho",
+            "Flows Maestro em YAML",
+            "Emulador Android no GitHub Actions",
+            "ID igual no doc e no flow",
+          ],
+          visual: {
+            label: "Caso de teste até CI",
+            nodes: ["Test case", "Flow", "Emulador", "CI"],
+            metrics: ["Maestro", "Android", "YAML", "Actions"],
+          },
+        },
         {
           name: "Orbit ERP",
           type: "Sistema ERP / Gestão Empresarial",
@@ -160,44 +258,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
             label: "URL do produto até alerta",
             nodes: ["URL", "Scraper", "Fila", "Banco", "Alerta"],
             metrics: ["REST", "Workers", "Histórico", "Notificação"],
-          },
-        },
-        {
-          name: "ConverteAi",
-          type: "Aplicação Desktop",
-          description:
-            "Aplicação desktop em Python com interface Tkinter para converter múltiplos formatos de arquivo de forma simples e prática.",
-          problem:
-            "Conversões frequentes de arquivos devem ser diretas, previsíveis e disponíveis fora do navegador.",
-          features: [
-            "Interface desktop",
-            "Conversão em lote",
-            "Processamento de imagens",
-            "Executável empacotado",
-          ],
-          visual: {
-            label: "Fluxo de conversão",
-            nodes: ["Arquivos", "Validação", "Conversão", "Saída"],
-            metrics: ["Local", "Prático", "Empacotado", "Utilitário"],
-          },
-        },
-        {
-          name: "Floricultura Landing Page",
-          type: "Frontend / Landing Page",
-          description:
-            "Landing page moderna e responsiva para uma floricultura, focada em apresentação visual, conversão de clientes e experiência mobile.",
-          problem:
-            "Um negócio local precisa de uma página polida que apresente produtos com clareza e conduza visitantes ao contato.",
-          features: [
-            "Layout responsivo",
-            "Apresentação de produtos",
-            "CTA focado em conversão",
-            "Interface mobile-first",
-          ],
-          visual: {
-            label: "Experiência da landing page",
-            nodes: ["Hero", "Produtos", "Mobile", "CTA"],
-            metrics: ["Responsivo", "Visual", "Rápido", "Claro"],
           },
         },
       ],
@@ -363,13 +423,111 @@ export const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "Projects",
       title: "Product-style case studies for practical systems.",
       description:
-        "Each project highlights a specific kind of software thinking: data modeling, browser tooling, async processing, desktop utility and responsive frontend delivery.",
+        "From the product I am building, Lume, to a client landing page, SaaS MVPs, APIs and mobile test automation. Each card shows the problem, what the project does and the stack.",
       aside:
         "The strongest work is presented as system flows so visitors can see what was built, why it matters and which technologies carried the solution.",
       problemLabel: "Problem solved",
       githubLabel: "GitHub",
       demoLabel: "Demo",
+      featuredLabel: "Featured",
       items: [
+        {
+          name: "Lume",
+          type: "Micro-SaaS / Prospecting CRM",
+          description:
+            "A CRM for freelancers and small agencies that sell websites. You add or import businesses from CSV, follow each lead through the pipeline until the deal closes and generate a PDF proposal with scope, price, deadline and validity. An AI assistant summarizes the lead, suggests the next step and drafts the message.",
+          problem:
+            "People who sell websites to local businesses usually track contacts in spreadsheets and scattered chats. Lume keeps the business list, each contact's history and the proposal in one place.",
+          features: [
+            "Lead pipeline with history",
+            "Business import from CSV",
+            "PDF proposals with AI-suggested copy",
+            "Search for businesses without a website via Google Places and OpenStreetMap, no scraping (not enabled yet)",
+          ],
+          linkLabel: "Visit Lume",
+          visual: {
+            label: "From business to closed deal",
+            nodes: ["Business", "Lead", "Pipeline", "Proposal"],
+            metrics: ["CSV", "AI", "PDF", "Prisma"],
+          },
+        },
+        {
+          name: "Estúdio Pilates Giselle Meyer",
+          type: "Landing page / Freelance client",
+          description:
+            "A single page for a Pilates studio with two locations in downtown Florianópolis, Brazil. It shows locations, hours and class types and leads visitors to book a trial class on the WhatsApp of the nearest location, with the message already written.",
+          problem:
+            "With two locations, visitors need to know which one is closer and reach the right one. Each location has its own WhatsApp button, shown on the location cards, in the final section and in the floating button.",
+          features: [
+            "WhatsApp per location with a ready message",
+            "Animated canvas spiral",
+            "FAQ built with <details>",
+            "Plain HTML, CSS and JS, no framework",
+          ],
+          linkLabel: "Visit site",
+          visual: {
+            label: "Visit to booking",
+            nodes: ["Hero", "Locations", "Classes", "WhatsApp"],
+            metrics: ["2 locations", "Mobile", "Keyboard", "No build"],
+          },
+        },
+        {
+          name: "ConsorcioTrack",
+          type: "B2B micro-SaaS MVP",
+          description:
+            "A system for brokers and small teams that sell consórcio, a Brazilian pooled-purchase plan. It brings together the sales pipeline, clients, contact history, follow-up agenda, groups, quotas and a bid simulator.",
+          problem:
+            "Client, group and quota usually live in separate spreadsheets. The MVP ties all three to the pipeline and keeps each organization's data apart (multi-tenant).",
+          features: [
+            "Pipeline and follow-ups",
+            "Groups and quotas linked to the client",
+            "Bid simulator",
+            "Spring Boot API with Flyway migrations",
+          ],
+          visual: {
+            label: "Client, group and quota",
+            nodes: ["Client", "Pipeline", "Quota", "Bid"],
+            metrics: ["REST", "Multi-tenant", "Flyway", "Docker"],
+          },
+        },
+        {
+          name: "Finder Vagas TI",
+          type: "Full stack / Job search",
+          description:
+            "Public search for tech jobs with filters for technology, company, work model, seniority, contract, location and salary. Jobs come in through ingestion from official public sources such as Greenhouse and Lever.",
+          problem:
+            "Tech jobs are spread across each company's applicant tracking system. The project gathers them into a single search and computes a simple match against the technologies a person knows.",
+          features: [
+            "Combined filters and pagination",
+            "Greenhouse and Lever ingestion",
+            "Match by technology",
+            "API documented in Swagger",
+          ],
+          visual: {
+            label: "Source to search",
+            nodes: ["Greenhouse / Lever", "Ingestion", "Fastify API", "Search"],
+            metrics: ["REST", "Prisma", "Zod", "Swagger"],
+          },
+        },
+        {
+          name: "QA MyDemoApp",
+          type: "QA / Mobile testing",
+          description:
+            "Documented test cases and Maestro automation for Sauce Labs' Android practice app. Each case has the same ID in the document and in the flow, so the matching automation is easy to find.",
+          problem:
+            "Practicing the QA cycle end to end: write the test case, automate it and run it in CI, on an Android emulator inside GitHub Actions.",
+          features: [
+            "Login, full checkout and cart",
+            "Maestro flows in YAML",
+            "Android emulator on GitHub Actions",
+            "Same ID in doc and flow",
+          ],
+          visual: {
+            label: "Test case to CI",
+            nodes: ["Test case", "Flow", "Emulator", "CI"],
+            metrics: ["Maestro", "Android", "YAML", "Actions"],
+          },
+        },
         {
           name: "Orbit ERP",
           type: "ERP System / Business Management",
@@ -425,44 +583,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
             label: "Product URL to alert",
             nodes: ["Product URL", "Scraper", "Queue", "Database", "Alert"],
             metrics: ["REST", "Workers", "History", "Notify"],
-          },
-        },
-        {
-          name: "ConverteAi",
-          type: "Desktop Application",
-          description:
-            "A Python desktop application with a Tkinter interface for converting multiple file formats in a simple and practical way.",
-          problem:
-            "Frequent file conversion should feel direct, predictable and available outside the browser.",
-          features: [
-            "Desktop interface",
-            "Batch-oriented conversion",
-            "Image processing",
-            "Packaged executable",
-          ],
-          visual: {
-            label: "Desktop conversion flow",
-            nodes: ["Files", "Validation", "Convert", "Output"],
-            metrics: ["Local", "Practical", "Packaged", "Utility"],
-          },
-        },
-        {
-          name: "Floricultura Landing Page",
-          type: "Frontend / Landing Page",
-          description:
-            "A modern and responsive landing page for a flower shop, focused on visual presentation, customer conversion and mobile experience.",
-          problem:
-            "A local business needs a polished page that presents products clearly and guides visitors toward contact.",
-          features: [
-            "Responsive layout",
-            "Product presentation",
-            "Conversion-focused CTA",
-            "Mobile-first interface",
-          ],
-          visual: {
-            label: "Landing page experience",
-            nodes: ["Hero", "Products", "Mobile", "CTA"],
-            metrics: ["Responsive", "Visual", "Fast", "Clear"],
           },
         },
       ],

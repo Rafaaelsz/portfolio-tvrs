@@ -6,6 +6,8 @@ export type ProjectCopy = {
   description: string;
   problem: string;
   features: string[];
+  /** Texto do botão do link externo; sem ele, usa `projects.demoLabel`. */
+  linkLabel?: string;
   visual: {
     label: string;
     nodes: string[];
@@ -73,6 +75,7 @@ export type Dictionary = {
     problemLabel: string;
     githubLabel: string;
     demoLabel: string;
+    featuredLabel: string;
     items: ProjectCopy[];
   };
   journey: {
