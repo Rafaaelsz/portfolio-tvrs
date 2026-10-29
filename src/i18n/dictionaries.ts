@@ -98,7 +98,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "Projetos",
       title: "Case studies com estética de produto para sistemas práticos.",
       description:
-        "Cada projeto destaca um tipo específico de pensamento de software: modelagem de dados, ferramenta de navegador, processamento assíncrono, utilitário desktop e entrega frontend responsiva.",
+        "Um produto próprio, um trabalho para cliente e projetos que mostram como resolvo problemas: CRM e SaaS, landing page, APIs, processamento assíncrono, extensão de navegador e testes de QA.",
       aside:
         "Os principais trabalhos são apresentados como fluxos de sistema para mostrar o que foi construído, por que importa e quais tecnologias sustentam a solução.",
       problemLabel: "Problema resolvido",
@@ -106,31 +106,109 @@ export const dictionaries: Record<Locale, Dictionary> = {
       demoLabel: "Demo",
       items: [
         {
-          name: "Orbit ERP",
-          type: "Sistema ERP / Gestão Empresarial",
+          name: "Lume",
+          type: "Produto próprio / SaaS",
           description:
-            "Sistema web completo para controle de estoque e gestão empresarial, focado em usabilidade, organização de dados e clareza operacional.",
+            "CRM de prospecção para freelancers e pequenas agências que vendem sites. Você cola um link do Google Maps, do Instagram ou de um site, ou importa uma planilha CSV, e o Lume cria o lead com nome, endereço, contatos e a indicação de se a empresa parece ter site. Daí em diante, o lead segue no funil até o fechamento, com proposta em PDF e lembrete de follow-up.",
           problem:
-            "Dados de negócio precisam de fluxos claros: produtos, movimentações, estado do estoque, relatórios e decisões conectados ao mesmo modelo.",
+            "Quem vende sites costuma prospectar em planilha e em conversas soltas no WhatsApp. O histórico se perde, o follow-up é esquecido e não dá para ver em que etapa o funil vaza.",
           features: [
-            "Fluxos de estoque",
-            "Gestão de produtos",
-            "Relatórios operacionais",
-            "Interface guiada por dados",
+            "Lead a partir de link ou CSV",
+            "Funil com aviso de lead esfriando",
+            "Propostas comerciais em PDF",
+            "Assistente de IA para resumo e mensagens",
+          ],
+          demoLabel: "Conhecer o Lume",
+          visual: {
+            label: "Do link colado ao contrato",
+            nodes: ["Link / CSV", "Lead", "Funil", "Proposta", "Fechamento"],
+            metrics: ["SaaS", "Planos Grátis e Pro", "IA sob demanda", "PDF"],
+          },
+        },
+        {
+          name: "Estúdio Pilates Giselle Meyer",
+          type: "Cliente freelance / Landing page",
+          description:
+            "Landing page de um estúdio de Pilates com duas unidades no Centro de Florianópolis. A página apresenta o método, as unidades, os aparelhos e as dúvidas mais comuns, e leva a visitante a agendar uma aula experimental pelo WhatsApp da unidade mais próxima, com a mensagem já escrita.",
+          problem:
+            "Cada unidade do estúdio atende por um WhatsApp diferente. A página precisava mostrar com clareza onde fica cada uma e mandar o contato para o número certo.",
+          features: [
+            "Um botão de agendamento por unidade",
+            "Mensagem de WhatsApp pronta",
+            "Layout mobile-first",
+            "HTML, CSS e JS sem framework",
+          ],
+          demoLabel: "Ver o site",
+          visual: {
+            label: "Da visita ao agendamento",
+            nodes: ["Página", "Unidade", "WhatsApp", "Aula experimental"],
+            metrics: ["Cliente real", "2 unidades", "Mobile-first", "Sem framework"],
+          },
+        },
+        {
+          name: "ConsorcioTrack",
+          type: "MVP / Micro-SaaS B2B",
+          description:
+            "MVP de um sistema para corretores, consultores e pequenas equipes que vendem consórcio. Reúne o funil comercial, os clientes, o histórico de contatos, a agenda de follow-ups, os grupos e as cotas num só lugar, com um simulador de lance.",
+          problem:
+            "Vender consórcio exige acompanhar cliente, grupo, cota e lance ao mesmo tempo, e essa informação costuma ficar espalhada entre planilhas e anotações.",
+          features: [
+            "Funil comercial e follow-ups",
+            "Clientes com histórico de contatos",
+            "Grupos, cotas e vínculos",
+            "Simulador de lance",
           ],
           visual: {
-            label: "Operações de estoque",
-            nodes: ["Produtos", "Movimentos", "Relatórios", "PostgreSQL"],
-            metrics: ["Schema", "Fluxos", "CRUD", "Dashboards"],
+            label: "Do cliente à cota",
+            nodes: ["Cliente", "Funil", "Grupo", "Cota", "Lance"],
+            metrics: ["Multi-tenant", "API REST", "Flyway", "Docker Compose"],
+          },
+        },
+        {
+          name: "Finder de Vagas TI",
+          type: "Full stack / API pública",
+          description:
+            "Buscador público de vagas de tecnologia. Uma API em Fastify importa vagas de fontes públicas oficiais, como Greenhouse e Lever, e o frontend em Next.js permite buscar e filtrar por tecnologia, empresa, modalidade, senioridade, contrato, localização e salário.",
+          problem:
+            "As vagas de tecnologia ficam espalhadas por vários portais de recrutamento, cada um com o seu formato e os seus filtros.",
+          features: [
+            "Importação de Greenhouse e Lever",
+            "Filtros combinados e paginação",
+            "Match simples por tecnologia",
+            "Documentação da API no Swagger",
+          ],
+          visual: {
+            label: "Da fonte pública à busca",
+            nodes: ["Greenhouse / Lever", "Importação", "API", "Filtros"],
+            metrics: ["REST", "Swagger", "Vitest", "Docker"],
+          },
+        },
+        {
+          name: "Testes do My Demo App",
+          type: "QA / Testes mobile",
+          description:
+            "Testes manuais e automatizados do My Demo App, o app Android de prática da Sauce Labs. Cada caso de teste tem a sua documentação e, quando automatizado, um flow do Maestro com o mesmo ID, para achar a automação a partir do documento.",
+          problem:
+            "Um teste que não está escrito não se repete do mesmo jeito. Documentar cada caso e ligá-lo à automação deixa a verificação reproduzível.",
+          features: [
+            "Casos de teste documentados",
+            "Flows do Maestro em YAML",
+            "Login, compra e carrinho",
+            "Mesmo ID no documento e no flow",
+          ],
+          visual: {
+            label: "Do caso de teste ao flow",
+            nodes: ["Caso de teste", "Flow YAML", "Maestro", "Emulador Android"],
+            metrics: ["Mobile", "Prioridades", "Manual + automação", "Estudo de QA"],
           },
         },
         {
           name: "CS2 Box Analyzer",
           type: "Extensão Chrome / Edge",
           description:
-            "Extensão de análise passiva de risco para sites de abertura de caixas de Counter-Strike 2. Lê conteúdo visível da página e estima valor esperado, ROI, house edge e classificação de risco sem automatizar ações do usuário.",
+            "Extensão de análise passiva de risco para sites de abertura de caixas de Counter-Strike 2. Lê o conteúdo visível da página e estima valor esperado, ROI, house edge e classificação de risco, sem automatizar nenhuma ação do usuário.",
           problem:
-            "Dados complexos da página só se tornam úteis quando são extraídos, normalizados e apresentados como informação de risco clara.",
+            "Os dados de uma caixa só ajudam a decidir quando são extraídos, normalizados e mostrados como uma informação de risco clara.",
           features: [
             "Leitura de conteúdo visível",
             "Estimativa de valor esperado",
@@ -147,57 +225,38 @@ export const dictionaries: Record<Locale, Dictionary> = {
           name: "Price Tracking API",
           type: "Backend / API",
           description:
-            "API para monitoramento de preços e alertas automatizados. Armazena histórico de preços, processa tarefas assíncronas e notifica usuários sobre mudanças relevantes.",
+            "API de monitoramento de preços com alertas. Você cadastra a URL de um produto e um preço-alvo; um worker em background consulta o preço periodicamente, guarda o histórico e avisa pelo Telegram quando o valor chega ao alvo.",
           problem:
-            "Monitoramento de preços exige persistência confiável, jobs em background e alertas sem bloquear as requisições da API.",
+            "Monitorar preço exige consultas periódicas, histórico confiável e alertas, sem travar as requisições da API.",
           features: [
-            "Pipeline assíncrono",
+            "Scraping em background",
             "Histórico de preços",
-            "Fila de jobs",
-            "Alertas automáticos",
+            "Agendamento com Celery Beat",
+            "Alerta pelo Telegram",
           ],
           visual: {
-            label: "URL do produto até alerta",
+            label: "Da URL do produto ao alerta",
             nodes: ["URL", "Scraper", "Fila", "Banco", "Alerta"],
-            metrics: ["REST", "Workers", "Histórico", "Notificação"],
+            metrics: ["REST", "Workers", "Histórico", "Telegram"],
           },
         },
         {
-          name: "ConverteAi",
-          type: "Aplicação Desktop",
+          name: "Orbit ERP",
+          type: "Sistema web / Gestão de estoque",
           description:
-            "Aplicação desktop em Python com interface Tkinter para converter múltiplos formatos de arquivo de forma simples e prática.",
+            "Sistema web de controle de estoque para quem ainda gerencia produtos em planilha: cadastro de produtos com margem de lucro, entradas e saídas com validação de saldo, dashboard com alerta de estoque baixo e relatórios em PDF.",
           problem:
-            "Conversões frequentes de arquivos devem ser diretas, previsíveis e disponíveis fora do navegador.",
+            "Planilhas de estoque desorganizadas não impedem venda sem saldo nem mostram o que está acabando.",
           features: [
-            "Interface desktop",
-            "Conversão em lote",
-            "Processamento de imagens",
-            "Executável empacotado",
+            "Entradas e saídas com validação",
+            "Produtos com margem de lucro",
+            "Alerta de estoque baixo",
+            "Relatórios em PDF",
           ],
           visual: {
-            label: "Fluxo de conversão",
-            nodes: ["Arquivos", "Validação", "Conversão", "Saída"],
-            metrics: ["Local", "Prático", "Empacotado", "Utilitário"],
-          },
-        },
-        {
-          name: "Floricultura Landing Page",
-          type: "Frontend / Landing Page",
-          description:
-            "Landing page moderna e responsiva para uma floricultura, focada em apresentação visual, conversão de clientes e experiência mobile.",
-          problem:
-            "Um negócio local precisa de uma página polida que apresente produtos com clareza e conduza visitantes ao contato.",
-          features: [
-            "Layout responsivo",
-            "Apresentação de produtos",
-            "CTA focado em conversão",
-            "Interface mobile-first",
-          ],
-          visual: {
-            label: "Experiência da landing page",
-            nodes: ["Hero", "Produtos", "Mobile", "CTA"],
-            metrics: ["Responsivo", "Visual", "Rápido", "Claro"],
+            label: "Operações de estoque",
+            nodes: ["Produtos", "Movimentos", "Relatórios", "PostgreSQL"],
+            metrics: ["Dashboard", "Login", "CRUD", "PDF"],
           },
         },
       ],
@@ -363,7 +422,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "Projects",
       title: "Product-style case studies for practical systems.",
       description:
-        "Each project highlights a specific kind of software thinking: data modeling, browser tooling, async processing, desktop utility and responsive frontend delivery.",
+        "My own product, client work and projects that show how I solve problems: CRM and SaaS, landing pages, APIs, async processing, browser tooling and QA testing.",
       aside:
         "The strongest work is presented as system flows so visitors can see what was built, why it matters and which technologies carried the solution.",
       problemLabel: "Problem solved",
@@ -371,36 +430,114 @@ export const dictionaries: Record<Locale, Dictionary> = {
       demoLabel: "Demo",
       items: [
         {
-          name: "Orbit ERP",
-          type: "ERP System / Business Management",
+          name: "Lume",
+          type: "Own product / SaaS",
           description:
-            "A complete web system for inventory control and business management, focused on usability, data organization and operational clarity.",
+            "A prospecting CRM for freelancers and small agencies that sell websites. You paste a Google Maps, Instagram or website link, or import a CSV spreadsheet, and Lume creates the lead with name, address, contacts and whether the business appears to have a website. From there, the lead moves through the pipeline until the deal closes, with a PDF proposal and follow-up reminders.",
           problem:
-            "Business data needs clear flows: products, movements, stock state, reports and decisions all connected to the same model.",
+            "People who sell websites often prospect in spreadsheets and scattered WhatsApp chats. History gets lost, follow-ups are forgotten and there is no way to see where the pipeline leaks.",
           features: [
-            "Inventory workflows",
-            "Product and stock management",
-            "Operational reports",
-            "Database-driven screens",
+            "Leads from a link or CSV",
+            "Pipeline that flags cooling leads",
+            "Sales proposals as PDF",
+            "AI assistant for summaries and messages",
+          ],
+          demoLabel: "See Lume",
+          visual: {
+            label: "From pasted link to contract",
+            nodes: ["Link / CSV", "Lead", "Pipeline", "Proposal", "Closed"],
+            metrics: ["SaaS", "Free and Pro plans", "On-demand AI", "PDF"],
+          },
+        },
+        {
+          name: "Giselle Meyer Pilates Studio",
+          type: "Freelance client / Landing page",
+          description:
+            "A landing page for a Pilates studio with two locations in downtown Florianópolis, Brazil. It presents the method, the locations, the equipment and common questions, and leads visitors to book a trial class through the WhatsApp number of the nearest location, with the message already written.",
+          problem:
+            "Each location answers on a different WhatsApp number. The page had to make it clear where each one is and send the visitor to the right number.",
+          features: [
+            "One booking button per location",
+            "Prefilled WhatsApp message",
+            "Mobile-first layout",
+            "Plain HTML, CSS and JS",
+          ],
+          demoLabel: "Visit the site",
+          visual: {
+            label: "From visit to booking",
+            nodes: ["Page", "Location", "WhatsApp", "Trial class"],
+            metrics: ["Real client", "2 locations", "Mobile-first", "No framework"],
+          },
+        },
+        {
+          name: "ConsorcioTrack",
+          type: "MVP / B2B micro-SaaS",
+          description:
+            "An MVP for brokers, consultants and small teams that sell consórcio, a Brazilian pooled-purchase plan. It brings the sales pipeline, clients, contact history, follow-up schedule, groups and quotas into one place, plus a bid simulator.",
+          problem:
+            "Selling consórcio means tracking client, group, quota and bid at the same time, and that information usually ends up spread across spreadsheets and notes.",
+          features: [
+            "Sales pipeline and follow-ups",
+            "Clients with contact history",
+            "Groups, quotas and links",
+            "Bid simulator",
           ],
           visual: {
-            label: "Inventory operations",
-            nodes: ["Products", "Stock moves", "Reports", "PostgreSQL"],
-            metrics: ["Schema", "Workflows", "CRUD", "Dashboards"],
+            label: "From client to quota",
+            nodes: ["Client", "Pipeline", "Group", "Quota", "Bid"],
+            metrics: ["Multi-tenant", "REST API", "Flyway", "Docker Compose"],
+          },
+        },
+        {
+          name: "Finder de Vagas TI",
+          type: "Full stack / Public API",
+          description:
+            "A public search tool for tech jobs. A Fastify API imports openings from official public sources such as Greenhouse and Lever, and the Next.js frontend lets you search and filter by technology, company, work model, seniority, contract, location and salary.",
+          problem:
+            "Tech job openings are spread across many recruiting platforms, each with its own format and filters.",
+          features: [
+            "Greenhouse and Lever import",
+            "Combined filters and pagination",
+            "Simple match by technology",
+            "Swagger API docs",
+          ],
+          visual: {
+            label: "From public source to search",
+            nodes: ["Greenhouse / Lever", "Import", "API", "Filters"],
+            metrics: ["REST", "Swagger", "Vitest", "Docker"],
+          },
+        },
+        {
+          name: "My Demo App Tests",
+          type: "QA / Mobile testing",
+          description:
+            "Manual and automated tests for My Demo App, the Sauce Labs Android practice app. Each test case has its own document and, when automated, a Maestro flow with the same ID, so the automation is easy to find from the document.",
+          problem:
+            "A test that is not written down is not repeated the same way. Documenting each case and linking it to the automation makes the check reproducible.",
+          features: [
+            "Documented test cases",
+            "Maestro flows in YAML",
+            "Login, checkout and cart",
+            "Same ID in document and flow",
+          ],
+          visual: {
+            label: "From test case to flow",
+            nodes: ["Test case", "YAML flow", "Maestro", "Android emulator"],
+            metrics: ["Mobile", "Priorities", "Manual + automated", "QA study"],
           },
         },
         {
           name: "CS2 Box Analyzer",
           type: "Chrome / Edge Extension",
           description:
-            "A passive risk analysis browser extension for Counter-Strike 2 case-opening websites. It reads visible page content and estimates expected value, ROI, house edge and risk classification without automating user actions.",
+            "A passive risk analysis browser extension for Counter-Strike 2 case-opening websites. It reads visible page content and estimates expected value, ROI, house edge and risk classification without automating any user action.",
           problem:
-            "Complex page data becomes useful only when it is extracted, normalized and presented as clear risk information.",
+            "Case data only helps a decision when it is extracted, normalized and shown as clear risk information.",
           features: [
             "Visible content parsing",
             "Expected value estimates",
             "ROI and house edge metrics",
-            "Risk classification UI",
+            "Risk classification",
           ],
           visual: {
             label: "Extension analysis flow",
@@ -412,57 +549,38 @@ export const dictionaries: Record<Locale, Dictionary> = {
           name: "Price Tracking API",
           type: "Backend / API",
           description:
-            "An API for price monitoring and automated alerts. It stores product price history, processes asynchronous tasks and notifies users about relevant price changes.",
+            "A price monitoring API with alerts. You register a product URL and a target price; a background worker checks the price periodically, stores the history and sends a Telegram message when the price reaches the target.",
           problem:
-            "Price monitoring requires reliable persistence, background jobs and alerts without blocking API requests.",
+            "Price monitoring needs periodic checks, reliable history and alerts without blocking API requests.",
           features: [
-            "Async scraping pipeline",
-            "Price history storage",
-            "Background job queue",
-            "Automated alert flow",
+            "Background scraping",
+            "Price history",
+            "Scheduling with Celery Beat",
+            "Telegram alerts",
           ],
           visual: {
             label: "Product URL to alert",
             nodes: ["Product URL", "Scraper", "Queue", "Database", "Alert"],
-            metrics: ["REST", "Workers", "History", "Notify"],
+            metrics: ["REST", "Workers", "History", "Telegram"],
           },
         },
         {
-          name: "ConverteAi",
-          type: "Desktop Application",
+          name: "Orbit ERP",
+          type: "Web system / Inventory management",
           description:
-            "A Python desktop application with a Tkinter interface for converting multiple file formats in a simple and practical way.",
+            "An inventory control web system for businesses still managing products in spreadsheets: products with profit margin, stock in and out with balance validation, a dashboard with low-stock alerts and PDF reports.",
           problem:
-            "Frequent file conversion should feel direct, predictable and available outside the browser.",
+            "Messy inventory spreadsheets neither prevent selling without stock nor show what is running out.",
           features: [
-            "Desktop interface",
-            "Batch-oriented conversion",
-            "Image processing",
-            "Packaged executable",
+            "Stock moves with validation",
+            "Products with profit margin",
+            "Low-stock alerts",
+            "PDF reports",
           ],
           visual: {
-            label: "Desktop conversion flow",
-            nodes: ["Files", "Validation", "Convert", "Output"],
-            metrics: ["Local", "Practical", "Packaged", "Utility"],
-          },
-        },
-        {
-          name: "Floricultura Landing Page",
-          type: "Frontend / Landing Page",
-          description:
-            "A modern and responsive landing page for a flower shop, focused on visual presentation, customer conversion and mobile experience.",
-          problem:
-            "A local business needs a polished page that presents products clearly and guides visitors toward contact.",
-          features: [
-            "Responsive layout",
-            "Product presentation",
-            "Conversion-focused CTA",
-            "Mobile-first interface",
-          ],
-          visual: {
-            label: "Landing page experience",
-            nodes: ["Hero", "Products", "Mobile", "CTA"],
-            metrics: ["Responsive", "Visual", "Fast", "Clear"],
+            label: "Inventory operations",
+            nodes: ["Products", "Stock moves", "Reports", "PostgreSQL"],
+            metrics: ["Dashboard", "Login", "CRUD", "PDF"],
           },
         },
       ],

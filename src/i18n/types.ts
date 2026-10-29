@@ -6,6 +6,8 @@ export type ProjectCopy = {
   description: string;
   problem: string;
   features: string[];
+  /** Texto do botão do link (`demo`) quando "Demo" não descreve bem, como num site de cliente. */
+  demoLabel?: string;
   visual: {
     label: string;
     nodes: string[];
