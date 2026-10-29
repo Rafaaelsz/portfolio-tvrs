@@ -114,15 +114,17 @@ export function ProjectCard({ project, copy, labels, index }: ProjectCardProps) 
           ))}
         </div>
         <div className="mt-7 flex gap-2">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.035] px-3 text-sm font-medium text-neutral-200 transition-colors hover:border-white/22 hover:bg-white/[0.06] hover:text-white"
-          >
-            <Github className="size-4" />
-            {labels.githubLabel}
-          </a>
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.035] px-3 text-sm font-medium text-neutral-200 transition-colors hover:border-white/22 hover:bg-white/[0.06] hover:text-white"
+            >
+              <Github className="size-4" />
+              {labels.githubLabel}
+            </a>
+          )}
           {project.demo && (
             <a
               href={project.demo}
@@ -130,7 +132,7 @@ export function ProjectCard({ project, copy, labels, index }: ProjectCardProps) 
               rel="noreferrer"
               className="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-3 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-200"
             >
-              {labels.demoLabel}
+              {copy.demoLabel ?? labels.demoLabel}
               <ArrowUpRight className="size-4" />
             </a>
           )}
