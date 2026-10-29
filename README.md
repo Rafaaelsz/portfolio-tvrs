@@ -6,7 +6,7 @@ Portfólio profissional de Rafael Tavares, Desenvolvedor Full Stack, criado para
 
 Deploy atual:
 
-https://portfolio-tvrs-six.vercel.app/
+https://rafaeltavares-webport.vercel.app/
 
 ## Objetivo
 
@@ -29,7 +29,7 @@ O objetivo deste portfólio é comunicar uma atuação full stack com forte base
 
 - Landing page responsiva com design dark-first.
 - Visual "Eclipse": hero com um eclipse em CSS puro (borda de luz girando e reflexo que segue o cursor), sem WebGL.
-- Bento de projetos com holofote que segue o cursor e o print real da Lume sob um funil de barras de luz.
+- Bento de projetos com holofote que segue o cursor e o print real do Lume sob um funil de barras de luz.
 - Seletor "Contratando para: Tudo / Dev / QA / Cloud", que reordena e esmaece os projetos, acende o bloco de stack da área e muda o texto sugerido do contato. A escolha vai para a URL (`/?area=qa`), para mandar um link já filtrado.
 - Seção Sobre com um parágrafo que acende palavra por palavra conforme a rolagem.
 - Projetos apresentados como pequenos case studies.

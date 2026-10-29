@@ -25,10 +25,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       titleTop: "Eu construo",
       titleLit: "e coloco no ar.",
       description:
-        "Sistemas web, landing pages e automações. O mais recente é **a Lume**, um CRM para quem vende sites, que desenhei, programei e mantenho sozinho.",
+        "Sistemas web, landing pages e automações. O mais recente é **o Lume**, um CRM para quem vende sites, que desenhei, programei e mantenho sozinho.",
       ctas: {
         work: "Ver o trabalho",
-        lume: "Conhecer a Lume ↗",
+        lume: "Conhecer o Lume ↗",
       },
       liveLabel: "No ar agora",
     },
@@ -43,8 +43,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
       pitch: {
         all: "Escolha uma área e os projetos se reorganizam: o que mais conta para ela sobe.",
-        dev: "Faço a feature inteira: **modelo o banco, escrevo a API e entrego a tela.** A Lume é o exemplo mais completo, e está no ar.",
-        qa: "Penso primeiro **onde o usuário tropeça.** Escrevo testes de ponta a ponta com Maestro, e a Lume tem testes com Vitest rodando contra um Postgres de verdade.",
+        dev: "Faço a feature inteira: **modelo o banco, escrevo a API e entrego a tela.** O Lume é o exemplo mais completo, e está no ar.",
+        qa: "Penso primeiro **onde o usuário tropeça.** Escrevo testes de ponta a ponta com Maestro, e o Lume tem testes com Vitest rodando contra um Postgres de verdade.",
         cloud:
           "Nos meus projetos, **cuido do deploy, das filas e do preview com banco próprio para cada PR.**",
       },
@@ -70,7 +70,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         funnelLabel: "11 etapas do funil",
         coolingLabel: "esfriando",
         shotAlt:
-          "Landing da Lume com o kanban de prospecções: colunas Novo, Contatado, Proposta e Fechado, com dados de demonstração.",
+          "Landing do Lume com o kanban de prospecções: colunas Novo, Contatado, Proposta e Fechado, com dados de demonstração.",
       },
       items: [
         {
@@ -257,7 +257,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           when: "Agora",
-          title: "A Lume em produção",
+          title: "O Lume em produção",
           description:
             "Produto próprio no ar. A cobrança está pronta no código e ainda não foi ligada.",
         },

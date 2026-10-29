@@ -10,7 +10,7 @@ import { orderForRole, projectConfigs, type Project } from "@/data/projects";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import type { Dictionary, ProjectCopy } from "@/i18n/types";
 
-/** Cards ao lado e abaixo da Lume; o resto vira a lista. */
+/** Cards ao lado e abaixo do Lume; o resto vira a lista. */
 const cardCount = 4;
 /** Alturas das 11 barras do funil de luz; a 5ª é o lead "esfriando". */
 const funnel = [92, 84, 77, 70, 64, 57, 50, 43, 36, 28, 20];
