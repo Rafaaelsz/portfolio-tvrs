@@ -17,15 +17,19 @@ const onest = Onest({
 
 const title = "Rafael Tavares · Eu construo e coloco no ar";
 const description =
-  "Sistemas web, landing pages e automações. Portfólio de Rafael Tavares, de Palhoça, SC, com a Lume, um CRM para quem vende sites.";
+  "Sistemas web, landing pages e automações. Portfólio de Rafael Tavares, de Palhoça, SC, com o Lume, um CRM para quem vende sites.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rafaeltavares-webport.vercel.app"),
+  alternates: { canonical: "/" },
   title,
   description,
   openGraph: {
     title,
     description,
     type: "website",
+    url: "/",
+    locale: "pt_BR",
   },
 };
 
