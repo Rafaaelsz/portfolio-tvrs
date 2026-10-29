@@ -25,12 +25,32 @@ export function LanguageProvider({ children }: PropsWithChildren) {
     const stored = window.localStorage.getItem(storageKey);
     if (isLocale(stored)) {
       setLocaleState(stored);
-      document.documentElement.lang = stored;
-      return;
     }
-
-    document.documentElement.lang = defaultLocale;
   }, []);
+
+  // O SSR sai em PT (layout.tsx); no EN, idioma, título e descrição trocam no cliente.
+  useEffect(() => {
+    const { meta } = dictionaries[locale];
+    const apply = () => {
+      document.documentElement.lang = locale;
+      if (document.title !== meta.title) document.title = meta.title;
+      const description = document.querySelector('meta[name="description"]');
+      if (description && description.getAttribute("content") !== meta.description) {
+        description.setAttribute("content", meta.description);
+      }
+    };
+    apply();
+    // Ao recarregar já em EN, a hidratação do <head> do Next chega depois deste efeito e
+    // devolve o título do SSR (PT). O observer reaplica o idioma escolhido.
+    const observer = new MutationObserver(apply);
+    observer.observe(document.head, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+    });
+    return () => observer.disconnect();
+  }, [locale]);
 
   const value: LanguageContextValue = {
     locale,
@@ -39,7 +59,6 @@ export function LanguageProvider({ children }: PropsWithChildren) {
       const nextLocale = locale === "pt-BR" ? "en-US" : "pt-BR";
       setLocaleState(nextLocale);
       window.localStorage.setItem(storageKey, nextLocale);
-      document.documentElement.lang = nextLocale;
     },
   };
 

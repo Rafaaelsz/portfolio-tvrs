@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Onest } from "next/font/google";
+import { defaultLocale, dictionaries } from "@/i18n/dictionaries";
+import { siteUrl } from "@/lib/site";
 import "../styles.css";
 
 const archivo = Archivo({
@@ -15,12 +17,11 @@ const onest = Onest({
   display: "swap",
 });
 
-const title = "Rafael Tavares · Eu construo e coloco no ar";
-const description =
-  "Sistemas web, landing pages e automações. Portfólio de Rafael Tavares, de Palhoça, SC, com o Lume, um CRM para quem vende sites.";
+// Mesma fonte do título que o LanguageProvider aplica ao trocar de idioma.
+const { title, description } = dictionaries[defaultLocale].meta;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rafaeltavares-webport.vercel.app"),
+  metadataBase: new URL(siteUrl),
   alternates: { canonical: "/" },
   title,
   description,
@@ -30,6 +31,14 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     locale: "pt_BR",
+    alternateLocale: ["en_US"],
+  },
+  // A imagem vem de `opengraph-image.png` e `twitter-image.png` nesta pasta (convenção do Next).
+  // Não defina `openGraph.images` aqui: isso faz o Next ignorar o arquivo.
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
   },
 };
 

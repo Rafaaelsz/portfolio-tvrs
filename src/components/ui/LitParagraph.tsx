@@ -15,7 +15,8 @@ function toWords(paragraph: string): Word[] {
   );
 }
 
-const dim = "rgba(255, 255, 255, 0.14)";
+// Apagado em cinza legível (5,19:1 sobre #030304, WCAG AA); aceso em branco ou azul-gelo.
+const dim = "#7a808a";
 const ink = "#f4f6f8";
 const ice = "#bfe3ff";
 

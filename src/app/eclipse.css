@@ -915,7 +915,7 @@ html {
   letter-spacing: -0.025em;
   margin-top: 40px;
   max-width: 32ch;
-  color: rgba(255, 255, 255, 0.14);
+  color: var(--ink3);
 }
 
 .ec .skills {
@@ -1122,8 +1122,14 @@ html {
   gap: 12px;
 }
 
-.ec .ec-form label {
+.ec .ec-form label,
+.ec .ec-form .field {
   display: grid;
+}
+
+/* sem isso, o campo ao lado de um campo com erro estica até a altura da mensagem */
+.ec .ec-form .field {
+  align-content: start;
 }
 
 .ec .ec-form-pair {
@@ -1233,6 +1239,28 @@ html {
 }
 
 .ec .form-status.is-error {
+  color: #ffb4b4;
+}
+
+.ec .form-status a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ec .ec-input[aria-invalid="true"] {
+  border-color: rgba(255, 180, 180, 0.7);
+}
+
+.ec .ec-input[aria-invalid="true"]:focus {
+  border-color: #ffb4b4;
+  box-shadow: 0 0 0 4px rgba(255, 180, 180, 0.12);
+}
+
+.ec .field-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 13.5px;
   color: #ffb4b4;
 }
 

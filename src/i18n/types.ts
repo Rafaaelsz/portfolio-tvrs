@@ -14,6 +14,9 @@ export type ProjectCopy = {
 
 export type Dictionary = {
   meta: {
+    /** `document.title` e `<meta name="description">`; o PT também alimenta o SSR. */
+    title: string;
+    description: string;
     skip: string;
   };
   header: {
@@ -110,7 +113,18 @@ export type Dictionary = {
       submit: string;
       sending: string;
       success: string;
-      error: string;
+      errors: {
+        /** Erro por campo, com as mesmas regras do `contactMessageSchema`. */
+        name: string;
+        email: string;
+        message: string;
+        /** 400: a API recusou os dados. */
+        invalid: string;
+        /** 429: rate limit. */
+        rateLimited: string;
+        /** 5xx ou rede. `{email}` vira um link de e-mail. */
+        unavailable: string;
+      };
       subject: string;
     };
   };

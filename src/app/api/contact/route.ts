@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { contactMessageSchema } from "@/lib/validations";
+import { contactFields, contactMessageSchema } from "@/lib/validations";
 
 export const runtime = "nodejs";
 
@@ -24,7 +24,17 @@ export async function POST(request: NextRequest) {
     const payload = contactMessageSchema.safeParse(await request.json().catch(() => null));
 
     if (!payload.success) {
-      return NextResponse.json({ ok: false, message: "Invalid contact data." }, { status: 400 });
+      // Só o nome dos campos e a mensagem genérica do Zod; nada do que foi enviado volta.
+      const { fieldErrors } = payload.error.flatten();
+      const fields = Object.fromEntries(
+        contactFields
+          .filter((field) => fieldErrors[field])
+          .map((field) => [field, fieldErrors[field]]),
+      );
+      return NextResponse.json(
+        { ok: false, message: "Invalid contact data.", fieldErrors: fields },
+        { status: 400 },
+      );
     }
 
     if (payload.data.company) {
