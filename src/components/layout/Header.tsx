@@ -44,7 +44,8 @@ export function Header() {
             type="button"
             className="lang"
             onClick={toggleLocale}
-            aria-label={text.languageLabel}
+            // O nome acessível começa pelo texto visível (WCAG 2.5.3).
+            aria-label={`${text.languageShort}: ${text.languageLabel}`}
           >
             {text.languageShort}
           </button>

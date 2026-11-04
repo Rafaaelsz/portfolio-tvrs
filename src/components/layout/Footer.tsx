@@ -15,7 +15,8 @@ export function Footer() {
           type="button"
           className="lang-link"
           onClick={toggleLocale}
-          aria-label={dictionary.header.languageLabel}
+          // O nome acessível começa pelo texto visível (WCAG 2.5.3, regra label-content-name-mismatch).
+          aria-label={`PT / EN: ${dictionary.header.languageLabel}`}
         >
           PT / EN
         </button>

@@ -46,9 +46,17 @@ function LitWord({
  * Parágrafo do "Sobre" que acende palavra por palavra conforme a rolagem.
  * Com prefers-reduced-motion, o CSS mostra tudo aceso (o estilo inline perde para o !important).
  */
-export function LitParagraph({ text }: { text: string }) {
+export function LitParagraph({
+  text,
+  pinnedProgress,
+}: {
+  text: string;
+  /** Progresso da cena fixada; quando vale `null` (sem fixar), usa o progresso do parágrafo. */
+  pinnedProgress?: MotionValue<number | null>;
+}) {
   const ref = useRef<HTMLParagraphElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.5"] });
+  const { scrollYProgress: own } = useScroll({ target: ref, offset: ["start 0.85", "end 0.5"] });
+  const scrollYProgress = useTransform(() => pinnedProgress?.get() ?? own.get());
   const words = toWords(text);
 
   return (

@@ -1,0 +1,1166 @@
+/*
+ * Narrativa no scroll (direção A do estudo de interatividade, 04/11/2026).
+ * A rolagem é a linha do tempo: cada cena fica fixada (`position: sticky`) dentro de um
+ * trilho mais alto que a tela, e os componentes escrevem o progresso em variáveis CSS
+ * (`--rise`, `--ring`, `--out`, `--in2`, `--hx`...). Aqui só se compõe `transform` e `opacity`.
+ * Com prefers-reduced-motion, nada fica fixado e tudo aparece no estado final (fim do arquivo).
+ */
+
+.ec .track {
+  position: relative;
+  scroll-margin-top: 0;
+}
+
+/* Destino de âncora focado pelo SmoothScroll (tabindex=-1): sem contorno no trilho inteiro. */
+.ec [tabindex="-1"]:focus {
+  outline: none;
+}
+
+.ec .pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: clip;
+}
+
+/* ---------- trilho de capítulos ---------- */
+.ec .chap {
+  position: fixed;
+  left: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: none;
+}
+
+.ec .chap::before,
+.ec .chap-fill {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 8px;
+  width: 1px;
+}
+
+.ec .chap::before {
+  bottom: 8px;
+  background: var(--line2);
+}
+
+.ec .chap-fill {
+  height: calc(var(--pg, 0) * (100% - 16px));
+  background: linear-gradient(180deg, transparent, var(--ice));
+  box-shadow: 0 0 10px var(--glow);
+}
+
+.ec .chap ol {
+  position: relative;
+  display: grid;
+  gap: 14px;
+}
+
+.ec .chap a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 24px;
+  font-size: 12px;
+}
+
+.ec .chap a span {
+  opacity: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink);
+  transition: opacity 0.3s;
+}
+
+.ec .chap a i {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: #2a2e34;
+  transition:
+    background 0.3s,
+    box-shadow 0.3s;
+}
+
+.ec .chap a.is-on i {
+  background: #fff;
+  box-shadow: 0 0 12px 2px rgba(191, 227, 255, 0.8);
+}
+
+.ec .chap a:hover span,
+.ec .chap a:focus-visible span {
+  opacity: 1;
+}
+
+.ec .chap a:focus-visible {
+  outline: 2px solid rgba(191, 227, 255, 0.8);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+@media (min-width: 1180px) {
+  .ec .chap {
+    display: block;
+  }
+}
+
+/* ---------- cena 1: o eclipse nasce ---------- */
+.ec .hero-track {
+  /* 240vh na 1ª versão; o QA mediu 13 notches até o Lume. 180vh ainda deixa o anel acender. */
+  height: 180vh;
+}
+
+/* Atalho para pular a demonstração do Lume já no hero (some junto com o hero). */
+.ec .hero-skip {
+  grid-column: -2;
+  justify-self: end;
+  margin-top: -26px;
+}
+
+@media (max-width: 980px) {
+  .ec .hero-skip {
+    justify-self: start;
+  }
+}
+
+.ec .hero-track .hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
+  padding-top: 64px;
+  padding-bottom: 110px;
+}
+
+.ec .sky {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translate3d(0, calc(var(--rise, 0) * -40vh), 0);
+  will-change: transform;
+  animation: ec-dawn 2.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes ec-dawn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14vh, 0);
+  }
+}
+
+.ec .sky .eclipse,
+.ec .sky .flare {
+  z-index: 0;
+}
+
+.ec .sky .flare {
+  transform: translate(-50%, -55%) scale(calc(1 + var(--ring, 0) * 1.6));
+  opacity: calc(0.75 + var(--ring, 0) * 0.25);
+}
+
+.ec .diamond {
+  position: absolute;
+  left: 50%;
+  top: calc(100% - 26vh);
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -60%) scale(var(--ring, 0));
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 30px 12px rgba(255, 255, 255, 0.9),
+    0 0 120px 40px rgba(191, 227, 255, 0.6);
+}
+
+.ec .diamond::before,
+.ec .diamond::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 420px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+}
+
+.ec .diamond::after {
+  width: 1px;
+  height: 160px;
+}
+
+.ec .hero-main,
+.ec .hero-track .live {
+  opacity: calc(1 - var(--out, 0));
+  transform: translate3d(0, calc(var(--out, 0) * -70px), 0) scale(calc(1 - var(--out, 0) * 0.05));
+  will-change: transform, opacity;
+}
+
+.ec .after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 43vh;
+  text-align: center;
+  opacity: var(--in2, 0);
+  transform: translate3d(0, calc((1 - var(--in2, 0)) * 40px), 0);
+  pointer-events: none;
+}
+
+.ec .after .eyebrow {
+  justify-content: center;
+}
+
+.ec .after .eyebrow::before {
+  display: none;
+}
+
+.ec .after-title {
+  margin: 14px auto 0;
+  font-family: var(--disp);
+  font-size: clamp(56px, 10vw, 160px);
+  font-variation-settings: "wdth" 118;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+}
+
+.ec .after-text {
+  margin: 22px auto 0;
+  max-width: 40ch;
+  color: var(--ink2);
+  font-size: 18px;
+}
+
+.ec .scrollcue {
+  position: absolute;
+  left: 50%;
+  bottom: 70px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--ink3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: calc(1 - var(--out, 0) * 3);
+}
+
+.ec .scrollcue i {
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(var(--ice), transparent);
+  animation: ec-cue 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes ec-cue {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* ---------- cena 2: o Lume se monta ---------- */
+.ec .lume-track {
+  /* 460vh no protótipo; 400vh deixa ~0,75 tela por tempo, o bastante para ler (ver PR) */
+  height: 400vh;
+}
+
+.ec .stage {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 48px;
+  align-items: center;
+  height: 100%;
+  padding-top: 64px;
+}
+
+.ec .horizon {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: max(1400px, 140vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -97%);
+  border-radius: 50%;
+  background: #020203;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.5),
+    0 10px 60px rgba(191, 227, 255, 0.3),
+    0 50px 160px rgba(90, 160, 255, 0.12);
+  z-index: -1;
+}
+
+.ec .lume-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px 16px;
+}
+
+.ec .lume-head .tag {
+  font-size: 13px;
+  color: var(--ink3);
+}
+
+.ec .lume-head .tag b {
+  color: var(--live);
+  font-weight: 500;
+}
+
+.ec .skip-scene {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  font-size: 13px;
+  color: var(--ink2);
+  text-decoration: underline;
+  text-decoration-color: var(--line2);
+  text-underline-offset: 3px;
+}
+
+.ec .skip-scene:hover {
+  color: var(--ink);
+}
+
+.ec .lume-head h2 {
+  margin-top: 10px;
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 108;
+  font-weight: 650;
+  font-size: clamp(40px, 4.6vw, 64px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.ec .beats {
+  display: grid;
+  gap: 6px;
+  margin-top: 26px;
+}
+
+.ec .beat {
+  position: relative;
+  padding: 16px 0 16px 22px;
+}
+
+.ec .beat::before,
+.ec .beat .bar {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18px;
+  width: 2px;
+  border-radius: 2px;
+}
+
+.ec .beat::before {
+  bottom: 18px;
+  background: var(--line2);
+}
+
+.ec .beat .bar {
+  height: calc(var(--bp, 0) * (100% - 36px));
+  background: var(--ice);
+  box-shadow: 0 0 12px var(--glow);
+}
+
+/* Tempos fora de foco ficam em cinza legível (AA), e não transparentes. */
+.ec .beat h3 {
+  font-family: var(--disp);
+  font-variation-settings: "wdth" 108;
+  font-weight: 650;
+  font-size: clamp(24px, 2.5vw, 34px);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--ink3);
+  transition: color 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.ec .beat.is-done h3 {
+  color: var(--ink2);
+}
+
+.ec .beat.is-on h3 {
+  color: var(--ink);
+}
+
+.ec .beat p {
+  color: var(--ink2);
+  font-size: 15.5px;
+  margin-top: 8px;
+  max-width: 40ch;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.4s;
+}
+
+.ec .beat.is-on p {
+  max-height: 140px;
+  opacity: 1;
+}
+
+.ec .beat .btn {
+  margin-top: 18px;
+}
+
+.ec .beat:not(.is-on) .btn {
+  display: none;
+}
+
+.ec .board {
+  position: relative;
+  border: 1px solid var(--line2);
+  border-radius: 20px;
+  background: linear-gradient(180deg, #0b0c10, #07080a);
+  padding: 22px 22px 34px;
+  box-shadow:
+    0 40px 120px -30px rgba(90, 140, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.ec .board::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(600px 220px at 50% -10%, rgba(140, 170, 255, 0.16), transparent 70%);
+}
+
+.ec .b-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ec .b-top strong {
+  font: 600 17px var(--body);
+}
+
+.ec .b-top small {
+  display: block;
+  font-size: 12.5px;
+  color: var(--ink3);
+  margin-top: 2px;
+}
+
+.ec .b-meta {
+  font-size: 12.5px;
+  color: var(--ink3);
+}
+
+.ec .b-meta b {
+  color: var(--live);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.ec .b-meta span {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Selo de dado fictício: acima do PDF (z 5) e sobre fundo próprio, sempre legível (AA). */
+.ec .b-demo {
+  position: absolute;
+  right: 22px;
+  bottom: 10px;
+  z-index: 6;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(3, 3, 4, 0.88);
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--ink2);
+}
+
+.ec .band {
+  position: relative;
+  height: 64px;
+  margin-top: 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.ec .link {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  z-index: 3;
+  transform: translate3d(-50%, 0, 0);
+  font: 500 clamp(15px, 1.5vw, 19px) var(--body);
+  color: var(--ink);
+  white-space: nowrap;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #0d1117;
+  border: 1px solid rgba(191, 227, 255, 0.3);
+  box-shadow: 0 0 40px rgba(140, 200, 255, 0.18);
+  opacity: var(--lo, 0);
+  pointer-events: none;
+}
+
+.ec .link u {
+  text-decoration: none;
+  color: var(--ink3);
+}
+
+.ec .link em {
+  font-style: normal;
+  color: var(--ice);
+}
+
+.ec .cols-view {
+  position: relative;
+  margin-top: 12px;
+}
+
+.ec .cols {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 10px;
+  transform: translate3d(var(--pan, 0px), 0, 0);
+  will-change: transform;
+}
+
+.ec .col {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--line);
+  padding: 10px;
+  min-height: 330px;
+  transition:
+    border-color 0.4s,
+    background 0.4s;
+}
+
+.ec .col.is-hot {
+  border-color: rgba(191, 227, 255, 0.28);
+  background: rgba(191, 227, 255, 0.04);
+}
+
+.ec .col-h {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 600 13px var(--body);
+  padding: 4px 4px 10px;
+}
+
+.ec .col-h i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c, #888);
+}
+
+.ec .col-h span {
+  margin-left: auto;
+  color: var(--ink3);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.ec .k {
+  display: block;
+  border-radius: 11px;
+  background: #121318;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 10px 11px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink3);
+}
+
+.ec .k b {
+  display: block;
+  font: 500 13px var(--body);
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.ec .k .pl::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3ddc97;
+  margin-right: 6px;
+}
+
+.ec .k .late {
+  color: #ff8f8f;
+}
+
+.ec .k .late::before {
+  content: "● ";
+}
+
+.ec .k .v {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--ink2);
+}
+
+.ec .k .v .ok {
+  color: var(--live);
+}
+
+.ec .slot {
+  height: 84px;
+}
+
+.ec .mover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  width: var(--mw, 150px);
+  transform: translate3d(var(--mx2, 0px), var(--my2, 0px), 0) scale(var(--ms, 1));
+  opacity: var(--mo, 0);
+  border-color: rgba(191, 227, 255, 0.5);
+  background: #15171d;
+  box-shadow:
+    0 0 0 1px rgba(191, 227, 255, 0.15),
+    0 16px 40px -10px rgba(110, 170, 255, 0.45);
+  will-change: transform;
+}
+
+.ec .mover .st {
+  display: block;
+  margin-top: 5px;
+}
+
+.ec .mover.is-won {
+  border-color: rgba(158, 255, 201, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(158, 255, 201, 0.2),
+    0 16px 50px -10px rgba(158, 255, 201, 0.4);
+}
+
+.ec .pdf {
+  position: absolute;
+  right: 22px;
+  /* acima do selo .b-demo, que fica sempre visível embaixo */
+  bottom: 38px;
+  z-index: 5;
+  width: min(250px, 60%);
+  border-radius: 10px;
+  background: #f4f5f7;
+  color: #16181d;
+  padding: 16px 16px 14px;
+  font-size: 11px;
+  box-shadow:
+    0 30px 80px -10px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
+  transform: translate3d(0, calc((1 - var(--pd, 0)) * 110%), 0)
+    rotate(calc((1 - var(--pd, 0)) * 6deg));
+  opacity: clamp(0, calc(var(--pd, 0) * 3), 1);
+}
+
+.ec .pdf b {
+  display: block;
+  font: 650 14px var(--disp);
+  letter-spacing: -0.01em;
+}
+
+.ec .pdf .ln {
+  height: 6px;
+  border-radius: 3px;
+  background: #dcdfe5;
+  margin-top: 7px;
+}
+
+.ec .pdf .ln.s {
+  width: 62%;
+}
+
+.ec .pdf .tot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #dcdfe5;
+  font-weight: 600;
+}
+
+.ec .pdf small {
+  color: #5f6570;
+}
+
+/* ---------- cena 3: outros trabalhos, de lado ---------- */
+.ec .work-track {
+  /* 330vh no protótipo; a fileira anda ~1.250 px em 2 telas de rolagem */
+  height: 300vh;
+}
+
+.ec .work-pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 64px;
+}
+
+.ec .work-pin > .wrap {
+  width: 100%;
+}
+
+/* Título e seletor numa linha só, para a fileira caber inteira na tela fixada. */
+.ec .work-pin .work-head {
+  flex-wrap: nowrap;
+  align-items: flex-end;
+}
+
+.ec .work-pin .ec-h2 {
+  font-size: clamp(32px, 3.6vw, 52px);
+  max-width: 18ch;
+}
+
+.ec .work-pin .role-pitch {
+  min-height: 0;
+}
+
+.ec .hrow {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 36px;
+  padding-left: max(32px, calc((100vw - 1240px) / 2 + 32px));
+  transform: translate3d(var(--hx, 0px), 0, 0);
+  will-change: transform;
+}
+
+.ec .hrow .card {
+  flex: 0 0 min(500px, 80vw);
+  min-height: 0;
+}
+
+.ec .card .pv {
+  position: relative;
+  margin: -28px -28px 22px;
+  height: 210px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.ec .card .pv img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: translate3d(0, calc(var(--cp, 0) * -18%), 0);
+}
+
+.ec .card .pv::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(8, 9, 11, 0.9));
+}
+
+.ec .tests {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ec .tests li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--ink3);
+  transition: color 0.3s;
+}
+
+.ec .tests li i {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line2);
+  font-style: normal;
+  font-size: 11px;
+  color: transparent;
+  transition: all 0.3s;
+}
+
+.ec .tests li.is-ok {
+  color: var(--ink);
+}
+
+.ec .tests li.is-ok i {
+  background: var(--live);
+  border-color: var(--live);
+  color: #000;
+  box-shadow: 0 0 12px rgba(158, 255, 201, 0.6);
+}
+
+.ec .tsum {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.ec .tsum b {
+  color: var(--live);
+  font-weight: 500;
+}
+
+.ec .more-card {
+  flex: 0 0 min(460px, 80vw);
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  padding: 8px 26px;
+  background: var(--bg2);
+}
+
+.ec .more-card .more {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.ec .more-card .more-row {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  padding: 16px 0;
+}
+
+.ec .more-card .more-row:hover {
+  padding-left: 8px;
+}
+
+.ec .more-card .more-row:last-child {
+  border-bottom: 0;
+}
+
+.ec .more-card .more-row small {
+  text-align: left;
+}
+
+/* ---------- cena 4: sobre, fixado ---------- */
+.ec .about-track {
+  height: 230vh;
+}
+
+.ec .about-pin {
+  display: flex;
+  align-items: center;
+  padding-top: 64px;
+}
+
+.ec .about-pin > .wrap {
+  width: 100%;
+}
+
+.ec .about-pin .skills {
+  margin-top: 56px;
+}
+
+/* ---------- cena 5: o eclipse se põe no contato ---------- */
+.ec .contact .halo {
+  transform: translate(-50%, calc(-92% - (1 - var(--set, 1)) * 10%));
+}
+
+/* ---------- telas menores ---------- */
+@media (max-width: 980px) {
+  .ec .stage {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    align-content: center;
+    align-items: start;
+  }
+
+  .ec .lume-head h2 {
+    font-size: 34px;
+  }
+
+  .ec .beats {
+    position: relative;
+    display: block;
+    min-height: 144px;
+    margin-top: 12px;
+  }
+
+  .ec .beat {
+    position: absolute;
+    inset: 0 0 auto;
+    padding: 4px 0 0 18px;
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .ec .beat.is-on {
+    opacity: 1;
+  }
+
+  .ec .beat::before,
+  .ec .beat .bar {
+    top: 8px;
+  }
+
+  .ec .beat h3 {
+    font-size: 23px;
+  }
+
+  .ec .beat p {
+    font-size: 14px;
+  }
+
+  .ec .beat .btn {
+    display: none !important;
+  }
+
+  .ec .board {
+    padding: 16px 16px 28px;
+  }
+
+  .ec .cols {
+    grid-template-columns: repeat(4, 190px);
+  }
+
+  .ec .band {
+    height: 56px;
+  }
+
+  .ec .col {
+    min-height: 200px;
+  }
+
+  .ec .k {
+    padding: 8px 10px;
+    margin-bottom: 6px;
+  }
+
+  .ec .b-demo {
+    right: 16px;
+    bottom: 6px;
+  }
+}
+
+@media (max-width: 820px) {
+  .ec .work-track,
+  .ec .about-track {
+    height: auto;
+  }
+
+  .ec .work-pin,
+  .ec .about-pin {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    display: block;
+    padding-top: 100px;
+  }
+
+  .ec .work-pin .work-head {
+    flex-wrap: wrap;
+  }
+
+  .ec .hrow {
+    flex-direction: column;
+    gap: 14px;
+    transform: none;
+    padding: 0 32px;
+  }
+
+  .ec .hrow .card,
+  .ec .more-card {
+    flex: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .ec .stage {
+    align-content: start;
+    padding-top: 84px;
+  }
+
+  .ec .band {
+    height: 48px;
+  }
+
+  .ec .link {
+    top: 6px;
+  }
+
+  .ec .lume-head h2 {
+    font-size: 30px;
+    margin-top: 4px;
+  }
+
+  .ec .after {
+    top: 40vh;
+  }
+
+  .ec .after-title {
+    font-size: 72px;
+  }
+
+  .ec .after-text {
+    font-size: 16px;
+    padding: 0 20px;
+  }
+
+  .ec .diamond {
+    top: calc(100% - 18vh);
+  }
+
+  /* no celular a fileira "No ar agora" ocupa o rodapé do hero */
+  .ec .scrollcue {
+    display: none;
+  }
+
+  .ec .b-top small {
+    display: none;
+  }
+
+  .ec .pdf {
+    right: 12px;
+    bottom: 30px;
+  }
+
+  .ec .card .pv {
+    margin: -28px -28px 18px;
+    height: 170px;
+  }
+
+  .ec .hrow {
+    padding: 0 20px;
+  }
+
+  .ec .more-card {
+    padding: 4px 20px;
+  }
+}
+
+/* ---------- reduced motion: nada fixado, tudo no estado final ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ec .track {
+    height: auto !important;
+  }
+
+  .ec .pin,
+  .ec .hero-track .hero {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+
+  .ec .hero-track .hero {
+    overflow: hidden;
+    padding-top: 120px;
+    padding-bottom: 140px;
+  }
+
+  .ec .sky,
+  .ec .hero-main,
+  .ec .hero-track .live {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ec .after,
+  .ec .diamond,
+  .ec .link,
+  .ec .scrollcue,
+  .ec .chap-fill {
+    display: none;
+  }
+
+  .ec .stage {
+    padding: 120px 32px 60px;
+    height: auto;
+  }
+
+  .ec .beats {
+    display: grid;
+    min-height: 0;
+  }
+
+  .ec .beat {
+    position: relative;
+    opacity: 1;
+    inset: auto;
+  }
+
+  .ec .beat h3,
+  .ec .beat.is-done h3 {
+    color: var(--ink);
+  }
+
+  .ec .beat p {
+    max-height: none;
+    opacity: 1;
+  }
+
+  .ec .beat .bar {
+    height: calc(100% - 36px);
+  }
+
+  .ec .beat:not(.is-on) .btn {
+    display: inline-flex;
+  }
+
+  .ec .hrow {
+    flex-wrap: wrap;
+    transform: none;
+  }
+
+  .ec .work-pin,
+  .ec .about-pin {
+    display: block;
+    min-height: 0;
+    padding: 120px 0 40px;
+  }
+
+  .ec .contact .halo {
+    transform: translate(-50%, -92%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 980px) {
+  .ec .beat .btn {
+    display: inline-flex !important;
+  }
+
+  .ec .beat::before,
+  .ec .beat .bar {
+    top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 620px) {
+  .ec .stage {
+    padding: 100px 20px 40px;
+  }
+}

@@ -1,7 +1,16 @@
 "use client";
 
-import { LayoutGroup, motion } from "framer-motion";
+import {
+  LayoutGroup,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import Image from "next/image";
+import { useCallback, useEffect, useRef, useState, type FocusEvent } from "react";
+import { scrollToY } from "@/components/narrative/SmoothScroll";
+import { clamp, isPinnedLayout } from "@/components/narrative/timeline";
 import { RoleSelector } from "@/components/ui/RoleSelector";
 import { Reveal } from "@/components/ui/Reveal";
 import { useRole } from "@/components/role/RoleProvider";
@@ -10,14 +19,22 @@ import { orderForRole, projectConfigs, type Project } from "@/data/projects";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import type { Dictionary, ProjectCopy } from "@/i18n/types";
 
-/** Cards ao lado e abaixo do Lume; o resto vira a lista. */
+/** Cards da fileira; o resto vira a lista do último card. O Lume tem a cena própria. */
 const cardCount = 4;
-/** Alturas das 11 barras do funil de luz; a 5ª é o lead "esfriando". */
-const funnel = [92, 84, 77, 70, 64, 57, 50, 43, 36, 28, 20];
-const coldBar = 4;
 const layoutTransition = { type: "spring", stiffness: 380, damping: 38 } as const;
+/** Prints reais dos sites no ar, que fazem pan conforme a fileira anda. */
+const previews: Record<string, string> = {
+  pilates: "/projects/pilates-giselle-meyer.webp",
+  finder: "/projects/finder-vagas-ti.webp",
+};
+const qaSlug = "mydemoapp";
 
 type Item = { config: Project; copy: ProjectCopy; index: number };
+
+/** Quanto a fileira precisa andar para o último card aparecer inteiro. */
+function travel(row: HTMLElement | null) {
+  return row ? Math.max(0, row.scrollWidth - window.innerWidth + 40) : 0;
+}
 
 /** Site no ar abre primeiro; sem status, o principal é o código. */
 function links(config: Project) {
@@ -53,80 +70,61 @@ function SecondaryLink({ href, text }: { href?: string; text: Dictionary["projec
   );
 }
 
-function LumeCard({ item, text }: { item: Item; text: Dictionary["projects"] }) {
-  const { primary } = links(item.config);
-
+/** Os 4 fluxos de exemplo do My Demo App passam um a um conforme o card entra na tela. */
+function QaFlows({ passing, text }: { passing: number; text: Dictionary["projects"]["qa"] }) {
   return (
-    <article className="card lume" onPointerMove={trackSpotlight}>
-      <span className="go" aria-hidden="true">
-        →
+    <>
+      <ul className="tests" aria-label={text.aria}>
+        {text.flows.map((flow, index) => (
+          <li key={flow} className={index < passing ? "is-ok" : undefined}>
+            <i aria-hidden="true">✓</i>
+            {flow}
+          </li>
+        ))}
+      </ul>
+      <span className="tsum">
+        <b>{text.summary.replace("{n}", String(passing))}</b>
       </span>
-      <div className="lume-in">
-        <div className="lume-copy">
-          <StatusTag item={item} text={text} />
-          <h3>
-            <a className="card-link" href={primary} target="_blank" rel="noopener noreferrer">
-              {item.copy.name}
-            </a>
-          </h3>
-          <p>{item.copy.description}</p>
-        </div>
-        <ul className="lume-list">
-          {item.copy.features.map((feature) => (
-            <li key={feature}>{feature}</li>
-          ))}
-        </ul>
-      </div>
-      <span className="stack">{item.config.stack.join(" · ")}</span>
-      <div className="lume-visual">
-        <div className="funnel" aria-hidden="true">
-          <span className="funnel-label">{text.lume.funnelLabel}</span>
-          {funnel.map((height, index) => (
-            <i
-              key={height}
-              className={index === coldBar ? "cold" : undefined}
-              style={{ height: `${height}%` }}
-            >
-              {index === coldBar && <span className="cold-label">{text.lume.coolingLabel}</span>}
-            </i>
-          ))}
-        </div>
-        <div className="lume-shot">
-          <Image
-            src="/projects/lume-landing-hero.webp"
-            alt={text.lume.shotAlt}
-            fill
-            sizes="(max-width: 620px) 92vw, (max-width: 980px) 90vw, 760px"
-          />
-        </div>
-      </div>
-    </article>
+    </>
   );
 }
 
 function ProjectCard({
   item,
   dim,
-  wide,
   text,
   dimmedLabel,
+  passing,
 }: {
   item: Item;
   dim: boolean;
-  wide: boolean;
   text: Dictionary["projects"];
   dimmedLabel: string;
+  passing: number;
 }) {
   const { primary, secondary } = links(item.config);
+  const preview = previews[item.config.slug];
+  const isQa = item.config.slug === qaSlug;
 
   return (
     <motion.article
       layout="position"
       layoutId={item.config.slug}
       transition={layoutTransition}
-      className={["card", wide ? "wide" : "", dim ? "is-dim" : ""].filter(Boolean).join(" ")}
+      className={["card", dim ? "is-dim" : "", isQa ? "is-qa" : ""].filter(Boolean).join(" ")}
       onPointerMove={trackSpotlight}
     >
+      {preview && (
+        <div className="pv">
+          <Image
+            src={preview}
+            alt={text.previews[item.config.slug] ?? ""}
+            width={1440}
+            height={900}
+            sizes="(max-width: 820px) 92vw, 500px"
+          />
+        </div>
+      )}
       <span className="go" aria-hidden="true">
         →
       </span>
@@ -138,6 +136,7 @@ function ProjectCard({
         </a>
       </h3>
       <p>{item.copy.summary}</p>
+      {isQa && <QaFlows passing={passing} text={text.qa} />}
       <span className="stack">
         {item.config.stack.join(" · ")}
         <SecondaryLink href={secondary} text={text} />
@@ -181,62 +180,127 @@ function ProjectRow({
   );
 }
 
+/**
+ * Cena 3 da narrativa: "Outros trabalhos". No desktop a seção fica fixada e a rolagem vertical
+ * move a fileira para o lado (`--hx`); os prints fazem pan (`--cp`). Abaixo de 820 px, ou com
+ * prefers-reduced-motion, vira lista vertical sem fixar.
+ * O seletor "Contratando para" continua reordenando os cards, como antes.
+ */
 export function Projects() {
   const { dictionary } = useLanguage();
   const { role } = useRole();
   const text = dictionary.projects;
+  const reduced = useReducedMotion();
+  const track = useRef<HTMLDivElement>(null);
+  const row = useRef<HTMLDivElement>(null);
+  const [passing, setPassing] = useState(0);
+
+  const { scrollYProgress } = useScroll({ target: track, offset: ["start start", "end end"] });
 
   const items: Item[] = projectConfigs.map((config, index) => ({
     config,
     copy: text.items[index],
     index,
   }));
-  const [lume, ...rest] = items;
-  const ordered = orderForRole(rest, role);
+  const ordered = orderForRole(items.slice(1), role);
   const cards = ordered.slice(0, cardCount);
   const rows = ordered.slice(cardCount);
 
+  const apply = useCallback(
+    (progress: number) => {
+      const el = row.current;
+      if (!el) return;
+      const pinned = isPinnedLayout();
+      el.style.setProperty("--hx", pinned ? `${-progress * travel(el)}px` : "0px");
+      el.querySelectorAll<HTMLElement>(".pv").forEach((pv) => {
+        const value = pinned
+          ? progress
+          : clamp(1 - pv.getBoundingClientRect().top / window.innerHeight);
+        pv.style.setProperty("--cp", String(reduced ? 0 : value));
+      });
+
+      // Os fluxos do My Demo App passam conforme o card entra na tela.
+      const qa = el.querySelector<HTMLElement>(".is-qa");
+      if (!qa || reduced) {
+        setPassing(4);
+        return;
+      }
+      const rect = qa.getBoundingClientRect();
+      const seen = pinned
+        ? clamp((window.innerWidth * 0.95 - rect.left) / (window.innerWidth * 0.6))
+        : clamp((window.innerHeight * 0.9 - rect.top) / (window.innerHeight * 0.5));
+      setPassing(Math.min(4, Math.floor(seen * 4.999)));
+    },
+    [reduced],
+  );
+
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", () => apply(scrollYProgress.get()));
+
+  useEffect(() => {
+    const sync = () => apply(scrollYProgress.get());
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, [apply, scrollYProgress, role]);
+
+  // Teclado: o foco num card fora da tela rola a página até a fileira mostrá-lo.
+  const onFocus = (event: FocusEvent<HTMLDivElement>) => {
+    const el = row.current;
+    const trackEl = track.current;
+    if (!el || !trackEl || !isPinnedLayout()) return;
+    const card = (event.target as HTMLElement).closest<HTMLElement>(".hrow > *");
+    const max = travel(el);
+    if (!card || max <= 0) return;
+    const padding = parseFloat(getComputedStyle(el).paddingLeft);
+    const progress = clamp((card.offsetLeft - padding) / max);
+    const top = trackEl.getBoundingClientRect().top + window.scrollY;
+    scrollToY(top + progress * (trackEl.offsetHeight - window.innerHeight), true);
+  };
+
   return (
-    <section className="ec-section" id="work">
-      <div className="wrap">
-        <Reveal className="eyebrow">{text.eyebrow}</Reveal>
-        <div className="work-head">
-          <Reveal as="h2" delay={1} className="ec-h2">
-            {text.title} <em>{text.titleMuted}</em>
-          </Reveal>
-          <Reveal delay={2}>
-            <RoleSelector />
-          </Reveal>
+    <div className="track work-track" id="work" ref={track}>
+      <section className="pin work-pin" aria-labelledby="work-title">
+        <div className="wrap">
+          <Reveal className="eyebrow">{text.eyebrow}</Reveal>
+          <div className="work-head">
+            <Reveal as="h2" delay={1} className="ec-h2" id="work-title">
+              {text.title} <em>{text.titleMuted}</em>
+            </Reveal>
+            <Reveal delay={2}>
+              <RoleSelector />
+            </Reveal>
+          </div>
         </div>
 
         <LayoutGroup>
-          <Reveal className="bento">
-            <LumeCard item={lume} text={text} />
-            {cards.map((item, index) => (
+          <div className="hrow" ref={row} onFocus={onFocus}>
+            {cards.map((item) => (
               <ProjectCard
                 key={item.config.slug}
                 item={item}
                 dim={item.dim}
-                wide={index >= 2}
                 text={text}
                 dimmedLabel={dictionary.roles.dimmed}
+                passing={passing}
               />
             ))}
-          </Reveal>
-
-          <Reveal className="more">
-            {rows.map((item) => (
-              <ProjectRow
-                key={item.config.slug}
-                item={item}
-                dim={item.dim}
-                text={text}
-                dimmedLabel={dictionary.roles.dimmed}
-              />
-            ))}
-          </Reveal>
+            <div className="more-card">
+              <div className="more">
+                {rows.map((item) => (
+                  <ProjectRow
+                    key={item.config.slug}
+                    item={item}
+                    dim={item.dim}
+                    text={text}
+                    dimmedLabel={dictionary.roles.dimmed}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </LayoutGroup>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

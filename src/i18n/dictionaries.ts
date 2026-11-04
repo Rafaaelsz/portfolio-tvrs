@@ -69,11 +69,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
       openLabel: "Abrir",
       githubLabel: "GitHub",
-      lume: {
-        funnelLabel: "11 etapas do funil",
-        coolingLabel: "esfriando",
-        shotAlt:
-          "Landing do Lume com o kanban de prospecções: colunas Novo, Contatado, Proposta e Fechado, com dados de demonstração.",
+      previews: {
+        pilates: "Primeira dobra da landing do Estúdio Pilates Giselle Meyer, em tons de vinho.",
+        finder: "Página inicial do Finder de Vagas TI, com a busca de vagas.",
+      },
+      qa: {
+        aria: "Fluxos de exemplo do repositório (demonstração)",
+        flows: [
+          "Login com usuário válido",
+          "Adicionar produto ao carrinho",
+          "Finalizar compra",
+          "Login bloqueado mostra erro",
+        ],
+        summary: "{n} de 4 fluxos de exemplo passando",
       },
       items: [
         {
@@ -204,6 +212,64 @@ export const dictionaries: Record<Locale, Dictionary> = {
           ],
         },
       ],
+    },
+    narrative: {
+      chapters: {
+        aria: "Capítulos",
+        eclipse: "Eclipse",
+        lume: "O Lume",
+        work: "Outros trabalhos",
+        about: "Sobre",
+        contact: "Contato",
+      },
+      hero: {
+        afterEyebrow: "O mais recente",
+        afterTitle: "O Lume.",
+        afterText: "Um produto inteiro no ar, feito por uma pessoa. Role e veja ele trabalhar.",
+        scrollCue: "role",
+      },
+      lume: {
+        tag: "produto próprio",
+        skip: "Pular a demonstração ↓",
+        beats: [
+          {
+            title: "Um link vira lead.",
+            text: "Link do Google Maps, do Instagram ou do site, ou uma planilha CSV. O Lume preenche nome, endereço, contato e diz se a empresa parece ter site.",
+          },
+          {
+            title: "O lead anda no funil.",
+            text: "São 11 etapas, do primeiro contato ao fechamento. Quando um lead fica parado, ele esfria, e o Lume avisa.",
+          },
+          {
+            title: "A proposta sai em PDF.",
+            text: "Com modelo, versão e valor. A mensagem do WhatsApp chega escrita.",
+          },
+          {
+            title: "Empresa sem site entra. Cliente sai.",
+            text: "Desenhei, programei e mantenho o Lume sozinho. A busca de empresas pelo Google Places já está ligada.",
+          },
+        ],
+        srSummary:
+          "Demonstração com dados fictícios: um link do Google Maps vira o lead Padaria Trigo Dourado, que passa por Novo, Contatado e Proposta até Fechado, com uma proposta em PDF de R$ 2.400. O total fechado sobe de R$ 2.800 para R$ 5.200.",
+        board: {
+          title: "Prospecções",
+          stages: "4 das 11 etapas",
+          demo: "demonstração · dados fictícios",
+          open: "em andamento",
+          won: "fechado",
+          columns: ["Novo", "Contatado", "Proposta", "Fechado"],
+          cooling: "esfriando · 1 dia parado",
+          accepted: "aceita",
+          moverStates: [
+            "sem site",
+            "WhatsApp enviado",
+            "proposta nº 0007 · R$ 2.400",
+            "proposta aceita · R$ 2.400",
+          ],
+          pdfTitle: "Proposta comercial nº 0007",
+          pdfItem: "Site institucional",
+        },
+      },
     },
     about: {
       eyebrow: "Sobre",
@@ -380,11 +446,20 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
       openLabel: "Open",
       githubLabel: "GitHub",
-      lume: {
-        funnelLabel: "11 pipeline stages",
-        coolingLabel: "cooling",
-        shotAlt:
-          "Lume landing page showing the prospecting kanban: New, Contacted, Proposal and Closed columns, with demo data.",
+      previews: {
+        pilates:
+          "Above-the-fold view of the Giselle Meyer Pilates Studio landing page, in wine tones.",
+        finder: "Finder de Vagas TI home page, with the job search.",
+      },
+      qa: {
+        aria: "Sample flows from the repository (demo)",
+        flows: [
+          "Login with a valid user",
+          "Add a product to the cart",
+          "Complete checkout",
+          "Locked-out login shows an error",
+        ],
+        summary: "{n} of 4 sample flows passing",
       },
       items: [
         {
@@ -515,6 +590,64 @@ export const dictionaries: Record<Locale, Dictionary> = {
           ],
         },
       ],
+    },
+    narrative: {
+      chapters: {
+        aria: "Chapters",
+        eclipse: "Eclipse",
+        lume: "Lume",
+        work: "Other work",
+        about: "About",
+        contact: "Contact",
+      },
+      hero: {
+        afterEyebrow: "The latest",
+        afterTitle: "Lume.",
+        afterText: "A whole product, live, built by one person. Scroll and watch it work.",
+        scrollCue: "scroll",
+      },
+      lume: {
+        tag: "own product",
+        skip: "Skip the demo ↓",
+        beats: [
+          {
+            title: "A link becomes a lead.",
+            text: "A Google Maps, Instagram or website link, or a CSV spreadsheet. Lume fills in name, address and contact, and tells you whether the business appears to have a website.",
+          },
+          {
+            title: "The lead moves down the pipeline.",
+            text: "There are 11 stages, from first contact to closing. When a lead sits still, it cools down, and Lume lets you know.",
+          },
+          {
+            title: "The proposal comes out as a PDF.",
+            text: "With a template, a version and a price. The WhatsApp message arrives already written.",
+          },
+          {
+            title: "A business with no website comes in. A client goes out.",
+            text: "I designed, built and run Lume on my own. Business search through Google Places is already switched on.",
+          },
+        ],
+        srSummary:
+          "Demo with sample data: a Google Maps link becomes the lead Padaria Trigo Dourado, which moves through New, Contacted and Proposal to Closed, with a R$ 2,400 PDF proposal. The closed total goes from R$ 2,800 to R$ 5,200.",
+        board: {
+          title: "Prospects",
+          stages: "4 of 11 stages",
+          demo: "demo · sample data",
+          open: "open",
+          won: "closed",
+          columns: ["New", "Contacted", "Proposal", "Closed"],
+          cooling: "cooling · idle for 1 day",
+          accepted: "accepted",
+          moverStates: [
+            "no website",
+            "WhatsApp sent",
+            "proposal #0007 · R$ 2,400",
+            "proposal accepted · R$ 2,400",
+          ],
+          pdfTitle: "Sales proposal #0007",
+          pdfItem: "Business website",
+        },
+      },
     },
     about: {
       eyebrow: "About",
