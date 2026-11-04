@@ -12,7 +12,7 @@ const lume = projectConfigs[0];
 const liveLinks = projectConfigs.filter((project) => project.status && project.demo);
 
 /**
- * Cena 1 da narrativa: o hero fica fixado num trilho de 240vh. Enquanto a página rola,
+ * Cena 1 da narrativa: o hero fica fixado num trilho de 180vh. Enquanto a página rola,
  * o planeta sobe, o título sai, o anel de diamante acende na borda e entra "O Lume.".
  * As fases viram variáveis CSS (`--rise`, `--ring`, `--out`, `--in2`) lidas no narrative.css.
  */
@@ -72,6 +72,9 @@ export function Hero() {
                 {text.ctas.lume}
               </a>
             </div>
+            <a className="skip-scene hero-skip" href="#work">
+              {dictionary.narrative.lume.skip}
+            </a>
           </Reveal>
         </div>
         <div className="live">
