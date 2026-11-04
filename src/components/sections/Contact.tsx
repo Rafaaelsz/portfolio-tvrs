@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import { ContactHalo } from "@/components/narrative/ContactHalo";
 import { Reveal } from "@/components/ui/Reveal";
 import { useRole } from "@/components/role/RoleProvider";
 import { useLanguage } from "@/i18n/LanguageProvider";
@@ -150,7 +151,7 @@ export function Contact() {
 
   return (
     <section className="ec-section contact" id="contact">
-      <div className="halo" aria-hidden="true" />
+      <ContactHalo />
       <div className="wrap">
         <Reveal className="eyebrow">{text.eyebrow}</Reveal>
         <Reveal as="h2" delay={1} className="ec-h2">

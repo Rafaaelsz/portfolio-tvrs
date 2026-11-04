@@ -554,17 +554,9 @@ html {
   font-weight: 500;
 }
 
-/* bento */
-.ec .bento {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 56px;
-}
-
+/* cards */
 .ec .card {
   position: relative;
-  grid-column: span 4;
   border-radius: 20px;
   background: var(--bg2);
   padding: 28px;
@@ -711,10 +703,6 @@ html {
   transform: rotate(-45deg);
 }
 
-.ec .card.wide {
-  grid-column: span 6;
-}
-
 .ec .is-dim {
   opacity: 0.38;
 }
@@ -722,142 +710,6 @@ html {
 .ec .is-dim:hover,
 .ec .is-dim:focus-within {
   opacity: 0.75;
-}
-
-/* Lume: texto em cima, funil de luz apoiado sobre o print real */
-.ec .card.lume {
-  grid-column: span 8;
-  grid-row: span 2;
-  padding: 40px 40px 0;
-}
-
-.ec .card.lume h3 {
-  font-size: clamp(40px, 5vw, 64px);
-  letter-spacing: -0.04em;
-}
-
-.ec .card.lume p {
-  font-size: 15.5px;
-  max-width: 56ch;
-}
-
-.ec .card.lume .stack {
-  margin-top: 0;
-  padding-top: 20px;
-}
-
-.ec .lume-in {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
-  gap: 36px;
-  align-items: end;
-}
-
-.ec .lume-list {
-  display: grid;
-  gap: 10px;
-  font-size: 14.5px;
-  color: var(--ink2);
-}
-
-.ec .lume-list li {
-  padding-left: 16px;
-  position: relative;
-}
-
-.ec .lume-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ice);
-  box-shadow: 0 0 8px var(--glow);
-}
-
-.ec .lume-visual {
-  margin-top: 28px;
-  margin-left: -8px;
-  margin-right: -8px;
-}
-
-.ec .funnel {
-  position: relative;
-  height: 120px;
-  padding-top: 26px;
-  display: flex;
-  align-items: flex-end;
-  gap: 7px;
-  margin: 0 18px;
-}
-
-.ec .funnel-label {
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-size: 12px;
-  color: var(--ink3);
-}
-
-.ec .funnel i {
-  position: relative;
-  flex: 1;
-  font-style: normal;
-  border-radius: 6px 6px 0 0;
-  background: linear-gradient(180deg, rgba(191, 227, 255, 0.6), rgba(191, 227, 255, 0.05));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 -6px 24px -8px rgba(140, 200, 255, 0.5);
-  transform-origin: bottom;
-  animation: ec-rise 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-.ec .funnel i:nth-child(even) {
-  background: linear-gradient(180deg, rgba(217, 255, 241, 0.5), rgba(217, 255, 241, 0.05));
-}
-
-.ec .funnel i.cold {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
-}
-
-.ec .cold-label {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 6px);
-  transform: translateX(-50%);
-  font-size: 11px;
-  color: var(--ink3);
-  white-space: nowrap;
-}
-
-@keyframes ec-rise {
-  from {
-    transform: scaleY(0);
-  }
-}
-
-.ec .lume-shot {
-  position: relative;
-  aspect-ratio: 1440 / 430;
-  border-radius: 14px 14px 0 0;
-  overflow: hidden;
-  border: 1px solid var(--line2);
-  border-bottom: 0;
-  background: #07070a;
-  box-shadow:
-    0 -1px 0 rgba(255, 255, 255, 0.55),
-    0 -20px 60px -24px rgba(140, 200, 255, 0.6);
-}
-
-.ec .lume-shot img {
-  object-fit: cover;
-  object-position: center bottom;
-  /* corta as margens laterais da landing para o kanban ocupar o card */
-  transform: scale(1.18);
-  transform-origin: 50% 100%;
 }
 
 /* lista dos projetos menores */
@@ -1325,16 +1177,6 @@ html {
     display: none;
   }
 
-  .ec .card,
-  .ec .card.wide {
-    grid-column: span 6;
-  }
-
-  .ec .card.lume {
-    grid-column: span 12;
-    grid-row: auto;
-  }
-
   .ec .skills {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1385,40 +1227,8 @@ html {
     padding-top: 100px;
   }
 
-  .ec .bento {
-    grid-template-columns: minmax(0, 1fr);
-    margin-top: 40px;
-  }
-
-  .ec .card,
-  .ec .card.wide,
-  .ec .card.lume {
-    grid-column: auto;
+  .ec .card {
     min-height: 0;
-  }
-
-  .ec .card.lume {
-    padding: 28px 28px 0;
-  }
-
-  .ec .lume-in {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 22px;
-  }
-
-  .ec .funnel {
-    height: 96px;
-    gap: 5px;
-    margin: 0 10px;
-  }
-
-  .ec .lume-shot {
-    aspect-ratio: 16 / 10;
-  }
-
-  .ec .lume-shot img {
-    object-position: center top;
-    transform: none;
   }
 
   .ec .giant {
