@@ -243,6 +243,7 @@ export function Contact() {
                   <span className="sr-only">{form.message}</span>
                   <textarea
                     className="ec-input"
+                    data-lenis-prevent
                     {...fieldProps("message")}
                     required
                     minLength={10}

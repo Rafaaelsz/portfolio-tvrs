@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type FocusEvent } from "react";
+import { scrollToY } from "@/components/narrative/SmoothScroll";
 import { clamp, isPinnedLayout } from "@/components/narrative/timeline";
 import { RoleSelector } from "@/components/ui/RoleSelector";
 import { Reveal } from "@/components/ui/Reveal";
@@ -254,10 +255,7 @@ export function Projects() {
     const padding = parseFloat(getComputedStyle(el).paddingLeft);
     const progress = clamp((card.offsetLeft - padding) / max);
     const top = trackEl.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({
-      top: top + progress * (trackEl.offsetHeight - window.innerHeight),
-      behavior: "instant",
-    });
+    scrollToY(top + progress * (trackEl.offsetHeight - window.innerHeight), true);
   };
 
   return (
