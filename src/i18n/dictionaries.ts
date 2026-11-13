@@ -7,7 +7,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     meta: {
       title: "Rafael Tavares · Eu construo e coloco no ar",
       description:
-        "Sistemas web, landing pages e automações. Portfólio de Rafael Tavares, de Palhoça, SC, com o Lume, um CRM para quem vende sites.",
+        "Sistemas web, landing pages e automações. Portfólio de Rafael Tavares, de Palhoça, SC, com o Lume, um CRM de prospecção para quem vende a negócios locais.",
       skip: "Pular para o conteúdo",
     },
     header: {
@@ -28,7 +28,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       titleTop: "Eu construo",
       titleLit: "e coloco no ar.",
       description:
-        "Sistemas web, landing pages e automações. O mais recente é **o Lume**, um CRM para quem vende sites, que desenhei, programei e mantenho sozinho.",
+        "Sistemas web, landing pages e automações. O mais recente é **o Lume**, um CRM de prospecção para quem vende a negócios locais, que desenhei, programei e mantenho sozinho.",
       ctas: {
         work: "Ver o trabalho",
         lume: "Conhecer o Lume ↗",
@@ -370,7 +370,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     meta: {
       title: "Rafael Tavares · I build it and ship it",
       description:
-        "Web systems, landing pages and automations. Portfolio of Rafael Tavares, from Palhoça, Brazil, featuring Lume, a CRM for people who sell websites.",
+        "Web systems, landing pages and automations. Portfolio of Rafael Tavares, from Palhoça, Brazil, featuring Lume, a prospecting CRM for people who sell to local businesses.",
       skip: "Skip to content",
     },
     header: {
@@ -391,7 +391,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       titleTop: "I build it",
       titleLit: "and ship it.",
       description:
-        "Web systems, landing pages and automations. The latest is **Lume**, a CRM for people who sell websites, which I designed, built and run on my own.",
+        "Web systems, landing pages and automations. The latest is **Lume**, a prospecting CRM for people who sell to local businesses, which I designed, built and run on my own.",
       ctas: {
         work: "See the work",
         lume: "Meet Lume ↗",
