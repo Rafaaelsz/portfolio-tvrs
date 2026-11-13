@@ -24,6 +24,7 @@ const cardCount = 4;
 const layoutTransition = { type: "spring", stiffness: 380, damping: 38 } as const;
 /** Prints reais dos sites no ar, que fazem pan conforme a fileira anda. */
 const previews: Record<string, string> = {
+  "seven-imports": "/projects/seven-imports.webp",
   pilates: "/projects/pilates-giselle-meyer.webp",
   finder: "/projects/finder-vagas-ti.webp",
 };
