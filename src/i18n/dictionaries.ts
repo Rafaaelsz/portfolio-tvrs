@@ -70,6 +70,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       openLabel: "Abrir",
       githubLabel: "GitHub",
       previews: {
+        "seven-imports":
+          "Primeira dobra da loja Seven Imports, com a chamada O básico com presença.",
         pilates: "Primeira dobra da landing do Estúdio Pilates Giselle Meyer, em tons de vinho.",
         finder: "Página inicial do Finder de Vagas TI, com a busca de vagas.",
       },
@@ -87,16 +89,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
         {
           name: "Lume",
           type: "Produto próprio / SaaS",
-          summary: "CRM de prospecção para freelancers e pequenas agências que vendem sites.",
+          summary: "CRM de prospecção e acompanhamento de leads para quem vende a negócios locais.",
           description:
-            "CRM de prospecção para freelancers e pequenas agências que vendem sites. Você cola um link do Google Maps, do Instagram ou de um site, ou importa uma planilha CSV, e o Lume cria o lead com nome, endereço, contatos e a indicação de se a empresa parece ter site. Daí em diante, o lead segue no funil até o fechamento, com proposta em PDF e lembrete de follow-up.",
+            "CRM de prospecção e acompanhamento de leads para freelancers, agências e consultores que vendem a negócios locais. Você busca empresas por segmento e cidade no Google Maps, vê quais não têm site e salva as que interessam. Também dá para colar um link do Maps, do Instagram ou de um site, ou importar uma planilha CSV. Daí em diante, cada lead segue no funil até o fechamento, com proposta em PDF, mensagens prontas e lembrete de follow-up.",
           problem:
-            "Quem vende sites costuma prospectar em planilha e em conversas soltas no WhatsApp. O histórico se perde, o follow-up é esquecido e não dá para ver em que etapa o funil vaza.",
+            "Quem vende para negócio local costuma prospectar em planilha e em conversas soltas no WhatsApp. O histórico se perde, o follow-up é esquecido e não dá para ver em que etapa o funil vaza.",
           features: [
+            "Busca por segmento e cidade",
             "Lead a partir de link ou CSV",
             "Funil com aviso de lead esfriando",
-            "Propostas comerciais em PDF",
-            "Assistente de IA para resumo e mensagens",
+            "Propostas em PDF e mensagens prontas",
+          ],
+        },
+        {
+          name: "Seven Imports",
+          type: "Cliente freelance / Loja virtual",
+          summary:
+            "Loja de moda masculina que vendia só pelo direct. Agora o cliente monta a sacola e o pedido chega pronto no WhatsApp.",
+          description:
+            "Loja virtual de uma marca de moda masculina importada de Florianópolis, que antes vendia só pelo direct do Instagram. O catálogo tem filtro por categoria e tamanho, a sacola guarda as peças e o pedido sai pronto para o WhatsApp da loja, com tamanhos, quantidades e a forma de entrega.",
+          problem:
+            "Vender pelo direct obriga a responder, uma por uma, as mesmas perguntas sobre peça, tamanho e preço. O pedido chega incompleto e se perde no meio da conversa.",
+          features: [
+            "Catálogo com filtro por tamanho",
+            "Sacola que vira pedido no WhatsApp",
+            "Mobile first, com sacola em bottom sheet",
+            "Next.js com export estático",
           ],
         },
         {
@@ -164,22 +182,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
           ],
         },
         {
-          name: "CS2 Box Analyzer",
-          type: "Extensão Chrome / Edge",
-          summary:
-            "Extensão que lê a página e estima valor esperado e risco, sem automatizar nenhum clique.",
-          description:
-            "Extensão de análise passiva de risco para sites de abertura de caixas de Counter-Strike 2. Lê o conteúdo visível da página e estima valor esperado, ROI, house edge e classificação de risco, sem automatizar nenhuma ação do usuário.",
-          problem:
-            "Os dados de uma caixa só ajudam a decidir quando são extraídos, normalizados e mostrados como uma informação de risco clara.",
-          features: [
-            "Leitura de conteúdo visível",
-            "Estimativa de valor esperado",
-            "Métricas de ROI e house edge",
-            "Classificação de risco",
-          ],
-        },
-        {
           name: "Price Tracking API",
           type: "Backend / API",
           summary:
@@ -193,22 +195,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Histórico de preços",
             "Agendamento com Celery Beat",
             "Alerta pelo Telegram",
-          ],
-        },
-        {
-          name: "Orbit ERP",
-          type: "Sistema web / Gestão de estoque",
-          summary:
-            "Estoque para quem ainda usa planilha: entradas e saídas com validação de saldo e alerta de estoque baixo.",
-          description:
-            "Sistema web de controle de estoque para quem ainda gerencia produtos em planilha: cadastro de produtos com margem de lucro, entradas e saídas com validação de saldo, dashboard com alerta de estoque baixo e relatórios em PDF.",
-          problem:
-            "Planilhas de estoque desorganizadas não impedem venda sem saldo nem mostram o que está acabando.",
-          features: [
-            "Entradas e saídas com validação",
-            "Produtos com margem de lucro",
-            "Alerta de estoque baixo",
-            "Relatórios em PDF",
           ],
         },
       ],
@@ -288,7 +274,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           title: "Testes",
-          items: "Maestro, Vitest, teste manual de fluxo",
+          items: "Playwright, Maestro, Vitest, teste manual de fluxo",
           areas: ["qa"],
         },
         {
@@ -447,6 +433,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       openLabel: "Open",
       githubLabel: "GitHub",
       previews: {
+        "seven-imports":
+          "Above-the-fold view of the Seven Imports store, with the headline O básico com presença.",
         pilates:
           "Above-the-fold view of the Giselle Meyer Pilates Studio landing page, in wine tones.",
         finder: "Finder de Vagas TI home page, with the job search.",
@@ -465,16 +453,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
         {
           name: "Lume",
           type: "Own product / SaaS",
-          summary: "A prospecting CRM for freelancers and small agencies that sell websites.",
+          summary: "A prospecting and lead follow-up CRM for people who sell to local businesses.",
           description:
-            "A prospecting CRM for freelancers and small agencies that sell websites. You paste a Google Maps, Instagram or website link, or import a CSV spreadsheet, and Lume creates the lead with name, address, contacts and whether the business appears to have a website. From there, the lead moves through the pipeline until the deal closes, with a PDF proposal and follow-up reminders.",
+            "A prospecting and lead follow-up CRM for freelancers, agencies and consultants who sell to local businesses. You search Google Maps by segment and city, see which businesses have no website and save the ones worth pursuing. You can also paste a Maps, Instagram or website link, or import a CSV spreadsheet. From there, each lead moves through the pipeline until the deal closes, with PDF proposals, ready-made messages and follow-up reminders.",
           problem:
-            "People who sell websites often prospect in spreadsheets and scattered WhatsApp chats. History gets lost, follow-ups are forgotten and there is no way to see where the pipeline leaks.",
+            "People who sell to local businesses often prospect in spreadsheets and scattered WhatsApp chats. History gets lost, follow-ups are forgotten and there is no way to see where the pipeline leaks.",
           features: [
+            "Search by segment and city",
             "Leads from a link or CSV",
             "Pipeline that flags cooling leads",
-            "Sales proposals as PDF",
-            "AI assistant for summaries and messages",
+            "PDF proposals and ready-made messages",
+          ],
+        },
+        {
+          name: "Seven Imports",
+          type: "Freelance client / Online store",
+          summary:
+            "A menswear store that sold only through Instagram DMs. Now the customer fills a bag and the order lands ready on WhatsApp.",
+          description:
+            "Online store for an imported menswear brand from Florianópolis that used to sell only through Instagram DMs. The catalog filters by category and size, the bag keeps the pieces and the order goes out ready to the store's WhatsApp, with sizes, quantities and delivery method.",
+          problem:
+            "Selling through DMs means answering the same questions about item, size and price one by one. Orders arrive incomplete and get lost in the conversation.",
+          features: [
+            "Catalog with size filter",
+            "Bag that becomes a WhatsApp order",
+            "Mobile first, with a bottom-sheet bag",
+            "Next.js with static export",
           ],
         },
         {
@@ -542,22 +546,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
           ],
         },
         {
-          name: "CS2 Box Analyzer",
-          type: "Chrome / Edge Extension",
-          summary:
-            "An extension that reads the page and estimates expected value and risk, without automating a single click.",
-          description:
-            "A passive risk analysis browser extension for Counter-Strike 2 case-opening websites. It reads visible page content and estimates expected value, ROI, house edge and risk classification without automating any user action.",
-          problem:
-            "Case data only helps a decision when it is extracted, normalized and shown as clear risk information.",
-          features: [
-            "Visible content parsing",
-            "Expected value estimates",
-            "ROI and house edge metrics",
-            "Risk classification",
-          ],
-        },
-        {
           name: "Price Tracking API",
           type: "Backend / API",
           summary:
@@ -571,22 +559,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
             "Price history",
             "Scheduling with Celery Beat",
             "Telegram alerts",
-          ],
-        },
-        {
-          name: "Orbit ERP",
-          type: "Web system / Inventory management",
-          summary:
-            "Inventory for businesses still on spreadsheets: stock in and out with balance validation and low-stock alerts.",
-          description:
-            "An inventory control web system for businesses still managing products in spreadsheets: products with profit margin, stock in and out with balance validation, a dashboard with low-stock alerts and PDF reports.",
-          problem:
-            "Messy inventory spreadsheets neither prevent selling without stock nor show what is running out.",
-          features: [
-            "Stock moves with validation",
-            "Products with profit margin",
-            "Low-stock alerts",
-            "PDF reports",
           ],
         },
       ],
@@ -666,7 +638,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           title: "Testing",
-          items: "Maestro, Vitest, manual flow testing",
+          items: "Playwright, Maestro, Vitest, manual flow testing",
           areas: ["qa"],
         },
         {

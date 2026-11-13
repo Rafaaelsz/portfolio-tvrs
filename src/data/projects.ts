@@ -39,10 +39,20 @@ export const projectConfigs: Project[] = [
       "Better Auth",
       "Stripe",
       "Vercel AI SDK",
+      "Google Places API",
     ],
     demo: "https://app-lume-lp.vercel.app",
     status: "production",
     areas: ["dev", "qa", "cloud"],
+  },
+  {
+    // Cliente freelance (autorizado pelo Rafael em 13/11/2026). Repositório privado.
+    // O preview na Vercel fica até a loja ir para a Hostinger com domínio próprio.
+    slug: "seven-imports",
+    stack: ["Next.js", "React", "TypeScript", "CSS", "Vercel"],
+    demo: "https://seven-imports-beta.vercel.app",
+    status: "live",
+    areas: ["dev"],
   },
   {
     // TODO(Rafael): confirmar que a Giselle autorizou o estúdio a aparecer no portfólio.
@@ -76,25 +86,10 @@ export const projectConfigs: Project[] = [
     areas: ["qa"],
   },
   {
-    slug: "cs2-box-analyzer",
-    stack: ["JavaScript", "Chrome Extension API", "HTML", "CSS"],
-    github: "https://github.com/Rafaaelsz/cs2-box-analyzer",
-    areas: ["dev"],
-  },
-  {
     slug: "price-tracking",
     stack: ["FastAPI", "PostgreSQL", "Redis", "Celery", "BeautifulSoup"],
     github: "https://github.com/Rafaaelsz/price-tracking",
     areas: ["cloud", "dev"],
-  },
-  {
-    // O demo no Render (plano gratuito) hiberna e demora para acordar,
-    // por isso não leva o selo "no ar".
-    slug: "orbit-erp",
-    stack: ["Django", "Python", "PostgreSQL", "Tailwind CSS", "Chart.js"],
-    github: "https://github.com/Rafaaelsz/orbit-erp",
-    demo: "https://orbit-erp.onrender.com/accounts/login/?next=/",
-    areas: ["dev"],
   },
 ];
 
