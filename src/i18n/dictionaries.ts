@@ -274,7 +274,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           title: "Testes",
-          items: "Maestro, Vitest, teste manual de fluxo",
+          items: "Playwright, Maestro, Vitest, teste manual de fluxo",
           areas: ["qa"],
         },
         {
@@ -638,7 +638,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           title: "Testing",
-          items: "Maestro, Vitest, manual flow testing",
+          items: "Playwright, Maestro, Vitest, manual flow testing",
           areas: ["qa"],
         },
         {
